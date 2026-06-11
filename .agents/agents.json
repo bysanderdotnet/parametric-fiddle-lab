@@ -33,6 +33,11 @@
       "id": "F-004",
       "title": "Create skeleton pipeline directories and scripts",
       "status": "done"
+    },
+    {
+      "id": "F-005",
+      "title": "Add Bambu Studio slicing integration",
+      "status": "done"
     }
   ],
   "progress": [
@@ -88,6 +93,14 @@
       "blockers": "none",
       "feature": "F-004",
       "commit": "c62f499 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-11 17:58 UTC",
+      "title": "Add Bambu Studio slicing wrapper",
+      "done": "Implemented slice_model wrapper for bambu-studio CLI and created profiles directory",
+      "verified": "pass (2026-06-11 17:56 UTC @ fc5a623)",
+      "blockers": "none",
+      "commit": "fc5a623 (+ uncommitted changes)"
     }
   ],
   "rules": [
