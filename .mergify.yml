@@ -1,7 +1,8 @@
-pull_request_rules:
+merge_protections_settings:
+  reporting_method: check-runs
+  auto_merge_conditions: true
+
+merge_protections:
   - name: Automatic merge for PRs
-    conditions:
+    success_conditions:
       - "check-success~=verify"
-    actions:
-      merge:
-        method: merge
