@@ -38,6 +38,11 @@
       "id": "F-005",
       "title": "Add Bambu Studio slicing integration",
       "status": "done"
+    },
+    {
+      "id": "F-006",
+      "title": "Implement STEP to mesh generation using Gmsh",
+      "status": "done"
     }
   ],
   "progress": [

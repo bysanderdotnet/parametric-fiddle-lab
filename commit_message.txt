@@ -1,0 +1,5 @@
+Implement STEP to mesh generation using Gmsh
+
+- Implemented `generate_mesh` in `mesh/mesher.py` to create 3D meshes from STEP files.
+- Used Gmsh Python API to import shapes, set characteristic length, generate the 3D mesh, and write it to a `.msh` file.
+- Added a simple execution block in `mesher.py` to test the module independently.
