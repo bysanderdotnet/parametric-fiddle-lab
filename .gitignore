@@ -1,0 +1,11 @@
+# --- AI harness (template-ai-harness) ---
+# Files the harness writes locally at runtime; never commit them.
+# Per-user agent settings (Claude Code):
+.claude/settings.local.json
+# Transient scratch state, written by ./AGENTS.sh verify:
+.agents/agents.scratch.json
+# Python bytecode cache from running the harness CLI:
+.agents/__pycache__/
+
+# --- Project ---
+# TODO(setup): add stack-specific ignores here (build output, deps, env files, OS/editor noise)
