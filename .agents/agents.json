@@ -2,7 +2,7 @@
   "$comment": "All durable harness state, owned by the CLI (./AGENTS.sh) — never hand-edit. Keys: setup (present only while guided setup is pending; init drives it), commands (via `cmd set/rm`; verify = definition-of-done step, init = session-start check), features (via `feature ...`; max one in_progress, never delete — mark done), progress (via `log`; append-only, display bounded by the CLI), rules (via `docs add/rm`; curated project knowledge). Future harness versions may add top-level keys. Transient scratch lives in agents.scratch.json (gitignored).",
   "commands": {
     "check": {
-      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && python3 cad/violin.py",
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && python3 cad/violin.py && python3 mesh/mesher.py",
       "verify": true
     }
   },
@@ -42,6 +42,11 @@
     {
       "id": "F-006",
       "title": "Implement STEP to mesh generation using Gmsh",
+      "status": "done"
+    },
+    {
+      "id": "F-007",
+      "title": "maintenance: maintenance work",
       "status": "done"
     }
   ],
@@ -106,6 +111,15 @@
       "verified": "pass (2026-06-11 17:56 UTC @ fc5a623)",
       "blockers": "none",
       "commit": "fc5a623 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-11 21:13 UTC",
+      "title": "maintenance: check consistency, remove leftover files, fix docs",
+      "done": "deleted leftover files and removed gitkeeps, fixed .gitignore to omit .msh files, moved docs file and updated agents.json to execute mesher script as part of verify",
+      "verified": "pass (2026-06-11 21:11 UTC @ 7f2c0dc)",
+      "blockers": "none",
+      "feature": "F-007",
+      "commit": "7f2c0dc (+ uncommitted changes)"
     }
   ],
   "rules": [
