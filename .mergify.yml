@@ -1,9 +1,7 @@
 pull_request_rules:
   - name: Automatic merge for PRs
     conditions:
-      - check-success = verify
+      - "check-success~=verify"
     actions:
       merge:
         method: merge
-merge_protections_settings:
-  reporting_method: check-runs
