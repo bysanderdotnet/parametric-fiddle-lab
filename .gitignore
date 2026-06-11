@@ -40,15 +40,20 @@ venv.bak/
 data/*
 !data/.gitkeep
 slice/*
+!slice/*.py
 !slice/.gitkeep
 mesh/*
+!mesh/*.py
 !mesh/.gitkeep
 sim_struct/*
+!sim_struct/*.py
 !sim_struct/.gitkeep
 sim_acoustic/*
+!sim_acoustic/*.py
 !sim_acoustic/.gitkeep
 
 # IDEs / OS
 .vscode/
 .idea/
 .DS_Store
+*.step

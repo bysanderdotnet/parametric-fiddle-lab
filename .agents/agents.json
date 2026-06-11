@@ -2,7 +2,7 @@
   "$comment": "All durable harness state, owned by the CLI (./AGENTS.sh) — never hand-edit. Keys: setup (present only while guided setup is pending; init drives it), commands (via `cmd set/rm`; verify = definition-of-done step, init = session-start check), features (via `feature ...`; max one in_progress, never delete — mark done), progress (via `log`; append-only, display bounded by the CLI), rules (via `docs add/rm`; curated project knowledge). Future harness versions may add top-level keys. Transient scratch lives in agents.scratch.json (gitignored).",
   "commands": {
     "check": {
-      "run": "echo 'No tests yet'",
+      "run": ". .venv/bin/activate && python3 cad/violin.py",
       "verify": true
     }
   },
@@ -18,6 +18,21 @@
       "title": "Initial codebase setup",
       "status": "done",
       "notes": "Created repo structure and updated README/AGENTS.md"
+    },
+    {
+      "id": "F-002",
+      "title": "Create cad/ directory and basic CadQuery parametric violin generator",
+      "status": "done"
+    },
+    {
+      "id": "F-003",
+      "title": "Set up environment and dependencies (cadquery, etc)",
+      "status": "done"
+    },
+    {
+      "id": "F-004",
+      "title": "Create skeleton pipeline directories and scripts",
+      "status": "done"
     }
   ],
   "progress": [
@@ -46,6 +61,33 @@
       "blockers": "none",
       "feature": "F-001",
       "commit": "1dbf6b9 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-11 16:53 UTC",
+      "title": "Create cad/ directory and basic generator",
+      "done": "Created cad/ directory and cad/violin.py with basic cadquery script placeholder",
+      "verified": "pass (2026-06-11 16:53 UTC @ 40270ec)",
+      "blockers": "none",
+      "feature": "F-002",
+      "commit": "40270ec (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-11 16:59 UTC",
+      "title": "Setup venv and dependencies",
+      "done": "Created requirements.txt with cadquery, optuna, botorch, gmsh. Set up venv and updated check command",
+      "verified": "pass (2026-06-11 16:59 UTC @ 1946233)",
+      "blockers": "none",
+      "feature": "F-003",
+      "commit": "1946233 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-11 17:04 UTC",
+      "title": "Add skeleton pipeline scripts",
+      "done": "Created placeholder python files for mesh, slice, sim_struct, sim_acoustic and opt",
+      "verified": "pass (2026-06-11 17:03 UTC @ c62f499)",
+      "blockers": "none",
+      "feature": "F-004",
+      "commit": "c62f499 (+ uncommitted changes)"
     }
   ],
   "rules": [
