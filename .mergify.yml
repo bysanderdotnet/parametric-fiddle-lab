@@ -1,7 +1,7 @@
 pull_request_rules:
   - name: Automatic merge for PRs
     conditions:
-      - check-success = build
+      - check-success = verify
     actions:
       merge:
         method: merge
