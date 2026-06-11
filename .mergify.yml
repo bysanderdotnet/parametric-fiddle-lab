@@ -4,5 +4,7 @@ merge_protections_settings:
 
 merge_protections:
   - name: Automatic merge for PRs
+    if:
+      - base = main
     success_conditions:
-      - "check-success~=verify"
+      - "check-success=agents / verify (pull_request)"
