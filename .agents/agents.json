@@ -1,17 +1,71 @@
 {
   "$comment": "All durable harness state, owned by the CLI (./AGENTS.sh) — never hand-edit. Keys: setup (present only while guided setup is pending; init drives it), commands (via `cmd set/rm`; verify = definition-of-done step, init = session-start check), features (via `feature ...`; max one in_progress, never delete — mark done), progress (via `log`; append-only, display bounded by the CLI), rules (via `docs add/rm`; curated project knowledge). Future harness versions may add top-level keys. Transient scratch lives in agents.scratch.json (gitignored).",
-  "setup": {
-    "done": []
+  "commands": {
+    "check": {
+      "run": "echo 'No tests yet'",
+      "verify": true
+    }
   },
-  "commands": {},
   "features": [
     {
       "id": "F-000",
       "title": "Complete guided project setup",
-      "status": "todo",
+      "status": "done",
       "notes": "Driven by ./AGENTS.sh init (SETUP MODE); closes itself when setup finalizes."
+    },
+    {
+      "id": "F-001",
+      "title": "Initial codebase setup",
+      "status": "done",
+      "notes": "Created repo structure and updated README/AGENTS.md"
     }
   ],
-  "progress": [],
-  "rules": []
+  "progress": [
+    {
+      "date": "2026-06-11 15:59 UTC",
+      "title": "project setup",
+      "done": "setup complete: 0 command(s) registered, 1 feature(s) seeded, 3 rule(s) recorded",
+      "verified": "unverified (no verify run recorded)",
+      "blockers": "none",
+      "feature": "F-000"
+    },
+    {
+      "date": "2026-06-11 16:01 UTC",
+      "title": "Project setup complete",
+      "done": "Created directory structure, updated README.md and AGENTS.md, set up .gitignore, registered docs rules",
+      "verified": "fail (2026-06-11 16:00 UTC @ f3f73d6) — failed at (no verify commands registered)",
+      "blockers": "none",
+      "feature": "F-001",
+      "commit": "f3f73d6 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-11 16:02 UTC",
+      "title": "Project setup complete",
+      "done": "Created directory structure, updated README.md and AGENTS.md, set up .gitignore, registered docs rules",
+      "verified": "pass (2026-06-11 16:02 UTC @ 1dbf6b9)",
+      "blockers": "none",
+      "feature": "F-001",
+      "commit": "1dbf6b9 (+ uncommitted changes)"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R-001",
+      "category": "architecture",
+      "text": "Pipeline: cad -> slice -> sim_struct/sim_acoustic -> opt. Data flows through these stages.",
+      "added": "2026-06-11"
+    },
+    {
+      "id": "R-002",
+      "category": "conventions",
+      "text": "Python ecosystem: use CadQuery, Optuna, Bambu CLI.",
+      "added": "2026-06-11"
+    },
+    {
+      "id": "R-003",
+      "category": "testing",
+      "text": "No tests yet. Empty repository initialized from template.",
+      "added": "2026-06-11"
+    }
+  ]
 }

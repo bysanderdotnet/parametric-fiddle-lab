@@ -8,4 +8,47 @@
 .agents/__pycache__/
 
 # --- Project ---
-# TODO(setup): add stack-specific ignores here (build output, deps, env files, OS/editor noise)
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+.env
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Project specifics
+data/*
+!data/.gitkeep
+slice/*
+!slice/.gitkeep
+mesh/*
+!mesh/.gitkeep
+sim_struct/*
+!sim_struct/.gitkeep
+sim_acoustic/*
+!sim_acoustic/.gitkeep
+
+# IDEs / OS
+.vscode/
+.idea/
+.DS_Store

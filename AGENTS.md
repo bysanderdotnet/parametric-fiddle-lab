@@ -10,10 +10,9 @@ handoff. All state in `.agents/agents.json`, CLI-owned — never hand-edit.
 
 ## Project
 
-<!-- TODO(setup): fill in, then remove this comment -->
-- Name:
-- Stack:
-- Purpose:
+- Name: Resonant Violin Lab
+- Stack: Python, CadQuery, Gmsh, Elmer, Bambu Studio CLI, Optuna
+- Purpose: Building a parametric, simulatable, and optimizable design chain for 3D-printed violins, combining geometry, slicing, material, and structural reinforcement.
 
 ## Rules
 
@@ -21,7 +20,7 @@ handoff. All state in `.agents/agents.json`, CLI-owned — never hand-edit.
 - Done = `./AGENTS.sh verify` green. Anything else = "unverified" — say so.
 - `AGENTS.sh` / `.agents/agents.py` = harness internals. Usage = `help`,
   not reading or editing source.
-<!-- TODO(setup): add project no-go zones (e.g. "never edit /migrations"), then remove this comment -->
+- No-go zones: Do not modify `.agents/agents.json` directly. Use `AGENTS.sh` commands.
 
 ## Skills
 
