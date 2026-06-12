@@ -62,7 +62,7 @@
     {
       "id": "F-010",
       "title": "Implement Elmer/Code_Aster structural simulation",
-      "status": "todo",
+      "status": "done",
       "notes": "Populate sim_struct/structural.py with real logic for Elmer simulation."
     },
     {
