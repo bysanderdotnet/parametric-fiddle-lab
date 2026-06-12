@@ -20,10 +20,16 @@ def objective(trial):
     soundpost_radius = trial.suggest_float("soundpost_radius", 2.0, 5.0)
     soundpost_x_offset = trial.suggest_float("soundpost_x_offset", 5.0, 25.0)
     soundpost_y_offset = trial.suggest_float("soundpost_y_offset", -25.0, -5.0)
+    bass_bar_length = trial.suggest_float("bass_bar_length", 150.0, 250.0)
+    bass_bar_width = trial.suggest_float("bass_bar_width", 3.0, 8.0)
+    bass_bar_height = trial.suggest_float("bass_bar_height", 5.0, 15.0)
+    bass_bar_x_offset = trial.suggest_float("bass_bar_x_offset", -25.0, -5.0)
+    bass_bar_y_offset = trial.suggest_float("bass_bar_y_offset", -20.0, 20.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
     print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t={thickness:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}")
     print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
+    print(f"        bb_l={bass_bar_length:.1f}, bb_w={bass_bar_width:.1f}, bb_h={bass_bar_height:.1f}, bb_x={bass_bar_x_offset:.1f}, bb_y={bass_bar_y_offset:.1f}")
 
     # 2. Generate CAD (STEP)
     subprocess.run([
@@ -37,7 +43,12 @@ def objective(trial):
         "--f_hole_spacing", str(f_hole_spacing),
         "--soundpost_radius", str(soundpost_radius),
         "--soundpost_x_offset", str(soundpost_x_offset),
-        "--soundpost_y_offset", str(soundpost_y_offset)
+        "--soundpost_y_offset", str(soundpost_y_offset),
+        "--bass_bar_length", str(bass_bar_length),
+        "--bass_bar_width", str(bass_bar_width),
+        "--bass_bar_height", str(bass_bar_height),
+        "--bass_bar_x_offset", str(bass_bar_x_offset),
+        "--bass_bar_y_offset", str(bass_bar_y_offset)
     ], check=True)
 
     # 3. Generate Mesh
@@ -111,7 +122,12 @@ if __name__ == "__main__":
         "--f_hole_spacing", str(trial.params["f_hole_spacing"]),
         "--soundpost_radius", str(trial.params["soundpost_radius"]),
         "--soundpost_x_offset", str(trial.params["soundpost_x_offset"]),
-        "--soundpost_y_offset", str(trial.params["soundpost_y_offset"])
+        "--soundpost_y_offset", str(trial.params["soundpost_y_offset"]),
+        "--bass_bar_length", str(trial.params["bass_bar_length"]),
+        "--bass_bar_width", str(trial.params["bass_bar_width"]),
+        "--bass_bar_height", str(trial.params["bass_bar_height"]),
+        "--bass_bar_x_offset", str(trial.params["bass_bar_x_offset"]),
+        "--bass_bar_y_offset", str(trial.params["bass_bar_y_offset"])
     ], check=True)
 
     # Slice Model
