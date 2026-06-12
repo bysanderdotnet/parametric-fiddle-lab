@@ -2,7 +2,7 @@
   "$comment": "All durable harness state, owned by the CLI (./AGENTS.sh) — never hand-edit. Keys: setup (present only while guided setup is pending; init drives it), commands (via `cmd set/rm`; verify = definition-of-done step, init = session-start check), features (via `feature ...`; max one in_progress, never delete — mark done), progress (via `log`; append-only, display bounded by the CLI), rules (via `docs add/rm`; curated project knowledge). Future harness versions may add top-level keys. Transient scratch lives in agents.scratch.json (gitignored).",
   "commands": {
     "check": {
-      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && python3 cad/violin.py && python3 mesh/mesher.py",
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && python3 cad/violin.py && python3 mesh/mesher.py && python3 sim_struct/structural.py && python3 sim_acoustic/acoustic.py",
       "verify": true
     }
   },
@@ -121,6 +121,11 @@
     {
       "id": "F-021",
       "title": "Add top and back plate thickness parameters",
+      "status": "done"
+    },
+    {
+      "id": "F-022",
+      "title": "maintenance: docs cleanup",
       "status": "done"
     }
   ],
@@ -285,6 +290,14 @@
       "verified": "pass (2026-06-12 20:19 UTC @ 379d5d6)",
       "blockers": "none",
       "commit": "379d5d6 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 21:29 UTC",
+      "title": "maintenance: docs cleanup",
+      "done": "Removed bad cite artifacts from deep-research-report.md",
+      "verified": "pass (2026-06-12 21:29 UTC @ 9614699)",
+      "blockers": "none",
+      "commit": "9614699 (+ uncommitted changes)"
     }
   ],
   "rules": [
