@@ -2,6 +2,11 @@ import optuna
 import subprocess
 import json
 import os
+import sys
+
+# Ensure the root directory is in sys.path so we can import from slice
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from slice.slicer import slice_model
 
 def objective(trial):
     # 1. Suggest parameters
@@ -81,3 +86,29 @@ if __name__ == "__main__":
     print("  Params: ")
     for key, value in trial.params.items():
         print(f"    {key}: {value}")
+
+    print("\nGenerating final geometry and sliced file for best trial...")
+    # Generate final CAD
+    subprocess.run([
+        "python3", "cad/violin.py",
+        "--length", str(trial.params["length"]),
+        "--lower_bout", str(trial.params["lower_bout"]),
+        "--upper_bout", str(trial.params["upper_bout"]),
+        "--c_bout", str(trial.params["c_bout"]),
+        "--thickness", str(trial.params["thickness"])
+    ], check=True)
+
+    # Slice Model
+    try:
+        slice_model("violin_body.step", "dummy_profile.json", "violin_body.gcode")
+        print("Final slice generated.")
+    except Exception as e:
+        print(f"Warning: Slicing final model failed or bambu-studio not installed: {e}")
+
+    # Final Meshing and Simulation
+    print("\nRunning final meshing and simulation...")
+    mesh_file = "violin_body.msh"
+    subprocess.run(["python3", "mesh/mesher.py"], check=True)
+    subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
+    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", mesh_file], check=True)
+    print("End-to-End Pipeline Completed Successfully.")

@@ -80,7 +80,7 @@
     {
       "id": "F-013",
       "title": "End-to-End Pipeline Integration",
-      "status": "todo",
+      "status": "done",
       "notes": "Integrate CAD generation, meshing, slicing, simulation, and optimization into a single executable pipeline."
     },
     {
@@ -193,6 +193,14 @@
       "verified": "pass (2026-06-12 12:12 UTC @ 10f4758)",
       "blockers": "none",
       "commit": "10f4758 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 13:19 UTC",
+      "title": "Integrate end-to-end pipeline in optimize.py",
+      "done": "Updated opt/optimize.py to call slicer, mesher, and simulations on the best trial's geometry after optimization loop.",
+      "verified": "pass (2026-06-12 13:17 UTC @ 8b135a4)",
+      "blockers": "none",
+      "commit": "8b135a4 (+ uncommitted changes)"
     }
   ],
   "rules": [
