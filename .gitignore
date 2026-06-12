@@ -58,3 +58,4 @@ sim_acoustic/*
 .DS_Store
 *.step
 *.msh
+violin_body.json

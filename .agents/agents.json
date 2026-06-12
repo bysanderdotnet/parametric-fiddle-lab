@@ -48,6 +48,16 @@
       "id": "F-007",
       "title": "maintenance: maintenance work",
       "status": "done"
+    },
+    {
+      "id": "F-008",
+      "title": "Add dummy placeholder structure to sim_struct/structural.py that Elmer uses",
+      "status": "todo"
+    },
+    {
+      "id": "F-009",
+      "title": "Add geometry parameter inputs (length, widths) to generate a STEP file and export them so optimization can find them",
+      "status": "done"
     }
   ],
   "progress": [
@@ -120,6 +130,15 @@
       "blockers": "none",
       "feature": "F-007",
       "commit": "7f2c0dc (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 01:11 UTC",
+      "title": "Add geometry parameter inputs to generate a STEP file and export them so optimization can find them",
+      "done": "Updated cad/violin.py to use argparse and export params to json",
+      "verified": "pass (2026-06-12 01:11 UTC @ 532009a)",
+      "next": "Implement structural simulation placeholder",
+      "blockers": "none",
+      "commit": "532009a (+ uncommitted changes)"
     }
   ],
   "rules": [
