@@ -107,6 +107,11 @@
       "id": "F-018",
       "title": "Add a bridge to the Violin CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-019",
+      "title": "Add a soundpost to the CAD model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -245,6 +250,14 @@
       "verified": "pass (2026-06-12 17:13 UTC @ 6957ba7)",
       "blockers": "none",
       "commit": "6957ba7 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 18:15 UTC",
+      "title": "Added a soundpost to the CAD model",
+      "done": "Updated cad/violin.py to add soundpost geometry with radius and offsets. Updated opt/optimize.py to run with parameters",
+      "verified": "pass (2026-06-12 18:14 UTC @ c2c42bb)",
+      "blockers": "none",
+      "commit": "c2c42bb (+ uncommitted changes)"
     }
   ],
   "rules": [
