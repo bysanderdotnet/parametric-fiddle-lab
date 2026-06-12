@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, thickness=4, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, thickness=4, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0):
     """
     Generate a simplified parametric violin body.
     """
@@ -48,6 +48,11 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     soundpost = soundpost.translate((soundpost_x_offset, soundpost_y_offset, 15))
     final_body = final_body.union(soundpost)
 
+    # Add Bass Bar
+    bass_bar = cq.Workplane("XY").box(bass_bar_width, bass_bar_length, bass_bar_height)
+    bass_bar = bass_bar.translate((bass_bar_x_offset, bass_bar_y_offset, 30 - thickness - bass_bar_height / 2.0))
+    final_body = final_body.union(bass_bar)
+
     return final_body
 
 import argparse
@@ -71,6 +76,11 @@ if __name__ == "__main__":
     parser.add_argument("--soundpost_radius", type=float, default=3, help="Radius of the soundpost")
     parser.add_argument("--soundpost_x_offset", type=float, default=15, help="X offset of the soundpost")
     parser.add_argument("--soundpost_y_offset", type=float, default=-15, help="Y offset of the soundpost")
+    parser.add_argument("--bass_bar_length", type=float, default=200, help="Length of the bass bar")
+    parser.add_argument("--bass_bar_width", type=float, default=5, help="Width of the bass bar")
+    parser.add_argument("--bass_bar_height", type=float, default=10, help="Height of the bass bar")
+    parser.add_argument("--bass_bar_x_offset", type=float, default=-15, help="X offset of the bass bar")
+    parser.add_argument("--bass_bar_y_offset", type=float, default=0, help="Y offset of the bass bar")
     args = parser.parse_args()
 
     params = {
@@ -89,7 +99,12 @@ if __name__ == "__main__":
         "bridge_thickness": args.bridge_thickness,
         "soundpost_radius": args.soundpost_radius,
         "soundpost_x_offset": args.soundpost_x_offset,
-        "soundpost_y_offset": args.soundpost_y_offset
+        "soundpost_y_offset": args.soundpost_y_offset,
+        "bass_bar_length": args.bass_bar_length,
+        "bass_bar_width": args.bass_bar_width,
+        "bass_bar_height": args.bass_bar_height,
+        "bass_bar_x_offset": args.bass_bar_x_offset,
+        "bass_bar_y_offset": args.bass_bar_y_offset
     }
 
     violin = create_violin_body(**params)

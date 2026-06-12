@@ -112,6 +112,11 @@
       "id": "F-019",
       "title": "Add a soundpost to the CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-020",
+      "title": "Add a bass bar to the CAD model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -258,6 +263,15 @@
       "verified": "pass (2026-06-12 18:14 UTC @ c2c42bb)",
       "blockers": "none",
       "commit": "c2c42bb (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 19:13 UTC",
+      "title": "Added a bass bar to the CAD model",
+      "done": "Updated cad/violin.py to add bass bar geometry with length, width, height, and offsets. Updated opt/optimize.py to run with parameters",
+      "verified": "pass (2026-06-12 19:11 UTC @ 63ca850)",
+      "blockers": "none",
+      "feature": "F-020",
+      "commit": "63ca850 (+ uncommitted changes)"
     }
   ],
   "rules": [
