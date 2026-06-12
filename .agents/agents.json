@@ -117,6 +117,11 @@
       "id": "F-020",
       "title": "Add a bass bar to the CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-021",
+      "title": "Add top and back plate thickness parameters",
+      "status": "done"
     }
   ],
   "progress": [
@@ -272,6 +277,14 @@
       "blockers": "none",
       "feature": "F-020",
       "commit": "63ca850 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 20:21 UTC",
+      "title": "Added top, back, and rib thickness parameters",
+      "done": "Updated cad/violin.py and opt/optimize.py to use independent thickness parameters for the top plate, back plate, and ribs.",
+      "verified": "pass (2026-06-12 20:19 UTC @ 379d5d6)",
+      "blockers": "none",
+      "commit": "379d5d6 (+ uncommitted changes)"
     }
   ],
   "rules": [
