@@ -97,6 +97,11 @@
       "id": "F-016",
       "title": "Add F-holes to the Violin CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-017",
+      "title": "Add a neck to the Violin CAD model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -219,6 +224,14 @@
       "verified": "pass (2026-06-12 14:15 UTC @ 5899f5e) — STALE: files changed since that run, re-verify",
       "blockers": "none",
       "commit": "5899f5e (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 16:15 UTC",
+      "title": "Added a neck to the Violin CAD model",
+      "done": "Updated cad/violin.py to include neck parameters and geometry, adding neck_length, neck_width, and neck_height and unioning the neck with the violin body.",
+      "verified": "pass (2026-06-12 16:14 UTC @ 208c086)",
+      "blockers": "none",
+      "commit": "208c086 (+ uncommitted changes)"
     }
   ],
   "rules": [

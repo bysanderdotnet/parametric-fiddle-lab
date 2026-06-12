@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, thickness=4, f_hole_length=70, f_hole_spacing=80):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, thickness=4, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20):
     """
     Generate a simplified parametric violin body.
     """
@@ -28,7 +28,15 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
         (-f_hole_spacing / 2.0, 0)
     ]).slot2D(f_hole_length, f_hole_width, 90).cutBlind(-thickness * 2)
 
-    return with_f_holes
+    # Add Neck
+    neck = cq.Workplane("XY").center(0, length / 2.0 + neck_length / 2.0).box(neck_width, neck_length, neck_height)
+    # Move the neck slightly up in Z to align with the body top, or just union it at z=0
+    # since body extrudes 30 up from Z=0. We'll elevate it so its top aligns with the violin's top (Z=30).
+    neck = neck.translate((0, 0, 30 - neck_height / 2.0))
+
+    final_body = with_f_holes.union(neck)
+
+    return final_body
 
 import argparse
 import json
@@ -42,6 +50,9 @@ if __name__ == "__main__":
     parser.add_argument("--thickness", type=float, default=4, help="Wall thickness")
     parser.add_argument("--f_hole_length", type=float, default=70, help="Length of the F-holes")
     parser.add_argument("--f_hole_spacing", type=float, default=80, help="Spacing between the F-holes")
+    parser.add_argument("--neck_length", type=float, default=130, help="Length of the neck")
+    parser.add_argument("--neck_width", type=float, default=30, help="Width of the neck")
+    parser.add_argument("--neck_height", type=float, default=20, help="Height/thickness of the neck")
     args = parser.parse_args()
 
     params = {
@@ -51,7 +62,10 @@ if __name__ == "__main__":
         "c_bout": args.c_bout,
         "thickness": args.thickness,
         "f_hole_length": args.f_hole_length,
-        "f_hole_spacing": args.f_hole_spacing
+        "f_hole_spacing": args.f_hole_spacing,
+        "neck_length": args.neck_length,
+        "neck_width": args.neck_width,
+        "neck_height": args.neck_height
     }
 
     violin = create_violin_body(**params)
