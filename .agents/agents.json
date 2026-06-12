@@ -92,6 +92,11 @@
       "id": "F-015",
       "title": "Add a proper parametric shape for the violin",
       "status": "done"
+    },
+    {
+      "id": "F-016",
+      "title": "Add F-holes to the Violin CAD model",
+      "status": "done"
     }
   ],
   "progress": [

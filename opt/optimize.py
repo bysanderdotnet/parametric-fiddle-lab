@@ -15,9 +15,11 @@ def objective(trial):
     upper_bout = trial.suggest_float("upper_bout", 160.0, 180.0)
     c_bout = trial.suggest_float("c_bout", 100.0, 120.0)
     thickness = trial.suggest_float("thickness", 2.0, 6.0)
+    f_hole_length = trial.suggest_float("f_hole_length", 60.0, 90.0)
+    f_hole_spacing = trial.suggest_float("f_hole_spacing", 60.0, 100.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
-    print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t={thickness:.1f}")
+    print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t={thickness:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}")
 
     # 2. Generate CAD (STEP)
     subprocess.run([
@@ -26,7 +28,9 @@ def objective(trial):
         "--lower_bout", str(lower_bout),
         "--upper_bout", str(upper_bout),
         "--c_bout", str(c_bout),
-        "--thickness", str(thickness)
+        "--thickness", str(thickness),
+        "--f_hole_length", str(f_hole_length),
+        "--f_hole_spacing", str(f_hole_spacing)
     ], check=True)
 
     # 3. Generate Mesh
@@ -95,7 +99,9 @@ if __name__ == "__main__":
         "--lower_bout", str(trial.params["lower_bout"]),
         "--upper_bout", str(trial.params["upper_bout"]),
         "--c_bout", str(trial.params["c_bout"]),
-        "--thickness", str(trial.params["thickness"])
+        "--thickness", str(trial.params["thickness"]),
+        "--f_hole_length", str(trial.params["f_hole_length"]),
+        "--f_hole_spacing", str(trial.params["f_hole_spacing"])
     ], check=True)
 
     # Slice Model
