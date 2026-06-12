@@ -58,6 +58,30 @@
       "id": "F-009",
       "title": "Add geometry parameter inputs (length, widths) to generate a STEP file and export them so optimization can find them",
       "status": "done"
+    },
+    {
+      "id": "F-010",
+      "title": "Implement Elmer/Code_Aster structural simulation",
+      "status": "todo",
+      "notes": "Populate sim_struct/structural.py with real logic for Elmer simulation."
+    },
+    {
+      "id": "F-011",
+      "title": "Acoustic Simulation Integration",
+      "status": "todo",
+      "notes": "Populate sim_acoustic/acoustic.py with scripts for cavity modes and radiation."
+    },
+    {
+      "id": "F-012",
+      "title": "Setup Optimization Framework",
+      "status": "todo",
+      "notes": "Implement Optuna or BoTorch optimization loop in opt/optimize.py."
+    },
+    {
+      "id": "F-013",
+      "title": "End-to-End Pipeline Integration",
+      "status": "todo",
+      "notes": "Integrate CAD generation, meshing, slicing, simulation, and optimization into a single executable pipeline."
     }
   ],
   "progress": [
