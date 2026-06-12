@@ -82,6 +82,11 @@
       "title": "End-to-End Pipeline Integration",
       "status": "todo",
       "notes": "Integrate CAD generation, meshing, slicing, simulation, and optimization into a single executable pipeline."
+    },
+    {
+      "id": "F-014",
+      "title": "maintenance: F-014 cleanup and verify rules",
+      "status": "done"
     }
   ],
   "progress": [
@@ -172,6 +177,14 @@
       "next": "Implement Elmer/Code_Aster structural simulation (F-010)",
       "blockers": "none",
       "commit": "8f41004 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 09:22 UTC",
+      "title": "cleanup leftover files and verify rules",
+      "done": "deleted structural_results.json",
+      "verified": "pass (2026-06-12 09:20 UTC @ c320260)",
+      "blockers": "none",
+      "commit": "c320260 (+ uncommitted changes)"
     }
   ],
   "rules": [
