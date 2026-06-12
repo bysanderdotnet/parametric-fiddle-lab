@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0):
     """
     Generate a simplified parametric violin body.
     """
@@ -15,44 +15,84 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
         (-lower_bout / 2.0, -length * 0.25)
     ]
 
-    body = cq.Workplane("XY").polyline(pts).close().extrude(30)
+    # Helper to create an arched cylinder intersection
+    def get_cylinders(arch_height, z_offset, mirror=False):
+        r_x = ( (lower_bout/2)**2 + arch_height**2 ) / (2 * arch_height)
+        cyl_x = cq.Workplane("XZ").center(0, -r_x + arch_height + z_offset).circle(r_x).extrude(length, both=True)
+        r_y = ( (length/2)**2 + arch_height**2 ) / (2 * arch_height)
+        cyl_y = cq.Workplane("YZ").center(0, -r_y + arch_height + z_offset).circle(r_y).extrude(lower_bout, both=True)
+        if mirror:
+            cyl_x = cyl_x.mirror("XY")
+            cyl_y = cyl_y.mirror("XY")
+        return cyl_x, cyl_y
 
-    # Hollow it out
-    inner_body = cq.Workplane("XY").polyline(pts).close().offset2D(-rib_thickness).extrude(30 - top_thickness - back_thickness).translate((0, 0, back_thickness))
-    hollowed_body = body.cut(inner_body)
+    # Outer bounding domes
+    out_top_cyl_x, out_top_cyl_y = get_cylinders(top_arch_height, rib_height)
+    out_back_cyl_x, out_back_cyl_y = get_cylinders(back_arch_height, 0, mirror=True)
+
+    # Total volume bounding box
+    total_volume = cq.Workplane("XY").polyline(pts).close().extrude(rib_height + top_arch_height + back_arch_height).translate((0, 0, -back_arch_height))
+    total_volume = total_volume.intersect(out_top_cyl_x).intersect(out_top_cyl_y).intersect(out_back_cyl_x).intersect(out_back_cyl_y)
+
+    # Inner cavity domes
+    in_top_cyl_x, in_top_cyl_y = get_cylinders(top_arch_height, rib_height - top_thickness)
+    # Fix back cavity offset: moving it by -back_thickness before mirror means it ends up inside
+    # Wait, get_cylinders uses mirror=True.
+    # The outer dome starts at z_offset=0 and curves to -back_arch_height.
+    # The inner dome should start at z_offset=back_thickness.
+    # When mirrored, it starts at -back_thickness and curves to -back_arch_height - back_thickness.
+    # But wait, we want the cavity to NOT reach the bottom. So the cavity should curve down to -back_arch_height + back_thickness.
+    # So the inner back dome should have arch_height = back_arch_height?
+    # If we use the same arch_height, translating by back_thickness (in the positive Z before mirroring, so -back_thickness after)
+    # means it shifts downwards by back_thickness.
+    # But we want the cavity to shift UPWARDS by back_thickness relative to the outer dome.
+    # So before mirroring, we should shift DOWNWARDS by back_thickness (so z_offset = -back_thickness).
+    # Then after mirror, it will be shifted UPWARDS by back_thickness!
+    in_back_cyl_x, in_back_cyl_y = get_cylinders(back_arch_height, -back_thickness, mirror=True)
+
+    # Cavity volume
+    cavity_volume = cq.Workplane("XY").polyline(pts).close().offset2D(-rib_thickness).extrude(rib_height + top_arch_height + back_arch_height).translate((0, 0, -back_arch_height))
+    cavity_volume = cavity_volume.intersect(in_top_cyl_x).intersect(in_top_cyl_y).intersect(in_back_cyl_x).intersect(in_back_cyl_y)
+
+    body = total_volume.cut(cavity_volume)
 
     # Add F-holes
     f_hole_width = 8.0 # typical simplified f-hole width
 
-    with_f_holes = hollowed_body.faces(">Z").workplane().pushPoints([
+    f_holes_tool = cq.Workplane("XY").pushPoints([
         (f_hole_spacing / 2.0, 0),
         (-f_hole_spacing / 2.0, 0)
-    ]).slot2D(f_hole_length, f_hole_width, 90).cutBlind(-top_thickness * 2)
+    ]).slot2D(f_hole_length, f_hole_width, 90).extrude(1000).translate((0, 0, -500))
+
+    # Cut f-holes only through the top part by intersecting the cutting tool with a box above rib_height/2
+    f_holes_tool = f_holes_tool.intersect(cq.Workplane("XY").box(1000, 1000, 1000).translate((0, 0, 500 + rib_height/2)))
+    body = body.cut(f_holes_tool)
 
     # Add Neck
     neck = cq.Workplane("XY").center(0, length / 2.0 + neck_length / 2.0).box(neck_width, neck_length, neck_height)
-    # Move the neck slightly up in Z to align with the body top, or just union it at z=0
-    # since body extrudes 30 up from Z=0. We'll elevate it so its top aligns with the violin's top (Z=30).
-    neck = neck.translate((0, 0, 30 - neck_height / 2.0))
+    neck = neck.translate((0, 0, rib_height - neck_height / 2.0))
 
-    final_body = with_f_holes.union(neck)
+    final_body = body.union(neck)
 
     # Add Bridge
     bridge = cq.Workplane("XY").box(bridge_width, bridge_thickness, bridge_height)
-    # Move the bridge slightly up in Z to align with the body top.
-    bridge = bridge.translate((0, 0, 30 + bridge_height / 2.0))
+    bridge = bridge.translate((0, 0, rib_height + top_arch_height + bridge_height / 2.0))
     final_body = final_body.union(bridge)
 
-    # Add Soundpost
-    soundpost_height = 30 - top_thickness - back_thickness
-    soundpost = cq.Workplane("XY").cylinder(soundpost_height, soundpost_radius)
-    soundpost = soundpost.translate((soundpost_x_offset, soundpost_y_offset, back_thickness + soundpost_height / 2.0))
+    # Add Soundpost (spanning the cavity)
+    soundpost = cq.Workplane("XY").center(soundpost_x_offset, soundpost_y_offset).circle(soundpost_radius).extrude(rib_height + top_arch_height + back_arch_height).translate((0, 0, -back_arch_height))
+    soundpost = soundpost.intersect(cavity_volume)
     final_body = final_body.union(soundpost)
 
     # Add Bass Bar
-    bass_bar = cq.Workplane("XY").box(bass_bar_width, bass_bar_length, bass_bar_height)
-    bass_bar = bass_bar.translate((bass_bar_x_offset, bass_bar_y_offset, 30 - top_thickness - bass_bar_height / 2.0))
-    final_body = final_body.union(bass_bar)
+    bb_top_cyl_x, bb_top_cyl_y = get_cylinders(top_arch_height, rib_height - top_thickness)
+    bb_bottom_cyl_x, bb_bottom_cyl_y = get_cylinders(top_arch_height, rib_height - top_thickness - bass_bar_height)
+
+    bass_bar_full = cq.Workplane("XY").center(bass_bar_x_offset, bass_bar_y_offset).rect(bass_bar_width, bass_bar_length).extrude(rib_height + top_arch_height).translate((0, 0, 0))
+    bass_bar_full = bass_bar_full.intersect(bb_top_cyl_x).intersect(bb_top_cyl_y)
+    bass_bar_full = bass_bar_full.cut(bb_bottom_cyl_x.intersect(bb_bottom_cyl_y))
+
+    final_body = final_body.union(bass_bar_full)
 
     return final_body
 
@@ -68,6 +108,9 @@ if __name__ == "__main__":
     parser.add_argument("--top_thickness", type=float, default=4, help="Top plate thickness")
     parser.add_argument("--back_thickness", type=float, default=4, help="Back plate thickness")
     parser.add_argument("--rib_thickness", type=float, default=4, help="Rib thickness")
+    parser.add_argument("--top_arch_height", type=float, default=15, help="Arch height of the top plate")
+    parser.add_argument("--back_arch_height", type=float, default=15, help="Arch height of the back plate")
+    parser.add_argument("--rib_height", type=float, default=30, help="Height of the ribs")
     parser.add_argument("--f_hole_length", type=float, default=70, help="Length of the F-holes")
     parser.add_argument("--f_hole_spacing", type=float, default=80, help="Spacing between the F-holes")
     parser.add_argument("--neck_length", type=float, default=130, help="Length of the neck")
@@ -94,6 +137,9 @@ if __name__ == "__main__":
         "top_thickness": args.top_thickness,
         "back_thickness": args.back_thickness,
         "rib_thickness": args.rib_thickness,
+        "top_arch_height": args.top_arch_height,
+        "back_arch_height": args.back_arch_height,
+        "rib_height": args.rib_height,
         "f_hole_length": args.f_hole_length,
         "f_hole_spacing": args.f_hole_spacing,
         "neck_length": args.neck_length,

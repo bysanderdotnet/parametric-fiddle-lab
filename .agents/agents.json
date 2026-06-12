@@ -127,6 +127,11 @@
       "id": "F-022",
       "title": "maintenance: docs cleanup",
       "status": "done"
+    },
+    {
+      "id": "F-023",
+      "title": "Add arching to the top and back plates of the Violin CAD model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -298,6 +303,14 @@
       "verified": "pass (2026-06-12 21:29 UTC @ 9614699)",
       "blockers": "none",
       "commit": "9614699 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 22:31 UTC",
+      "title": "Added parametric arching to violin body",
+      "done": "Updated cad/violin.py with domed structures, ribs, and re-aligned all components. Added arch_height and rib_height parameters to CLI.",
+      "verified": "pass (2026-06-12 22:25 UTC @ 5ee7369)",
+      "blockers": "none",
+      "commit": "5ee7369 (+ uncommitted changes)"
     }
   ],
   "rules": [
