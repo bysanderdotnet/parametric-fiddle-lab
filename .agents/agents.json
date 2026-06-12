@@ -102,6 +102,11 @@
       "id": "F-017",
       "title": "Add a neck to the Violin CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-018",
+      "title": "Add a bridge to the Violin CAD model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -232,6 +237,14 @@
       "verified": "pass (2026-06-12 16:14 UTC @ 208c086)",
       "blockers": "none",
       "commit": "208c086 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 17:13 UTC",
+      "title": "Added a bridge to the Violin CAD model",
+      "done": "Updated cad/violin.py to include bridge parameters and geometry, and unioned the bridge with the violin body",
+      "verified": "pass (2026-06-12 17:13 UTC @ 6957ba7)",
+      "blockers": "none",
+      "commit": "6957ba7 (+ uncommitted changes)"
     }
   ],
   "rules": [
