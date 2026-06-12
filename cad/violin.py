@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, thickness=4, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0):
     """
     Generate a simplified parametric violin body.
     """
@@ -18,7 +18,8 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     body = cq.Workplane("XY").polyline(pts).close().extrude(30)
 
     # Hollow it out
-    hollowed_body = body.faces("<Z").shell(thickness)
+    inner_body = cq.Workplane("XY").polyline(pts).close().offset2D(-rib_thickness).extrude(30 - top_thickness - back_thickness).translate((0, 0, back_thickness))
+    hollowed_body = body.cut(inner_body)
 
     # Add F-holes
     f_hole_width = 8.0 # typical simplified f-hole width
@@ -26,7 +27,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     with_f_holes = hollowed_body.faces(">Z").workplane().pushPoints([
         (f_hole_spacing / 2.0, 0),
         (-f_hole_spacing / 2.0, 0)
-    ]).slot2D(f_hole_length, f_hole_width, 90).cutBlind(-thickness * 2)
+    ]).slot2D(f_hole_length, f_hole_width, 90).cutBlind(-top_thickness * 2)
 
     # Add Neck
     neck = cq.Workplane("XY").center(0, length / 2.0 + neck_length / 2.0).box(neck_width, neck_length, neck_height)
@@ -43,14 +44,14 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     final_body = final_body.union(bridge)
 
     # Add Soundpost
-    soundpost_height = 30 - 2 * thickness
+    soundpost_height = 30 - top_thickness - back_thickness
     soundpost = cq.Workplane("XY").cylinder(soundpost_height, soundpost_radius)
-    soundpost = soundpost.translate((soundpost_x_offset, soundpost_y_offset, 15))
+    soundpost = soundpost.translate((soundpost_x_offset, soundpost_y_offset, back_thickness + soundpost_height / 2.0))
     final_body = final_body.union(soundpost)
 
     # Add Bass Bar
     bass_bar = cq.Workplane("XY").box(bass_bar_width, bass_bar_length, bass_bar_height)
-    bass_bar = bass_bar.translate((bass_bar_x_offset, bass_bar_y_offset, 30 - thickness - bass_bar_height / 2.0))
+    bass_bar = bass_bar.translate((bass_bar_x_offset, bass_bar_y_offset, 30 - top_thickness - bass_bar_height / 2.0))
     final_body = final_body.union(bass_bar)
 
     return final_body
@@ -64,7 +65,9 @@ if __name__ == "__main__":
     parser.add_argument("--lower_bout", type=float, default=208, help="Width of the lower bout")
     parser.add_argument("--upper_bout", type=float, default=168, help="Width of the upper bout")
     parser.add_argument("--c_bout", type=float, default=110, help="Width of the c-bout")
-    parser.add_argument("--thickness", type=float, default=4, help="Wall thickness")
+    parser.add_argument("--top_thickness", type=float, default=4, help="Top plate thickness")
+    parser.add_argument("--back_thickness", type=float, default=4, help="Back plate thickness")
+    parser.add_argument("--rib_thickness", type=float, default=4, help="Rib thickness")
     parser.add_argument("--f_hole_length", type=float, default=70, help="Length of the F-holes")
     parser.add_argument("--f_hole_spacing", type=float, default=80, help="Spacing between the F-holes")
     parser.add_argument("--neck_length", type=float, default=130, help="Length of the neck")
@@ -88,7 +91,9 @@ if __name__ == "__main__":
         "lower_bout": args.lower_bout,
         "upper_bout": args.upper_bout,
         "c_bout": args.c_bout,
-        "thickness": args.thickness,
+        "top_thickness": args.top_thickness,
+        "back_thickness": args.back_thickness,
+        "rib_thickness": args.rib_thickness,
         "f_hole_length": args.f_hole_length,
         "f_hole_spacing": args.f_hole_spacing,
         "neck_length": args.neck_length,

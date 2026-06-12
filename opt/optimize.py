@@ -14,7 +14,9 @@ def objective(trial):
     lower_bout = trial.suggest_float("lower_bout", 200.0, 220.0)
     upper_bout = trial.suggest_float("upper_bout", 160.0, 180.0)
     c_bout = trial.suggest_float("c_bout", 100.0, 120.0)
-    thickness = trial.suggest_float("thickness", 2.0, 6.0)
+    top_thickness = trial.suggest_float("top_thickness", 2.0, 6.0)
+    back_thickness = trial.suggest_float("back_thickness", 2.0, 6.0)
+    rib_thickness = trial.suggest_float("rib_thickness", 2.0, 6.0)
     f_hole_length = trial.suggest_float("f_hole_length", 60.0, 90.0)
     f_hole_spacing = trial.suggest_float("f_hole_spacing", 60.0, 100.0)
     soundpost_radius = trial.suggest_float("soundpost_radius", 2.0, 5.0)
@@ -27,7 +29,7 @@ def objective(trial):
     bass_bar_y_offset = trial.suggest_float("bass_bar_y_offset", -20.0, 20.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
-    print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t={thickness:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}")
+    print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}")
     print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
     print(f"        bb_l={bass_bar_length:.1f}, bb_w={bass_bar_width:.1f}, bb_h={bass_bar_height:.1f}, bb_x={bass_bar_x_offset:.1f}, bb_y={bass_bar_y_offset:.1f}")
 
@@ -38,7 +40,9 @@ def objective(trial):
         "--lower_bout", str(lower_bout),
         "--upper_bout", str(upper_bout),
         "--c_bout", str(c_bout),
-        "--thickness", str(thickness),
+        "--top_thickness", str(top_thickness),
+        "--back_thickness", str(back_thickness),
+        "--rib_thickness", str(rib_thickness),
         "--f_hole_length", str(f_hole_length),
         "--f_hole_spacing", str(f_hole_spacing),
         "--soundpost_radius", str(soundpost_radius),
@@ -117,7 +121,9 @@ if __name__ == "__main__":
         "--lower_bout", str(trial.params["lower_bout"]),
         "--upper_bout", str(trial.params["upper_bout"]),
         "--c_bout", str(trial.params["c_bout"]),
-        "--thickness", str(trial.params["thickness"]),
+        "--top_thickness", str(trial.params["top_thickness"]),
+        "--back_thickness", str(trial.params["back_thickness"]),
+        "--rib_thickness", str(trial.params["rib_thickness"]),
         "--f_hole_length", str(trial.params["f_hole_length"]),
         "--f_hole_spacing", str(trial.params["f_hole_spacing"]),
         "--soundpost_radius", str(trial.params["soundpost_radius"]),
