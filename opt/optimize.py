@@ -17,9 +17,13 @@ def objective(trial):
     thickness = trial.suggest_float("thickness", 2.0, 6.0)
     f_hole_length = trial.suggest_float("f_hole_length", 60.0, 90.0)
     f_hole_spacing = trial.suggest_float("f_hole_spacing", 60.0, 100.0)
+    soundpost_radius = trial.suggest_float("soundpost_radius", 2.0, 5.0)
+    soundpost_x_offset = trial.suggest_float("soundpost_x_offset", 5.0, 25.0)
+    soundpost_y_offset = trial.suggest_float("soundpost_y_offset", -25.0, -5.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
     print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t={thickness:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}")
+    print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
 
     # 2. Generate CAD (STEP)
     subprocess.run([
@@ -30,7 +34,10 @@ def objective(trial):
         "--c_bout", str(c_bout),
         "--thickness", str(thickness),
         "--f_hole_length", str(f_hole_length),
-        "--f_hole_spacing", str(f_hole_spacing)
+        "--f_hole_spacing", str(f_hole_spacing),
+        "--soundpost_radius", str(soundpost_radius),
+        "--soundpost_x_offset", str(soundpost_x_offset),
+        "--soundpost_y_offset", str(soundpost_y_offset)
     ], check=True)
 
     # 3. Generate Mesh
@@ -101,7 +108,10 @@ if __name__ == "__main__":
         "--c_bout", str(trial.params["c_bout"]),
         "--thickness", str(trial.params["thickness"]),
         "--f_hole_length", str(trial.params["f_hole_length"]),
-        "--f_hole_spacing", str(trial.params["f_hole_spacing"])
+        "--f_hole_spacing", str(trial.params["f_hole_spacing"]),
+        "--soundpost_radius", str(trial.params["soundpost_radius"]),
+        "--soundpost_x_offset", str(trial.params["soundpost_x_offset"]),
+        "--soundpost_y_offset", str(trial.params["soundpost_y_offset"])
     ], check=True)
 
     # Slice Model
