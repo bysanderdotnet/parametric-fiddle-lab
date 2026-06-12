@@ -87,6 +87,11 @@
       "id": "F-014",
       "title": "maintenance: F-014 cleanup and verify rules",
       "status": "done"
+    },
+    {
+      "id": "F-015",
+      "title": "Add a proper parametric shape for the violin",
+      "status": "done"
     }
   ],
   "progress": [
@@ -201,6 +206,14 @@
       "verified": "pass (2026-06-12 13:17 UTC @ 8b135a4)",
       "blockers": "none",
       "commit": "8b135a4 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 14:18 UTC",
+      "title": "Added a proper parametric shape for the violin using a polyline profile",
+      "done": "Replaced placeholder box in cad/violin.py with a geometric polyline profile of a violin using length, lower_bout, upper_bout, and c_bout parameters.",
+      "verified": "pass (2026-06-12 14:15 UTC @ 5899f5e) — STALE: files changed since that run, re-verify",
+      "blockers": "none",
+      "commit": "5899f5e (+ uncommitted changes)"
     }
   ],
   "rules": [

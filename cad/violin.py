@@ -4,11 +4,18 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     """
     Generate a simplified parametric violin body.
     """
-    # Create a simple generic body shape (not a real violin curve yet)
-    # This is a very simplified placeholder.
+    pts = [
+        (0, -length / 2.0),
+        (lower_bout / 2.0, -length * 0.25),
+        (c_bout / 2.0, 0),
+        (upper_bout / 2.0, length * 0.25),
+        (0, length / 2.0),
+        (-upper_bout / 2.0, length * 0.25),
+        (-c_bout / 2.0, 0),
+        (-lower_bout / 2.0, -length * 0.25)
+    ]
 
-    # Let us just create a box for now as a placeholder for the actual complex loft
-    body = cq.Workplane("XY").box(lower_bout, length, 30)
+    body = cq.Workplane("XY").polyline(pts).close().extrude(30)
 
     # Hollow it out
     hollowed_body = body.faces("<Z").shell(thickness)
