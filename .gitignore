@@ -59,3 +59,7 @@ sim_acoustic/*
 *.step
 *.msh
 violin_body.json
+structural_results.json
+case.sif
+case.vtu
+elmer_mesh/
