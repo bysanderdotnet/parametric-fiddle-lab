@@ -63,3 +63,6 @@ structural_results.json
 case.sif
 case.vtu
 elmer_mesh/
+acoustic_results.json
+case_acoustic.sif
+elmer_mesh_acoustic/
