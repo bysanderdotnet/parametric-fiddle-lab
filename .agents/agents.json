@@ -68,13 +68,13 @@
     {
       "id": "F-011",
       "title": "Acoustic Simulation Integration",
-      "status": "in_progress",
+      "status": "done",
       "notes": "Populate sim_acoustic/acoustic.py with scripts for cavity modes and radiation."
     },
     {
       "id": "F-012",
       "title": "Setup Optimization Framework",
-      "status": "todo",
+      "status": "done",
       "notes": "Implement Optuna or BoTorch optimization loop in opt/optimize.py."
     },
     {
@@ -185,6 +185,14 @@
       "verified": "pass (2026-06-12 09:20 UTC @ c320260)",
       "blockers": "none",
       "commit": "c320260 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 12:13 UTC",
+      "title": "Completed F-012: Setup Optimization Framework",
+      "done": "Implemented Optuna optimization loop in opt/optimize.py that calls CAD generation, meshing, structural, and acoustic sim in a loop",
+      "verified": "pass (2026-06-12 12:12 UTC @ 10f4758)",
+      "blockers": "none",
+      "commit": "10f4758 (+ uncommitted changes)"
     }
   ],
   "rules": [
