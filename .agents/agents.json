@@ -132,6 +132,11 @@
       "id": "F-023",
       "title": "Add arching to the top and back plates of the Violin CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-024",
+      "title": "Update optimize.py to include arch_height and rib_height",
+      "status": "done"
     }
   ],
   "progress": [
@@ -311,6 +316,14 @@
       "verified": "pass (2026-06-12 22:25 UTC @ 5ee7369)",
       "blockers": "none",
       "commit": "5ee7369 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-12 23:12 UTC",
+      "title": "Added top_arch_height, back_arch_height, and rib_height to optimization script",
+      "done": "Updated opt/optimize.py to include top_arch_height, back_arch_height, and rib_height as hyperparameters during optimization and final generation.",
+      "verified": "pass (2026-06-12 23:11 UTC @ b908ee2)",
+      "blockers": "none",
+      "commit": "b908ee2 (+ uncommitted changes)"
     }
   ],
   "rules": [
