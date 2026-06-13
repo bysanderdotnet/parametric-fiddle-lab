@@ -147,6 +147,11 @@
       "id": "F-026",
       "title": "Add a fitness function based on mass and A0 frequency",
       "status": "done"
+    },
+    {
+      "id": "F-027",
+      "title": "Optimize mass and volume",
+      "status": "done"
     }
   ],
   "progress": [
@@ -343,6 +348,14 @@
       "next": "Optimize mass and volume",
       "blockers": "none",
       "commit": "794c2d0 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 02:12 UTC",
+      "title": "Optimize mass and volume",
+      "done": "Updated opt/optimize.py to extract volume from violin_body.json and include it in fitness.",
+      "verified": "pass (2026-06-13 02:11 UTC @ ab63c75)",
+      "blockers": "none",
+      "commit": "ab63c75 (+ uncommitted changes)"
     }
   ],
   "rules": [
