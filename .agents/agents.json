@@ -254,6 +254,16 @@
       "id": "F-047",
       "title": "Parametric chin rest ergonomics",
       "status": "done"
+    },
+    {
+      "id": "F-048",
+      "title": "maintenance: cleanup leftovers and verify",
+      "status": "done"
+    },
+    {
+      "id": "F-049",
+      "title": "maintenance: finish check consistency",
+      "status": "done"
     }
   ],
   "progress": [
@@ -563,6 +573,22 @@
       "verified": "pass (2026-06-13 20:36 UTC @ 0761e95)",
       "blockers": "none",
       "commit": "0761e95 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 21:13 UTC",
+      "title": "maintenance: cleanup leftovers and verify",
+      "done": "Removed test_chinrest.py and verified pipeline",
+      "verified": "pass (2026-06-13 21:13 UTC @ c760b9b)",
+      "blockers": "none",
+      "commit": "c760b9b (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 21:21 UTC",
+      "title": "maintenance: add data and profiles directories, update gitignore and agents docs",
+      "done": "added missing dirs and updated docs rule R-003",
+      "verified": "pass (2026-06-13 21:20 UTC @ 78292fe)",
+      "blockers": "none",
+      "commit": "07c0ef6"
     }
   ],
   "rules": [
@@ -581,8 +607,8 @@
     {
       "id": "R-003",
       "category": "testing",
-      "text": "No tests yet. Empty repository initialized from template.",
-      "added": "2026-06-11"
+      "text": "Verify the pipeline runs end-to-end correctly by running all modules",
+      "added": "2026-06-13"
     }
   ]
 }
