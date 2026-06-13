@@ -239,6 +239,11 @@
       "id": "F-044",
       "title": "Add curved fingerboard parameter to CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-045",
+      "title": "Add a parametric chinrest to the violin CAD model",
+      "status": "done"
     }
   ],
   "progress": [
