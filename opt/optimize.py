@@ -22,6 +22,7 @@ def objective(trial):
     rib_height = trial.suggest_float("rib_height", 25.0, 40.0)
     f_hole_length = trial.suggest_float("f_hole_length", 60.0, 90.0)
     f_hole_spacing = trial.suggest_float("f_hole_spacing", 60.0, 100.0)
+    f_hole_width = trial.suggest_float("f_hole_width", 5.0, 12.0)
     neck_length = trial.suggest_float("neck_length", 110.0, 150.0)
     neck_width = trial.suggest_float("neck_width", 25.0, 40.0)
     neck_height = trial.suggest_float("neck_height", 15.0, 30.0)
@@ -42,7 +43,7 @@ def objective(trial):
     tailpiece_thickness = trial.suggest_float("tailpiece_thickness", 3.0, 8.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
-    print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}")
+    print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}, f_wid={f_hole_width:.1f}")
     print(f"        neck_l={neck_length:.1f}, neck_w={neck_width:.1f}, neck_h={neck_height:.1f}")
     print(f"        br_w={bridge_width:.1f}, br_h={bridge_height:.1f}, br_t={bridge_thickness:.1f}")
     print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
@@ -64,6 +65,7 @@ def objective(trial):
         "--rib_height", str(rib_height),
         "--f_hole_length", str(f_hole_length),
         "--f_hole_spacing", str(f_hole_spacing),
+        "--f_hole_width", str(f_hole_width),
         "--neck_length", str(neck_length),
         "--neck_width", str(neck_width),
         "--neck_height", str(neck_height),
@@ -170,6 +172,7 @@ if __name__ == "__main__":
         "--rib_height", str(trial.params["rib_height"]),
         "--f_hole_length", str(trial.params["f_hole_length"]),
         "--f_hole_spacing", str(trial.params["f_hole_spacing"]),
+        "--f_hole_width", str(trial.params["f_hole_width"]),
         "--neck_length", str(trial.params["neck_length"]),
         "--neck_width", str(trial.params["neck_width"]),
         "--neck_height", str(trial.params["neck_height"]),
