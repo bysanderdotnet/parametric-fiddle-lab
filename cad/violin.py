@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -97,6 +97,11 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     final_body = final_body.union(pegbox)
     if pegs is not None:
         final_body = final_body.union(pegs)
+
+    # Add Scroll
+    scroll_y = pegbox_center_y + pegbox_length / 2.0 + scroll_radius
+    scroll = cq.Workplane("YZ").center(scroll_y, rib_height - neck_height / 2.0 + pegbox_depth / 2.0 - neck_height / 2.0).circle(scroll_radius).extrude(scroll_width, both=True)
+    final_body = final_body.union(scroll)
 
     # Add Nut
     nut_y = length / 2.0 + neck_length
@@ -232,6 +237,8 @@ if __name__ == "__main__":
     parser.add_argument("--saddle_length", type=float, default=5.0, help="Length of the saddle")
     parser.add_argument("--saddle_width", type=float, default=30.0, help="Width of the saddle")
     parser.add_argument("--saddle_height", type=float, default=6.0, help="Height of the saddle")
+    parser.add_argument("--scroll_radius", type=float, default=10.0, help="Radius of the scroll")
+    parser.add_argument("--scroll_width", type=float, default=20.0, help="Width of the scroll")
     args = parser.parse_args()
 
     params = {
@@ -284,7 +291,9 @@ if __name__ == "__main__":
         "nut_height": args.nut_height,
         "saddle_length": args.saddle_length,
         "saddle_width": args.saddle_width,
-        "saddle_height": args.saddle_height
+        "saddle_height": args.saddle_height,
+        "scroll_radius": args.scroll_radius,
+        "scroll_width": args.scroll_width
     }
 
     violin = create_violin_body(**params)

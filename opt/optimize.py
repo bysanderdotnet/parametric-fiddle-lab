@@ -60,6 +60,8 @@ def objective(trial):
     saddle_length = trial.suggest_float("saddle_length", 3.0, 8.0)
     saddle_width = trial.suggest_float("saddle_width", 25.0, 35.0)
     saddle_height = trial.suggest_float("saddle_height", 4.0, 8.0)
+    scroll_radius = trial.suggest_float("scroll_radius", 8.0, 12.0)
+    scroll_width = trial.suggest_float("scroll_width", 18.0, 22.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
     print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}, f_wid={f_hole_width:.1f}")
@@ -72,6 +74,7 @@ def objective(trial):
     print(f"        fb_l={fingerboard_length:.1f}, fb_wt={fingerboard_width_top:.1f}, fb_wb={fingerboard_width_bottom:.1f}, fb_th={fingerboard_thickness:.1f}")
     print(f"        nut_l={nut_length:.1f}, nut_w={nut_width:.1f}, nut_h={nut_height:.1f}")
     print(f"        saddle_l={saddle_length:.1f}, saddle_w={saddle_width:.1f}, saddle_h={saddle_height:.1f}")
+    print(f"        scroll_r={scroll_radius:.1f}, scroll_w={scroll_width:.1f}")
 
     # 2. Generate CAD (STEP)
     subprocess.run([
@@ -125,7 +128,9 @@ def objective(trial):
         "--nut_height", str(nut_height),
         "--saddle_length", str(saddle_length),
         "--saddle_width", str(saddle_width),
-        "--saddle_height", str(saddle_height)
+        "--saddle_height", str(saddle_height),
+        "--scroll_radius", str(scroll_radius),
+        "--scroll_width", str(scroll_width)
     ], check=True)
 
     # 3. Generate Mesh
@@ -251,7 +256,9 @@ if __name__ == "__main__":
         "--nut_height", str(trial.params["nut_height"]),
         "--saddle_length", str(trial.params["saddle_length"]),
         "--saddle_width", str(trial.params["saddle_width"]),
-        "--saddle_height", str(trial.params["saddle_height"])
+        "--saddle_height", str(trial.params["saddle_height"]),
+        "--scroll_radius", str(trial.params["scroll_radius"]),
+        "--scroll_width", str(trial.params["scroll_width"])
     ], check=True)
 
     # Slice Model
