@@ -214,6 +214,11 @@
       "id": "F-039",
       "title": "Add bridge curvature parameters and geometry to the violin CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-040",
+      "title": "Add bridge mass reduction cutouts",
+      "status": "done"
     }
   ],
   "progress": [
