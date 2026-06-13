@@ -177,6 +177,11 @@
       "id": "F-032",
       "title": "Add parameter for purfling groove depth",
       "status": "done"
+    },
+    {
+      "id": "F-033",
+      "title": "Add a fingerboard to the violin CAD model and optimization pipeline",
+      "status": "done"
     }
   ],
   "progress": [
@@ -397,6 +402,14 @@
       "verified": "pass (2026-06-13 06:13 UTC @ e4f9275)",
       "blockers": "none",
       "commit": "e4f9275 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 07:18 UTC",
+      "title": "Add a fingerboard to the violin CAD model and optimization pipeline",
+      "done": "Added fingerboard parameters to cad/violin.py and opt/optimize.py. Fingerboard implemented as trapezoid.",
+      "verified": "pass (2026-06-13 07:16 UTC @ 96c46b1)",
+      "blockers": "none",
+      "commit": "96c46b1 (+ uncommitted changes)"
     }
   ],
   "rules": [
