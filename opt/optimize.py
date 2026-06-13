@@ -46,6 +46,12 @@ def objective(trial):
     fingerboard_width_top = trial.suggest_float("fingerboard_width_top", 22.0, 26.0)
     fingerboard_width_bottom = trial.suggest_float("fingerboard_width_bottom", 40.0, 44.0)
     fingerboard_thickness = trial.suggest_float("fingerboard_thickness", 4.0, 7.0)
+    pegbox_length = trial.suggest_float("pegbox_length", 65.0, 75.0)
+    pegbox_width = trial.suggest_float("pegbox_width", 22.0, 26.0)
+    pegbox_depth = trial.suggest_float("pegbox_depth", 18.0, 22.0)
+    pegbox_thickness = trial.suggest_float("pegbox_thickness", 4.0, 6.0)
+    peg_hole_radius = trial.suggest_float("peg_hole_radius", 2.5, 3.5)
+    peg_spacing = trial.suggest_float("peg_spacing", 14.0, 16.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
     print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}, f_wid={f_hole_width:.1f}")
@@ -95,7 +101,13 @@ def objective(trial):
         "--fingerboard_length", str(fingerboard_length),
         "--fingerboard_width_top", str(fingerboard_width_top),
         "--fingerboard_width_bottom", str(fingerboard_width_bottom),
-        "--fingerboard_thickness", str(fingerboard_thickness)
+        "--fingerboard_thickness", str(fingerboard_thickness),
+        "--pegbox_length", str(pegbox_length),
+        "--pegbox_width", str(pegbox_width),
+        "--pegbox_depth", str(pegbox_depth),
+        "--pegbox_thickness", str(pegbox_thickness),
+        "--peg_hole_radius", str(peg_hole_radius),
+        "--peg_spacing", str(peg_spacing)
     ], check=True)
 
     # 3. Generate Mesh
@@ -207,7 +219,13 @@ if __name__ == "__main__":
         "--fingerboard_length", str(trial.params["fingerboard_length"]),
         "--fingerboard_width_top", str(trial.params["fingerboard_width_top"]),
         "--fingerboard_width_bottom", str(trial.params["fingerboard_width_bottom"]),
-        "--fingerboard_thickness", str(trial.params["fingerboard_thickness"])
+        "--fingerboard_thickness", str(trial.params["fingerboard_thickness"]),
+        "--pegbox_length", str(trial.params["pegbox_length"]),
+        "--pegbox_width", str(trial.params["pegbox_width"]),
+        "--pegbox_depth", str(trial.params["pegbox_depth"]),
+        "--pegbox_thickness", str(trial.params["pegbox_thickness"]),
+        "--peg_hole_radius", str(trial.params["peg_hole_radius"]),
+        "--peg_spacing", str(trial.params["peg_spacing"])
     ], check=True)
 
     # Slice Model

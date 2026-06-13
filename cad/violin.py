@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -71,6 +71,32 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     neck = neck.translate((0, 0, rib_height - neck_height / 2.0))
 
     final_body = body.union(neck)
+
+    # Add Pegbox and Pegs
+    pegbox_center_y = length / 2.0 + neck_length + pegbox_length / 2.0
+    pegbox_outer = cq.Workplane("XY").center(0, pegbox_center_y).box(pegbox_width, pegbox_length, pegbox_depth)
+    pegbox_outer = pegbox_outer.translate((0, 0, rib_height - neck_height / 2.0 + pegbox_depth / 2.0 - neck_height / 2.0))
+
+    pegbox_inner = cq.Workplane("XY").center(0, pegbox_center_y).box(pegbox_width - 2 * pegbox_thickness, pegbox_length - 2 * pegbox_thickness, pegbox_depth + 10)
+    pegbox_inner = pegbox_inner.translate((0, 0, rib_height - neck_height / 2.0 + pegbox_depth / 2.0 - neck_height / 2.0))
+
+    pegbox = pegbox_outer.cut(pegbox_inner)
+
+    # Add Pegs
+    peg_y_start = length / 2.0 + neck_length + pegbox_thickness + peg_hole_radius + 5.0
+    pegs = None
+    for i in range(4):
+        peg_y = peg_y_start + i * peg_spacing
+        # Create a peg cylinder spanning across the pegbox (X axis)
+        peg = cq.Workplane("YZ").center(peg_y, rib_height - neck_height / 2.0 + pegbox_depth / 2.0 - neck_height / 2.0).circle(peg_hole_radius).extrude(pegbox_width + 20, both=True)
+        if pegs is None:
+            pegs = peg
+        else:
+            pegs = pegs.union(peg)
+
+    final_body = final_body.union(pegbox)
+    if pegs is not None:
+        final_body = final_body.union(pegs)
 
     # Add Fingerboard
     # Trapezoid from nut towards bridge
@@ -176,6 +202,12 @@ if __name__ == "__main__":
     parser.add_argument("--fingerboard_width_top", type=float, default=24.0, help="Width of the fingerboard near the nut")
     parser.add_argument("--fingerboard_width_bottom", type=float, default=42.0, help="Width of the fingerboard near the bridge")
     parser.add_argument("--fingerboard_thickness", type=float, default=5.0, help="Thickness of the fingerboard")
+    parser.add_argument("--pegbox_length", type=float, default=70.0, help="Length of the pegbox")
+    parser.add_argument("--pegbox_width", type=float, default=24.0, help="Width of the pegbox")
+    parser.add_argument("--pegbox_depth", type=float, default=20.0, help="Depth of the pegbox")
+    parser.add_argument("--pegbox_thickness", type=float, default=5.0, help="Wall thickness of the pegbox")
+    parser.add_argument("--peg_hole_radius", type=float, default=3.0, help="Radius of the peg holes")
+    parser.add_argument("--peg_spacing", type=float, default=15.0, help="Spacing between pegs")
     args = parser.parse_args()
 
     params = {
@@ -214,7 +246,13 @@ if __name__ == "__main__":
         "fingerboard_length": args.fingerboard_length,
         "fingerboard_width_top": args.fingerboard_width_top,
         "fingerboard_width_bottom": args.fingerboard_width_bottom,
-        "fingerboard_thickness": args.fingerboard_thickness
+        "fingerboard_thickness": args.fingerboard_thickness,
+        "pegbox_length": args.pegbox_length,
+        "pegbox_width": args.pegbox_width,
+        "pegbox_depth": args.pegbox_depth,
+        "pegbox_thickness": args.pegbox_thickness,
+        "peg_hole_radius": args.peg_hole_radius,
+        "peg_spacing": args.peg_spacing
     }
 
     violin = create_violin_body(**params)
