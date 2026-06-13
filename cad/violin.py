@@ -160,6 +160,12 @@ if __name__ == "__main__":
 
     violin = create_violin_body(**params)
 
+    # Calculate volume and estimated mass
+    volume_mm3 = violin.val().Volume()
+    mass_g = volume_mm3 * 1.24e-3 # PLA density ~ 1.24 g/cm^3
+    params["volume_mm3"] = volume_mm3
+    params["mass_g"] = mass_g
+
     # Export to step
     cq.exporters.export(violin, "violin_body.step")
 

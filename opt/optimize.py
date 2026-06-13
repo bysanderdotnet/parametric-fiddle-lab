@@ -112,10 +112,8 @@ def objective(trial):
 
     # Simple fitness: squared error of A0 frequency from 290Hz, plus a small penalty for mass
     target_a0 = 290.0
-    freq_error = (a0_freq - target_a0) ** 2
-    mass_penalty = mass_g * 0.1
 
-    score = freq_error + mass_penalty
+    score = abs(a0_freq - target_a0) + (mass_g * 0.1)
     print(f"Result: A0={a0_freq:.1f}Hz, Mass={mass_g:.1f}g -> Score={score:.2f}")
 
     return score
