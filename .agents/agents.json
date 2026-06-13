@@ -204,6 +204,11 @@
       "title": "Add a saddle to the violin CAD model and optimization pipeline",
       "status": "done",
       "notes": "Add parametric saddle at the bottom of the violin body where the tailgut crosses"
+    },
+    {
+      "id": "F-038",
+      "title": "Add a scroll to the violin CAD model and optimization pipeline",
+      "status": "done"
     }
   ],
   "progress": [
@@ -456,6 +461,15 @@
       "verified": "pass (2026-06-13 11:34 UTC @ 5d4b842)",
       "blockers": "none",
       "commit": "5d4b842 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 12:42 UTC",
+      "title": "Add a scroll to the violin CAD model and optimization pipeline",
+      "done": "Added scroll radius and width parameters and cylinder geometry to cad/violin.py and opt/optimize.py. Verified pipeline builds successfully.",
+      "verified": "pass (2026-06-13 12:41 UTC @ 86e6210)",
+      "blockers": "none",
+      "feature": "F-038",
+      "commit": "86e6210 (+ uncommitted changes)"
     }
   ],
   "rules": [
