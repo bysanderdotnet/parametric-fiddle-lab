@@ -196,8 +196,14 @@
     {
       "id": "F-036",
       "title": "Add a nut to the violin CAD model and optimization pipeline",
-      "status": "in_progress",
+      "status": "done",
       "notes": "Add parametric nut between the pegbox and fingerboard"
+    },
+    {
+      "id": "F-037",
+      "title": "Add a saddle to the violin CAD model and optimization pipeline",
+      "status": "done",
+      "notes": "Add parametric saddle at the bottom of the violin body where the tailgut crosses"
     }
   ],
   "progress": [
@@ -442,6 +448,14 @@
       "verified": "pass (2026-06-13 09:14 UTC @ d7076eb)",
       "blockers": "none",
       "commit": "d7076eb (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 11:35 UTC",
+      "title": "Add a saddle to the violin CAD model and optimization pipeline",
+      "done": "Added saddle parameters and geometry to cad/violin.py and opt/optimize.py",
+      "verified": "pass (2026-06-13 11:34 UTC @ 5d4b842)",
+      "blockers": "none",
+      "commit": "5d4b842 (+ uncommitted changes)"
     }
   ],
   "rules": [
