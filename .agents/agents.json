@@ -219,6 +219,11 @@
       "id": "F-040",
       "title": "Add bridge mass reduction cutouts",
       "status": "done"
+    },
+    {
+      "id": "F-041",
+      "title": "Add bridge feet to the violin CAD model and optimization pipeline",
+      "status": "done"
     }
   ],
   "progress": [
@@ -488,6 +493,14 @@
       "verified": "pass (2026-06-13 13:19 UTC @ b8d326d)",
       "blockers": "none",
       "commit": "b8d326d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 15:15 UTC",
+      "title": "Add bridge feet parameters and geometry to CAD model",
+      "done": "Added bridge_foot_length and bridge_foot_height parameters to cad/violin.py, implemented cutout in the bridge base, and updated opt/optimize.py to include these new parameters.",
+      "verified": "pass (2026-06-13 15:13 UTC @ ee3eb35)",
+      "blockers": "none",
+      "commit": "ee3eb35 (+ uncommitted changes)"
     }
   ],
   "rules": [
