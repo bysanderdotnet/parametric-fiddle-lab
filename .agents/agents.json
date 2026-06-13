@@ -264,6 +264,11 @@
       "id": "F-049",
       "title": "maintenance: finish check consistency",
       "status": "done"
+    },
+    {
+      "id": "F-050",
+      "title": "Add a C-bout cutout to the violin CAD model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -589,6 +594,14 @@
       "verified": "pass (2026-06-13 21:20 UTC @ 78292fe)",
       "blockers": "none",
       "commit": "07c0ef6"
+    },
+    {
+      "date": "2026-06-13 22:26 UTC",
+      "title": "Added a C-bout cutout parameter to the violin CAD model and optimization pipeline.",
+      "done": "Integrated c_bout_cutout_radius parameter into CAD generator to smoothly indent the violin body waist. Included in optuna search space.",
+      "verified": "pass (2026-06-13 22:25 UTC @ 45d2bf9)",
+      "blockers": "none",
+      "commit": "45d2bf9 (+ uncommitted changes)"
     }
   ],
   "rules": [
