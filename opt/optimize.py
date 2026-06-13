@@ -23,6 +23,9 @@ def objective(trial):
     f_hole_length = trial.suggest_float("f_hole_length", 60.0, 90.0)
     f_hole_spacing = trial.suggest_float("f_hole_spacing", 60.0, 100.0)
     f_hole_width = trial.suggest_float("f_hole_width", 5.0, 12.0)
+    f_hole_profile = trial.suggest_categorical("f_hole_profile", ["slot", "classic"])
+    f_hole_top_radius = trial.suggest_float("f_hole_top_radius", 3.0, 6.0)
+    f_hole_bottom_radius = trial.suggest_float("f_hole_bottom_radius", 3.0, 6.0)
     neck_length = trial.suggest_float("neck_length", 110.0, 150.0)
     neck_width = trial.suggest_float("neck_width", 25.0, 40.0)
     neck_height = trial.suggest_float("neck_height", 15.0, 30.0)
@@ -97,6 +100,9 @@ def objective(trial):
         "--f_hole_length", str(f_hole_length),
         "--f_hole_spacing", str(f_hole_spacing),
         "--f_hole_width", str(f_hole_width),
+        "--f_hole_profile", str(f_hole_profile),
+        "--f_hole_top_radius", str(f_hole_top_radius),
+        "--f_hole_bottom_radius", str(f_hole_bottom_radius),
         "--neck_length", str(neck_length),
         "--neck_width", str(neck_width),
         "--neck_height", str(neck_height),
@@ -230,6 +236,9 @@ if __name__ == "__main__":
         "--f_hole_length", str(trial.params["f_hole_length"]),
         "--f_hole_spacing", str(trial.params["f_hole_spacing"]),
         "--f_hole_width", str(trial.params["f_hole_width"]),
+        "--f_hole_profile", str(trial.params["f_hole_profile"]),
+        "--f_hole_top_radius", str(trial.params["f_hole_top_radius"]),
+        "--f_hole_bottom_radius", str(trial.params["f_hole_bottom_radius"]),
         "--neck_length", str(trial.params["neck_length"]),
         "--neck_width", str(trial.params["neck_width"]),
         "--neck_height", str(trial.params["neck_height"]),

@@ -224,6 +224,11 @@
       "id": "F-041",
       "title": "Add bridge feet to the violin CAD model and optimization pipeline",
       "status": "done"
+    },
+    {
+      "id": "F-042",
+      "title": "Add soundholes (f-holes) custom profiles parameter to CAD model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -501,6 +506,14 @@
       "verified": "pass (2026-06-13 15:13 UTC @ ee3eb35)",
       "blockers": "none",
       "commit": "ee3eb35 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 16:32 UTC",
+      "title": "Add soundholes (f-holes) custom profiles parameter to CAD model",
+      "done": "Added f_hole_profile, f_hole_top_radius, and f_hole_bottom_radius arguments to cad/violin.py and opt/optimize.py. Support classic and slot modes.",
+      "verified": "pass (2026-06-13 16:31 UTC @ d420f41)",
+      "blockers": "none",
+      "commit": "d420f41 (+ uncommitted changes)"
     }
   ],
   "rules": [
