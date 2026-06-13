@@ -229,6 +229,16 @@
       "id": "F-042",
       "title": "Add soundholes (f-holes) custom profiles parameter to CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-043",
+      "title": "Add a fingerboard to the violin CAD model and optimization pipeline",
+      "status": "done"
+    },
+    {
+      "id": "F-044",
+      "title": "Add curved fingerboard parameter to CAD model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -514,6 +524,14 @@
       "verified": "pass (2026-06-13 16:31 UTC @ d420f41)",
       "blockers": "none",
       "commit": "d420f41 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 17:44 UTC",
+      "title": "Add curved fingerboard parameter to CAD model",
+      "done": "Added fingerboard_radius parameter to cad/violin.py and opt/optimize.py. Updated CAD logic to use a cylinder to intersect with the fingerboard to give it a curved top surface.",
+      "verified": "pass (2026-06-13 17:42 UTC @ 8b81bf7)",
+      "blockers": "none",
+      "commit": "8b81bf7 (+ uncommitted changes)"
     }
   ],
   "rules": [

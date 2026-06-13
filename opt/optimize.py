@@ -54,6 +54,7 @@ def objective(trial):
     fingerboard_width_top = trial.suggest_float("fingerboard_width_top", 22.0, 26.0)
     fingerboard_width_bottom = trial.suggest_float("fingerboard_width_bottom", 40.0, 44.0)
     fingerboard_thickness = trial.suggest_float("fingerboard_thickness", 4.0, 7.0)
+    fingerboard_radius = trial.suggest_float("fingerboard_radius", 30.0, 60.0)
     pegbox_length = trial.suggest_float("pegbox_length", 65.0, 75.0)
     pegbox_width = trial.suggest_float("pegbox_width", 22.0, 26.0)
     pegbox_depth = trial.suggest_float("pegbox_depth", 18.0, 22.0)
@@ -79,7 +80,7 @@ def objective(trial):
     print(f"        bb_l={bass_bar_length:.1f}, bb_w={bass_bar_width:.1f}, bb_h={bass_bar_height:.1f}, bb_x={bass_bar_x_offset:.1f}, bb_y={bass_bar_y_offset:.1f}")
     print(f"        tp_l={tailpiece_length:.1f}, tp_wt={tailpiece_width_top:.1f}, tp_wb={tailpiece_width_bottom:.1f}, tp_th={tailpiece_thickness:.1f}")
     print(f"        purfling_d={purfling_groove_depth:.1f}")
-    print(f"        fb_l={fingerboard_length:.1f}, fb_wt={fingerboard_width_top:.1f}, fb_wb={fingerboard_width_bottom:.1f}, fb_th={fingerboard_thickness:.1f}")
+    print(f"        fb_l={fingerboard_length:.1f}, fb_wt={fingerboard_width_top:.1f}, fb_wb={fingerboard_width_bottom:.1f}, fb_th={fingerboard_thickness:.1f}, fb_r={fingerboard_radius:.1f}")
     print(f"        nut_l={nut_length:.1f}, nut_w={nut_width:.1f}, nut_h={nut_height:.1f}")
     print(f"        saddle_l={saddle_length:.1f}, saddle_w={saddle_width:.1f}, saddle_h={saddle_height:.1f}")
     print(f"        scroll_r={scroll_radius:.1f}, scroll_w={scroll_width:.1f}")
@@ -131,6 +132,7 @@ def objective(trial):
         "--fingerboard_width_top", str(fingerboard_width_top),
         "--fingerboard_width_bottom", str(fingerboard_width_bottom),
         "--fingerboard_thickness", str(fingerboard_thickness),
+        "--fingerboard_radius", str(fingerboard_radius),
         "--pegbox_length", str(pegbox_length),
         "--pegbox_width", str(pegbox_width),
         "--pegbox_depth", str(pegbox_depth),
@@ -267,6 +269,7 @@ if __name__ == "__main__":
         "--fingerboard_width_top", str(trial.params["fingerboard_width_top"]),
         "--fingerboard_width_bottom", str(trial.params["fingerboard_width_bottom"]),
         "--fingerboard_thickness", str(trial.params["fingerboard_thickness"]),
+        "--fingerboard_radius", str(trial.params["fingerboard_radius"]),
         "--pegbox_length", str(trial.params["pegbox_length"]),
         "--pegbox_width", str(trial.params["pegbox_width"]),
         "--pegbox_depth", str(trial.params["pegbox_depth"]),

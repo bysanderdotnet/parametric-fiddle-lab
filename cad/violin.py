@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, f_hole_profile="slot", f_hole_top_radius=4.0, f_hole_bottom_radius=5.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, bridge_radius=20.0, bridge_cutout_radius=5.0, bridge_cutout_y_offset=10.0, bridge_foot_length=10.0, bridge_foot_height=5.0, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, f_hole_profile="slot", f_hole_top_radius=4.0, f_hole_bottom_radius=5.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, bridge_radius=20.0, bridge_cutout_radius=5.0, bridge_cutout_y_offset=10.0, bridge_foot_length=10.0, bridge_foot_height=5.0, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, fingerboard_radius=42.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -144,7 +144,21 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
         (fingerboard_width_bottom / 2.0, nut_y - fingerboard_length),
         (-fingerboard_width_bottom / 2.0, nut_y - fingerboard_length)
     ]
-    fingerboard = cq.Workplane("XY").polyline(fb_pts).close().extrude(fingerboard_thickness)
+    fingerboard_base = cq.Workplane("XY").polyline(fb_pts).close().extrude(fingerboard_thickness)
+
+    # Create cylinder for curved top
+    # Cylinder length is fingerboard_length (along Y). Radius is fingerboard_radius.
+    fb_top_cyl_solid = cq.Solid.makeCylinder(
+        fingerboard_radius,
+        fingerboard_length,
+        cq.Vector(0, nut_y, fingerboard_thickness - fingerboard_radius),
+        cq.Vector(0, -1, 0)
+    )
+    fb_top_cyl = cq.Workplane("XY").add(fb_top_cyl_solid)
+
+    # Intersect to get curved top
+    fingerboard = fingerboard_base.intersect(fb_top_cyl)
+
     fingerboard = fingerboard.translate((0, 0, rib_height))
     final_body = final_body.union(fingerboard)
 
@@ -277,6 +291,7 @@ if __name__ == "__main__":
     parser.add_argument("--fingerboard_width_top", type=float, default=24.0, help="Width of the fingerboard near the nut")
     parser.add_argument("--fingerboard_width_bottom", type=float, default=42.0, help="Width of the fingerboard near the bridge")
     parser.add_argument("--fingerboard_thickness", type=float, default=5.0, help="Thickness of the fingerboard")
+    parser.add_argument("--fingerboard_radius", type=float, default=42.0, help="Radius of the fingerboard curvature")
     parser.add_argument("--pegbox_length", type=float, default=70.0, help="Length of the pegbox")
     parser.add_argument("--pegbox_width", type=float, default=24.0, help="Width of the pegbox")
     parser.add_argument("--pegbox_depth", type=float, default=20.0, help="Depth of the pegbox")
@@ -340,6 +355,7 @@ if __name__ == "__main__":
         "fingerboard_width_top": args.fingerboard_width_top,
         "fingerboard_width_bottom": args.fingerboard_width_bottom,
         "fingerboard_thickness": args.fingerboard_thickness,
+        "fingerboard_radius": args.fingerboard_radius,
         "pegbox_length": args.pegbox_length,
         "pegbox_width": args.pegbox_width,
         "pegbox_depth": args.pegbox_depth,
