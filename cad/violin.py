@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, endpin_length=20.0, endpin_radius=4.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -131,6 +131,12 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     final_body = final_body.union(bass_bar_full)
 
+    # Add Endpin
+    # Protruding from the bottom of the violin (y = -length/2)
+    endpin = cq.Workplane("XZ").center(0, rib_height / 2.0).circle(endpin_radius).extrude(endpin_length, both=True)
+    endpin = endpin.translate((0, -length / 2.0, 0))
+    final_body = final_body.union(endpin)
+
     # Add Tailpiece
     # A simple trapezoidal shape from Y = -length/2.0 towards the bridge
     tp_pts = [
@@ -208,6 +214,8 @@ if __name__ == "__main__":
     parser.add_argument("--pegbox_thickness", type=float, default=5.0, help="Wall thickness of the pegbox")
     parser.add_argument("--peg_hole_radius", type=float, default=3.0, help="Radius of the peg holes")
     parser.add_argument("--peg_spacing", type=float, default=15.0, help="Spacing between pegs")
+    parser.add_argument("--endpin_length", type=float, default=20.0, help="Length of the endpin")
+    parser.add_argument("--endpin_radius", type=float, default=4.0, help="Radius of the endpin")
     args = parser.parse_args()
 
     params = {
@@ -252,7 +260,9 @@ if __name__ == "__main__":
         "pegbox_depth": args.pegbox_depth,
         "pegbox_thickness": args.pegbox_thickness,
         "peg_hole_radius": args.peg_hole_radius,
-        "peg_spacing": args.peg_spacing
+        "peg_spacing": args.peg_spacing,
+        "endpin_length": args.endpin_length,
+        "endpin_radius": args.endpin_radius
     }
 
     violin = create_violin_body(**params)
