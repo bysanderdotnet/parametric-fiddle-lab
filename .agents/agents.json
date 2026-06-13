@@ -157,6 +157,11 @@
       "id": "F-028",
       "title": "Extract top and back plate thickness from optimize.py and include them in fitness score",
       "status": "done"
+    },
+    {
+      "id": "F-029",
+      "title": "Add a tailpiece to the violin",
+      "status": "done"
     }
   ],
   "progress": [

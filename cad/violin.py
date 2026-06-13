@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5):
     """
     Generate a simplified parametric violin body.
     """
@@ -94,6 +94,20 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     final_body = final_body.union(bass_bar_full)
 
+    # Add Tailpiece
+    # A simple trapezoidal shape from Y = -length/2.0 towards the bridge
+    tp_pts = [
+        (-tailpiece_width_bottom / 2.0, 0),
+        (tailpiece_width_bottom / 2.0, 0),
+        (tailpiece_width_top / 2.0, tailpiece_length),
+        (-tailpiece_width_top / 2.0, tailpiece_length)
+    ]
+    tailpiece = cq.Workplane("XY").polyline(tp_pts).close().extrude(tailpiece_thickness)
+    # Translate so the wide part is near the bridge, narrow part near bottom
+    tailpiece = tailpiece.translate((0, -length / 2.0, rib_height + top_arch_height))
+
+    final_body = final_body.union(tailpiece)
+
     return final_body
 
 import argparse
@@ -127,6 +141,10 @@ if __name__ == "__main__":
     parser.add_argument("--bass_bar_height", type=float, default=10, help="Height of the bass bar")
     parser.add_argument("--bass_bar_x_offset", type=float, default=-15, help="X offset of the bass bar")
     parser.add_argument("--bass_bar_y_offset", type=float, default=0, help="Y offset of the bass bar")
+    parser.add_argument("--tailpiece_length", type=float, default=110, help="Length of the tailpiece")
+    parser.add_argument("--tailpiece_width_top", type=float, default=40, help="Width of the tailpiece near bridge")
+    parser.add_argument("--tailpiece_width_bottom", type=float, default=20, help="Width of the tailpiece near saddle")
+    parser.add_argument("--tailpiece_thickness", type=float, default=5, help="Thickness of the tailpiece")
     args = parser.parse_args()
 
     params = {
@@ -155,7 +173,11 @@ if __name__ == "__main__":
         "bass_bar_width": args.bass_bar_width,
         "bass_bar_height": args.bass_bar_height,
         "bass_bar_x_offset": args.bass_bar_x_offset,
-        "bass_bar_y_offset": args.bass_bar_y_offset
+        "bass_bar_y_offset": args.bass_bar_y_offset,
+        "tailpiece_length": args.tailpiece_length,
+        "tailpiece_width_top": args.tailpiece_width_top,
+        "tailpiece_width_bottom": args.tailpiece_width_bottom,
+        "tailpiece_thickness": args.tailpiece_thickness
     }
 
     violin = create_violin_body(**params)
