@@ -187,6 +187,11 @@
       "id": "F-034",
       "title": "Add a pegbox and pegs to the violin CAD model and optimization pipeline",
       "status": "done"
+    },
+    {
+      "id": "F-035",
+      "title": "Add an endpin to the violin CAD model and optimization pipeline",
+      "status": "done"
     }
   ],
   "progress": [
@@ -423,6 +428,14 @@
       "verified": "pass (2026-06-13 08:18 UTC @ cd11b38)",
       "blockers": "none",
       "commit": "cd11b38 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 09:16 UTC",
+      "title": "Add an endpin to the violin CAD model and optimization pipeline",
+      "done": "Updated cad/violin.py and opt/optimize.py with endpin parameters.",
+      "verified": "pass (2026-06-13 09:14 UTC @ d7076eb)",
+      "blockers": "none",
+      "commit": "d7076eb (+ uncommitted changes)"
     }
   ],
   "rules": [
