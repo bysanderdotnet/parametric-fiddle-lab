@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -106,6 +106,20 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     final_body = final_body.union(tailpiece)
 
+    if purfling_groove_depth > 0:
+        # A simple purfling groove around the perimeter of the top plate.
+        purfling_cutter = cq.Workplane("XY").polyline(pts).close().offset2D(-2.0).extrude(1000).translate((0, 0, -500))
+        inner_cutter = cq.Workplane("XY").polyline(pts).close().offset2D(-3.0).extrude(1000).translate((0, 0, -500))
+        purfling_wall = purfling_cutter.cut(inner_cutter)
+
+        # Now bound it to only cut the top plate by purfling_groove_depth.
+        # The top surface maxes out at rib_height + top_arch_height.
+        z_cut_start = rib_height + top_arch_height - purfling_groove_depth
+        top_bounding_box = cq.Workplane("XY").box(1000, 1000, 1000).translate((0, 0, z_cut_start + 500))
+        purfling_tool = purfling_wall.intersect(top_bounding_box)
+
+        final_body = final_body.cut(purfling_tool)
+
     return final_body
 
 import argparse
@@ -144,6 +158,7 @@ if __name__ == "__main__":
     parser.add_argument("--tailpiece_width_top", type=float, default=40, help="Width of the tailpiece near bridge")
     parser.add_argument("--tailpiece_width_bottom", type=float, default=20, help="Width of the tailpiece near saddle")
     parser.add_argument("--tailpiece_thickness", type=float, default=5, help="Thickness of the tailpiece")
+    parser.add_argument("--purfling_groove_depth", type=float, default=1.0, help="Depth of the purfling groove")
     args = parser.parse_args()
 
     params = {
@@ -177,7 +192,8 @@ if __name__ == "__main__":
         "tailpiece_length": args.tailpiece_length,
         "tailpiece_width_top": args.tailpiece_width_top,
         "tailpiece_width_bottom": args.tailpiece_width_bottom,
-        "tailpiece_thickness": args.tailpiece_thickness
+        "tailpiece_thickness": args.tailpiece_thickness,
+        "purfling_groove_depth": args.purfling_groove_depth
     }
 
     violin = create_violin_body(**params)
