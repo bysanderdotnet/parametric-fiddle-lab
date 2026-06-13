@@ -209,6 +209,11 @@
       "id": "F-038",
       "title": "Add a scroll to the violin CAD model and optimization pipeline",
       "status": "done"
+    },
+    {
+      "id": "F-039",
+      "title": "Add bridge curvature parameters and geometry to the violin CAD model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -470,6 +475,14 @@
       "blockers": "none",
       "feature": "F-038",
       "commit": "86e6210 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 13:19 UTC",
+      "title": "Add bridge curvature parameter",
+      "done": "Added bridge radius parameter and modified the bridge generation in cad/violin.py to have a curved top surface. Passed the new parameter in opt/optimize.py",
+      "verified": "pass (2026-06-13 13:19 UTC @ b8d326d)",
+      "blockers": "none",
+      "commit": "b8d326d (+ uncommitted changes)"
     }
   ],
   "rules": [
