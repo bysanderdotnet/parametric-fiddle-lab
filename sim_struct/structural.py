@@ -133,6 +133,16 @@ def run_structural_sim(mesh_file):
 
     print(f"Running placeholder structural simulation on {mesh_file}...")
 
+    # Try to read real mass from JSON
+    mass_g = 380.0
+    try:
+        with open("violin_body.json", "r") as f:
+            v_params = json.load(f)
+            if "mass_g" in v_params:
+                mass_g = v_params["mass_g"]
+    except FileNotFoundError:
+        pass
+
     # Dummy results: eigenfrequencies (e.g. A0, C0, B1- like modes for a violin body)
     dummy_results = {
         "eigenmodes": [
@@ -141,7 +151,7 @@ def run_structural_sim(mesh_file):
             {"mode": 3, "frequency_hz": 530.0 + random.uniform(-20, 20), "description": "B1+ like"}
         ],
         "max_stress_mpa": 15.4,
-        "mass_g": 380.0
+        "mass_g": mass_g
     }
 
     # Output to a dummy result file

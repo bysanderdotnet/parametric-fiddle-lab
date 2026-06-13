@@ -142,6 +142,11 @@
       "id": "F-025",
       "title": "Add neck and bridge parameters to optimization script",
       "status": "done"
+    },
+    {
+      "id": "F-026",
+      "title": "Add a fitness function based on mass and A0 frequency",
+      "status": "done"
     }
   ],
   "progress": [
