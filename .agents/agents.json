@@ -137,6 +137,11 @@
       "id": "F-024",
       "title": "Update optimize.py to include arch_height and rib_height",
       "status": "done"
+    },
+    {
+      "id": "F-025",
+      "title": "Add neck and bridge parameters to optimization script",
+      "status": "done"
     }
   ],
   "progress": [
@@ -324,6 +329,15 @@
       "verified": "pass (2026-06-12 23:11 UTC @ b908ee2)",
       "blockers": "none",
       "commit": "b908ee2 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 00:12 UTC",
+      "title": "Added neck and bridge parameters to optimization",
+      "done": "Updated opt/optimize.py to include neck and bridge hyperparameters.",
+      "verified": "pass (2026-06-13 00:11 UTC @ 794c2d0)",
+      "next": "Optimize mass and volume",
+      "blockers": "none",
+      "commit": "794c2d0 (+ uncommitted changes)"
     }
   ],
   "rules": [
