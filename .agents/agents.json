@@ -152,6 +152,11 @@
       "id": "F-027",
       "title": "Optimize mass and volume",
       "status": "done"
+    },
+    {
+      "id": "F-028",
+      "title": "Extract top and back plate thickness from optimize.py and include them in fitness score",
+      "status": "done"
     }
   ],
   "progress": [
