@@ -54,6 +54,9 @@ def objective(trial):
     peg_spacing = trial.suggest_float("peg_spacing", 14.0, 16.0)
     endpin_length = trial.suggest_float("endpin_length", 15.0, 25.0)
     endpin_radius = trial.suggest_float("endpin_radius", 3.0, 6.0)
+    nut_length = trial.suggest_float("nut_length", 3.0, 8.0)
+    nut_width = trial.suggest_float("nut_width", 22.0, 26.0)
+    nut_height = trial.suggest_float("nut_height", 5.0, 10.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
     print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}, f_wid={f_hole_width:.1f}")
@@ -64,6 +67,7 @@ def objective(trial):
     print(f"        tp_l={tailpiece_length:.1f}, tp_wt={tailpiece_width_top:.1f}, tp_wb={tailpiece_width_bottom:.1f}, tp_th={tailpiece_thickness:.1f}")
     print(f"        purfling_d={purfling_groove_depth:.1f}")
     print(f"        fb_l={fingerboard_length:.1f}, fb_wt={fingerboard_width_top:.1f}, fb_wb={fingerboard_width_bottom:.1f}, fb_th={fingerboard_thickness:.1f}")
+    print(f"        nut_l={nut_length:.1f}, nut_w={nut_width:.1f}, nut_h={nut_height:.1f}")
 
     # 2. Generate CAD (STEP)
     subprocess.run([
@@ -111,7 +115,10 @@ def objective(trial):
         "--peg_hole_radius", str(peg_hole_radius),
         "--peg_spacing", str(peg_spacing),
         "--endpin_length", str(endpin_length),
-        "--endpin_radius", str(endpin_radius)
+        "--endpin_radius", str(endpin_radius),
+        "--nut_length", str(nut_length),
+        "--nut_width", str(nut_width),
+        "--nut_height", str(nut_height)
     ], check=True)
 
     # 3. Generate Mesh
@@ -231,7 +238,10 @@ if __name__ == "__main__":
         "--peg_hole_radius", str(trial.params["peg_hole_radius"]),
         "--peg_spacing", str(trial.params["peg_spacing"]),
         "--endpin_length", str(trial.params["endpin_length"]),
-        "--endpin_radius", str(trial.params["endpin_radius"])
+        "--endpin_radius", str(trial.params["endpin_radius"]),
+        "--nut_length", str(trial.params["nut_length"]),
+        "--nut_width", str(trial.params["nut_width"]),
+        "--nut_height", str(trial.params["nut_height"])
     ], check=True)
 
     # Slice Model

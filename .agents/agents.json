@@ -192,6 +192,12 @@
       "id": "F-035",
       "title": "Add an endpin to the violin CAD model and optimization pipeline",
       "status": "done"
+    },
+    {
+      "id": "F-036",
+      "title": "Add a nut to the violin CAD model and optimization pipeline",
+      "status": "in_progress",
+      "notes": "Add parametric nut between the pegbox and fingerboard"
     }
   ],
   "progress": [
