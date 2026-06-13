@@ -269,6 +269,11 @@
       "id": "F-050",
       "title": "Add a C-bout cutout to the violin CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-051",
+      "title": "Parametric sound holes (f-holes)",
+      "status": "done"
     }
   ],
   "progress": [
@@ -602,6 +607,15 @@
       "verified": "pass (2026-06-13 22:25 UTC @ 45d2bf9)",
       "blockers": "none",
       "commit": "45d2bf9 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 23:18 UTC",
+      "title": "Parametric sound holes (f-holes)",
+      "done": "Added f_hole_y_offset and f_hole_angle parameters to CAD model and optimization pipeline.",
+      "verified": "pass (2026-06-13 23:18 UTC @ 5c08db1)",
+      "blockers": "none",
+      "feature": "F-051",
+      "commit": "5c08db1 (+ uncommitted changes)"
     }
   ],
   "rules": [
