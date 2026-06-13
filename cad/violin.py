@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -71,6 +71,19 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     neck = neck.translate((0, 0, rib_height - neck_height / 2.0))
 
     final_body = body.union(neck)
+
+    # Add Fingerboard
+    # Trapezoid from nut towards bridge
+    nut_y = length / 2.0 + neck_length
+    fb_pts = [
+        (-fingerboard_width_top / 2.0, nut_y),
+        (fingerboard_width_top / 2.0, nut_y),
+        (fingerboard_width_bottom / 2.0, nut_y - fingerboard_length),
+        (-fingerboard_width_bottom / 2.0, nut_y - fingerboard_length)
+    ]
+    fingerboard = cq.Workplane("XY").polyline(fb_pts).close().extrude(fingerboard_thickness)
+    fingerboard = fingerboard.translate((0, 0, rib_height))
+    final_body = final_body.union(fingerboard)
 
     # Add Bridge
     bridge = cq.Workplane("XY").box(bridge_width, bridge_thickness, bridge_height)
@@ -159,6 +172,10 @@ if __name__ == "__main__":
     parser.add_argument("--tailpiece_width_bottom", type=float, default=20, help="Width of the tailpiece near saddle")
     parser.add_argument("--tailpiece_thickness", type=float, default=5, help="Thickness of the tailpiece")
     parser.add_argument("--purfling_groove_depth", type=float, default=1.0, help="Depth of the purfling groove")
+    parser.add_argument("--fingerboard_length", type=float, default=270.0, help="Length of the fingerboard")
+    parser.add_argument("--fingerboard_width_top", type=float, default=24.0, help="Width of the fingerboard near the nut")
+    parser.add_argument("--fingerboard_width_bottom", type=float, default=42.0, help="Width of the fingerboard near the bridge")
+    parser.add_argument("--fingerboard_thickness", type=float, default=5.0, help="Thickness of the fingerboard")
     args = parser.parse_args()
 
     params = {
@@ -193,7 +210,11 @@ if __name__ == "__main__":
         "tailpiece_width_top": args.tailpiece_width_top,
         "tailpiece_width_bottom": args.tailpiece_width_bottom,
         "tailpiece_thickness": args.tailpiece_thickness,
-        "purfling_groove_depth": args.purfling_groove_depth
+        "purfling_groove_depth": args.purfling_groove_depth,
+        "fingerboard_length": args.fingerboard_length,
+        "fingerboard_width_top": args.fingerboard_width_top,
+        "fingerboard_width_bottom": args.fingerboard_width_bottom,
+        "fingerboard_thickness": args.fingerboard_thickness
     }
 
     violin = create_violin_body(**params)
