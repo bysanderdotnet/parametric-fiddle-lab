@@ -244,6 +244,11 @@
       "id": "F-045",
       "title": "Add a parametric chinrest to the violin CAD model",
       "status": "done"
+    },
+    {
+      "id": "F-046",
+      "title": "Implement parametric fine tuners on the tailpiece",
+      "status": "done"
     }
   ],
   "progress": [
@@ -537,6 +542,14 @@
       "verified": "pass (2026-06-13 17:42 UTC @ 8b81bf7)",
       "blockers": "none",
       "commit": "8b81bf7 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 19:32 UTC",
+      "title": "Add parametric fine tuners to tailpiece",
+      "done": "Added fine_tuner_radius and fine_tuner_height parameters to cad/violin.py and opt/optimize.py. Updated CAD logic to generate 4 fine tuners on the tailpiece.",
+      "verified": "pass (2026-06-13 19:31 UTC @ cd91b74)",
+      "blockers": "none",
+      "commit": "cd91b74 (+ uncommitted changes)"
     }
   ],
   "rules": [
