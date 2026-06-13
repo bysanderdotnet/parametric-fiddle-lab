@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, bridge_radius=20.0, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -122,8 +122,15 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     final_body = final_body.union(fingerboard)
 
     # Add Bridge
-    bridge = cq.Workplane("XY").box(bridge_width, bridge_thickness, bridge_height)
-    bridge = bridge.translate((0, 0, rib_height + top_arch_height + bridge_height / 2.0))
+    # Create base block
+    bridge_base = cq.Workplane("XY").box(bridge_width, bridge_thickness, bridge_height)
+    bridge_base = bridge_base.translate((0, 0, rib_height + top_arch_height + bridge_height / 2.0))
+    # Create cylinder for curved top
+    # Cylinder length is bridge_thickness (along Y). Radius is bridge_radius.
+    bridge_top_cyl_solid = cq.Solid.makeCylinder(bridge_radius, bridge_thickness, cq.Vector(0, -bridge_thickness/2.0, rib_height + top_arch_height + bridge_height - bridge_radius), cq.Vector(0, 1, 0))
+    bridge_top_cyl = cq.Workplane("XY").add(bridge_top_cyl_solid)
+    # Intersect to get curved top
+    bridge = bridge_base.intersect(bridge_top_cyl)
     final_body = final_body.union(bridge)
 
     # Add Soundpost (spanning the cavity)
@@ -206,6 +213,7 @@ if __name__ == "__main__":
     parser.add_argument("--bridge_width", type=float, default=40, help="Width of the bridge")
     parser.add_argument("--bridge_height", type=float, default=30, help="Height of the bridge")
     parser.add_argument("--bridge_thickness", type=float, default=5, help="Thickness of the bridge")
+    parser.add_argument("--bridge_radius", type=float, default=20.0, help="Radius of the bridge top curvature")
     parser.add_argument("--soundpost_radius", type=float, default=3, help="Radius of the soundpost")
     parser.add_argument("--soundpost_x_offset", type=float, default=15, help="X offset of the soundpost")
     parser.add_argument("--soundpost_y_offset", type=float, default=-15, help="Y offset of the soundpost")
@@ -261,6 +269,7 @@ if __name__ == "__main__":
         "bridge_width": args.bridge_width,
         "bridge_height": args.bridge_height,
         "bridge_thickness": args.bridge_thickness,
+        "bridge_radius": args.bridge_radius,
         "soundpost_radius": args.soundpost_radius,
         "soundpost_x_offset": args.soundpost_x_offset,
         "soundpost_y_offset": args.soundpost_y_offset,
