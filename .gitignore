@@ -66,3 +66,5 @@ elmer_mesh/
 acoustic_results.json
 case_acoustic.sif
 elmer_mesh_acoustic/
+profiles/*
+!profiles/.gitkeep
