@@ -88,14 +88,24 @@ def objective(trial):
     subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", mesh_file], check=True)
 
     # 6. Evaluate Objective
-    # We want to minimize some penalty. Let's say target A0 cavity mode is 290Hz and we want low mass.
+    # We want to minimize some penalty. Let's say target A0 cavity mode is 290Hz and we want low mass and volume.
 
     mass_g = 400.0 # Default if fail
+    volume_mm3 = 300000.0 # Default if fail
     a0_freq = 300.0
+
+    try:
+        with open("violin_body.json", "r") as f:
+            body_res = json.load(f)
+            mass_g = body_res.get("mass_g", mass_g)
+            volume_mm3 = body_res.get("volume_mm3", volume_mm3)
+    except FileNotFoundError:
+        print("Warning: violin_body.json not found")
 
     try:
         with open("structural_results.json", "r") as f:
             struct_res = json.load(f)
+            # fallback in case structural_results has updated mass
             mass_g = struct_res.get("mass_g", mass_g)
     except FileNotFoundError:
         print("Warning: structural_results.json not found")
@@ -110,11 +120,11 @@ def objective(trial):
     except FileNotFoundError:
         print("Warning: acoustic_results.json not found")
 
-    # Simple fitness: squared error of A0 frequency from 290Hz, plus a small penalty for mass
+    # Simple fitness: squared error of A0 frequency from 290Hz, plus a small penalty for mass and volume
     target_a0 = 290.0
 
-    score = abs(a0_freq - target_a0) + (mass_g * 0.1)
-    print(f"Result: A0={a0_freq:.1f}Hz, Mass={mass_g:.1f}g -> Score={score:.2f}")
+    score = abs(a0_freq - target_a0) + (mass_g * 0.1) + (volume_mm3 * 1e-4)
+    print(f"Result: A0={a0_freq:.1f}Hz, Mass={mass_g:.1f}g, Volume={volume_mm3:.1f}mm3 -> Score={score:.2f}")
 
     return score
 
