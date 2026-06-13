@@ -1,6 +1,6 @@
 import cadquery as cq
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5):
     """
     Generate a simplified parametric violin body.
     """
@@ -57,8 +57,6 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     body = total_volume.cut(cavity_volume)
 
     # Add F-holes
-    f_hole_width = 8.0 # typical simplified f-hole width
-
     f_holes_tool = cq.Workplane("XY").pushPoints([
         (f_hole_spacing / 2.0, 0),
         (-f_hole_spacing / 2.0, 0)
@@ -127,6 +125,7 @@ if __name__ == "__main__":
     parser.add_argument("--rib_height", type=float, default=30, help="Height of the ribs")
     parser.add_argument("--f_hole_length", type=float, default=70, help="Length of the F-holes")
     parser.add_argument("--f_hole_spacing", type=float, default=80, help="Spacing between the F-holes")
+    parser.add_argument("--f_hole_width", type=float, default=8.0, help="Width of the F-holes")
     parser.add_argument("--neck_length", type=float, default=130, help="Length of the neck")
     parser.add_argument("--neck_width", type=float, default=30, help="Width of the neck")
     parser.add_argument("--neck_height", type=float, default=20, help="Height/thickness of the neck")
@@ -160,6 +159,7 @@ if __name__ == "__main__":
         "rib_height": args.rib_height,
         "f_hole_length": args.f_hole_length,
         "f_hole_spacing": args.f_hole_spacing,
+        "f_hole_width": args.f_hole_width,
         "neck_length": args.neck_length,
         "neck_width": args.neck_width,
         "neck_height": args.neck_height,

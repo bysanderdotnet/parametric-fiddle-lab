@@ -162,6 +162,16 @@
       "id": "F-029",
       "title": "Add a tailpiece to the violin",
       "status": "done"
+    },
+    {
+      "id": "F-030",
+      "title": "Add soundpost parameters to optimization",
+      "status": "done"
+    },
+    {
+      "id": "F-031",
+      "title": "Add f_hole_width parameter",
+      "status": "done"
     }
   ],
   "progress": [
@@ -366,6 +376,14 @@
       "verified": "pass (2026-06-13 02:11 UTC @ ab63c75)",
       "blockers": "none",
       "commit": "ab63c75 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 05:24 UTC",
+      "title": "Add f_hole_width parameter to optimization",
+      "done": "Updated cad/violin.py and opt/optimize.py to parameterize and optimize f-hole width.",
+      "verified": "pass (2026-06-13 05:22 UTC @ 59db20b)",
+      "blockers": "none",
+      "commit": "59db20b (+ uncommitted changes)"
     }
   ],
   "rules": [
