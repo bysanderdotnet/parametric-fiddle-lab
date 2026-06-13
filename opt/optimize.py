@@ -36,6 +36,10 @@ def objective(trial):
     bass_bar_height = trial.suggest_float("bass_bar_height", 5.0, 15.0)
     bass_bar_x_offset = trial.suggest_float("bass_bar_x_offset", -25.0, -5.0)
     bass_bar_y_offset = trial.suggest_float("bass_bar_y_offset", -20.0, 20.0)
+    tailpiece_length = trial.suggest_float("tailpiece_length", 100.0, 120.0)
+    tailpiece_width_top = trial.suggest_float("tailpiece_width_top", 30.0, 45.0)
+    tailpiece_width_bottom = trial.suggest_float("tailpiece_width_bottom", 15.0, 25.0)
+    tailpiece_thickness = trial.suggest_float("tailpiece_thickness", 3.0, 8.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
     print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}")
@@ -43,6 +47,7 @@ def objective(trial):
     print(f"        br_w={bridge_width:.1f}, br_h={bridge_height:.1f}, br_t={bridge_thickness:.1f}")
     print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
     print(f"        bb_l={bass_bar_length:.1f}, bb_w={bass_bar_width:.1f}, bb_h={bass_bar_height:.1f}, bb_x={bass_bar_x_offset:.1f}, bb_y={bass_bar_y_offset:.1f}")
+    print(f"        tp_l={tailpiece_length:.1f}, tp_wt={tailpiece_width_top:.1f}, tp_wb={tailpiece_width_bottom:.1f}, tp_th={tailpiece_thickness:.1f}")
 
     # 2. Generate CAD (STEP)
     subprocess.run([
@@ -72,7 +77,11 @@ def objective(trial):
         "--bass_bar_width", str(bass_bar_width),
         "--bass_bar_height", str(bass_bar_height),
         "--bass_bar_x_offset", str(bass_bar_x_offset),
-        "--bass_bar_y_offset", str(bass_bar_y_offset)
+        "--bass_bar_y_offset", str(bass_bar_y_offset),
+        "--tailpiece_length", str(tailpiece_length),
+        "--tailpiece_width_top", str(tailpiece_width_top),
+        "--tailpiece_width_bottom", str(tailpiece_width_bottom),
+        "--tailpiece_thickness", str(tailpiece_thickness)
     ], check=True)
 
     # 3. Generate Mesh
@@ -174,7 +183,11 @@ if __name__ == "__main__":
         "--bass_bar_width", str(trial.params["bass_bar_width"]),
         "--bass_bar_height", str(trial.params["bass_bar_height"]),
         "--bass_bar_x_offset", str(trial.params["bass_bar_x_offset"]),
-        "--bass_bar_y_offset", str(trial.params["bass_bar_y_offset"])
+        "--bass_bar_y_offset", str(trial.params["bass_bar_y_offset"]),
+        "--tailpiece_length", str(trial.params["tailpiece_length"]),
+        "--tailpiece_width_top", str(trial.params["tailpiece_width_top"]),
+        "--tailpiece_width_bottom", str(trial.params["tailpiece_width_bottom"]),
+        "--tailpiece_thickness", str(trial.params["tailpiece_thickness"])
     ], check=True)
 
     # Slice Model
