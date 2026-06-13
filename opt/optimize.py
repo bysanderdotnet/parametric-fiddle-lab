@@ -26,6 +26,8 @@ def objective(trial):
     f_hole_profile = trial.suggest_categorical("f_hole_profile", ["slot", "classic"])
     f_hole_top_radius = trial.suggest_float("f_hole_top_radius", 3.0, 6.0)
     f_hole_bottom_radius = trial.suggest_float("f_hole_bottom_radius", 3.0, 6.0)
+    f_hole_y_offset = trial.suggest_float("f_hole_y_offset", -20.0, 20.0)
+    f_hole_angle = trial.suggest_float("f_hole_angle", 75.0, 105.0)
     neck_length = trial.suggest_float("neck_length", 110.0, 150.0)
     neck_width = trial.suggest_float("neck_width", 25.0, 40.0)
     neck_height = trial.suggest_float("neck_height", 15.0, 30.0)
@@ -81,7 +83,7 @@ def objective(trial):
     c_bout_cutout_radius = trial.suggest_float("c_bout_cutout_radius", 30.0, 60.0)
 
     print(f"\n--- Starting Trial {trial.number} ---")
-    print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}, f_wid={f_hole_width:.1f}")
+    print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}, f_wid={f_hole_width:.1f}, f_y_off={f_hole_y_offset:.1f}, f_ang={f_hole_angle:.1f}")
     print(f"        neck_l={neck_length:.1f}, neck_w={neck_width:.1f}, neck_h={neck_height:.1f}")
     print(f"        br_w={bridge_width:.1f}, br_h={bridge_height:.1f}, br_t={bridge_thickness:.1f}, br_r={bridge_radius:.1f}")
     print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
@@ -114,6 +116,8 @@ def objective(trial):
         "--f_hole_profile", str(f_hole_profile),
         "--f_hole_top_radius", str(f_hole_top_radius),
         "--f_hole_bottom_radius", str(f_hole_bottom_radius),
+        "--f_hole_y_offset", str(f_hole_y_offset),
+        "--f_hole_angle", str(f_hole_angle),
         "--neck_length", str(neck_length),
         "--neck_width", str(neck_width),
         "--neck_height", str(neck_height),
@@ -259,6 +263,8 @@ if __name__ == "__main__":
         "--f_hole_profile", str(trial.params["f_hole_profile"]),
         "--f_hole_top_radius", str(trial.params["f_hole_top_radius"]),
         "--f_hole_bottom_radius", str(trial.params["f_hole_bottom_radius"]),
+        "--f_hole_y_offset", str(trial.params["f_hole_y_offset"]),
+        "--f_hole_angle", str(trial.params["f_hole_angle"]),
         "--neck_length", str(trial.params["neck_length"]),
         "--neck_width", str(trial.params["neck_width"]),
         "--neck_height", str(trial.params["neck_height"]),

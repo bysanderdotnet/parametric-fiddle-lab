@@ -1,6 +1,7 @@
 import cadquery as cq
+import math
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, f_hole_profile="slot", f_hole_top_radius=4.0, f_hole_bottom_radius=5.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, bridge_radius=20.0, bridge_cutout_radius=5.0, bridge_cutout_y_offset=10.0, bridge_foot_length=10.0, bridge_foot_height=5.0, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, fingerboard_radius=42.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0, chinrest_x_offset=-40.0, chinrest_y_offset=-140.0, chinrest_width=80.0, chinrest_length=50.0, chinrest_height=15.0, fine_tuner_radius=2.0, fine_tuner_height=8.0, chinrest_cutout_radius=64.0, chinrest_cutout_depth=5.0, c_bout_cutout_radius=40.0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, f_hole_profile="slot", f_hole_top_radius=4.0, f_hole_bottom_radius=5.0, f_hole_y_offset=0.0, f_hole_angle=90.0, neck_length=130, neck_width=30, neck_height=20, bridge_width=40, bridge_height=30, bridge_thickness=5, bridge_radius=20.0, bridge_cutout_radius=5.0, bridge_cutout_y_offset=10.0, bridge_foot_length=10.0, bridge_foot_height=5.0, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, fingerboard_radius=42.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0, chinrest_x_offset=-40.0, chinrest_y_offset=-140.0, chinrest_width=80.0, chinrest_length=50.0, chinrest_height=15.0, fine_tuner_radius=2.0, fine_tuner_height=8.0, chinrest_cutout_radius=64.0, chinrest_cutout_depth=5.0, c_bout_cutout_radius=40.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -71,35 +72,40 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     # Add F-holes
     if f_hole_profile == "slot":
         f_holes_tool = cq.Workplane("XY").pushPoints([
-            (f_hole_spacing / 2.0, 0),
-            (-f_hole_spacing / 2.0, 0)
-        ]).slot2D(f_hole_length, f_hole_width, 90).extrude(1000).translate((0, 0, -500))
+            (f_hole_spacing / 2.0, f_hole_y_offset),
+            (-f_hole_spacing / 2.0, f_hole_y_offset)
+        ]).slot2D(f_hole_length, f_hole_width, f_hole_angle).extrude(1000).translate((0, 0, -500))
     elif f_hole_profile == "classic":
+        # Calculate dx, dy offsets based on f_hole_angle (0 angle means horizontal slot, 90 means vertical)
+        angle_rad = math.radians(f_hole_angle)
+        dx = (f_hole_length * 0.4) * math.cos(angle_rad)
+        dy = (f_hole_length * 0.4) * math.sin(angle_rad)
+
         # Slot at 80% length
         f_holes_tool = cq.Workplane("XY").pushPoints([
-            (f_hole_spacing / 2.0, 0),
-            (-f_hole_spacing / 2.0, 0)
-        ]).slot2D(f_hole_length * 0.8, f_hole_width, 90)
+            (f_hole_spacing / 2.0, f_hole_y_offset),
+            (-f_hole_spacing / 2.0, f_hole_y_offset)
+        ]).slot2D(f_hole_length * 0.8, f_hole_width, f_hole_angle)
 
         # Add top circles
         f_holes_tool = f_holes_tool.pushPoints([
-            (f_hole_spacing / 2.0, f_hole_length * 0.4),
-            (-f_hole_spacing / 2.0, f_hole_length * 0.4)
+            (f_hole_spacing / 2.0 + dx, f_hole_y_offset + dy),
+            (-f_hole_spacing / 2.0 + dx, f_hole_y_offset + dy)
         ]).circle(f_hole_top_radius)
 
         # Add bottom circles
         f_holes_tool = f_holes_tool.pushPoints([
-            (f_hole_spacing / 2.0, -f_hole_length * 0.4),
-            (-f_hole_spacing / 2.0, -f_hole_length * 0.4)
+            (f_hole_spacing / 2.0 - dx, f_hole_y_offset - dy),
+            (-f_hole_spacing / 2.0 - dx, f_hole_y_offset - dy)
         ]).circle(f_hole_bottom_radius)
 
         f_holes_tool = f_holes_tool.extrude(1000).translate((0, 0, -500))
     else:
         # Fallback to slot
         f_holes_tool = cq.Workplane("XY").pushPoints([
-            (f_hole_spacing / 2.0, 0),
-            (-f_hole_spacing / 2.0, 0)
-        ]).slot2D(f_hole_length, f_hole_width, 90).extrude(1000).translate((0, 0, -500))
+            (f_hole_spacing / 2.0, f_hole_y_offset),
+            (-f_hole_spacing / 2.0, f_hole_y_offset)
+        ]).slot2D(f_hole_length, f_hole_width, f_hole_angle).extrude(1000).translate((0, 0, -500))
 
     # Cut f-holes only through the top part by intersecting the cutting tool with a box above rib_height/2
     f_holes_tool = f_holes_tool.intersect(cq.Workplane("XY").box(1000, 1000, 1000).translate((0, 0, 500 + rib_height/2)))
@@ -307,6 +313,8 @@ if __name__ == "__main__":
     parser.add_argument("--f_hole_profile", type=str, default="slot", help="Profile of the F-holes (slot or classic)")
     parser.add_argument("--f_hole_top_radius", type=float, default=4.0, help="Top radius of classic F-holes")
     parser.add_argument("--f_hole_bottom_radius", type=float, default=5.0, help="Bottom radius of classic F-holes")
+    parser.add_argument("--f_hole_y_offset", type=float, default=0.0, help="Y offset of the F-holes")
+    parser.add_argument("--f_hole_angle", type=float, default=90.0, help="Angle of the F-holes")
     parser.add_argument("--neck_length", type=float, default=130, help="Length of the neck")
     parser.add_argument("--neck_width", type=float, default=30, help="Width of the neck")
     parser.add_argument("--neck_height", type=float, default=20, help="Height/thickness of the neck")
@@ -381,6 +389,8 @@ if __name__ == "__main__":
         "f_hole_profile": args.f_hole_profile,
         "f_hole_top_radius": args.f_hole_top_radius,
         "f_hole_bottom_radius": args.f_hole_bottom_radius,
+        "f_hole_y_offset": args.f_hole_y_offset,
+        "f_hole_angle": args.f_hole_angle,
         "neck_length": args.neck_length,
         "neck_width": args.neck_width,
         "neck_height": args.neck_height,
