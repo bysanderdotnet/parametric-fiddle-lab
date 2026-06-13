@@ -249,6 +249,11 @@
       "id": "F-046",
       "title": "Implement parametric fine tuners on the tailpiece",
       "status": "done"
+    },
+    {
+      "id": "F-047",
+      "title": "Parametric chin rest ergonomics",
+      "status": "done"
     }
   ],
   "progress": [
@@ -550,6 +555,14 @@
       "verified": "pass (2026-06-13 19:31 UTC @ cd91b74)",
       "blockers": "none",
       "commit": "cd91b74 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-13 20:39 UTC",
+      "title": "Parametric chin rest ergonomics",
+      "done": "Made chin rest cutouts parametric",
+      "verified": "pass (2026-06-13 20:36 UTC @ 0761e95)",
+      "blockers": "none",
+      "commit": "0761e95 (+ uncommitted changes)"
     }
   ],
   "rules": [
