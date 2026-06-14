@@ -296,7 +296,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     final_body = final_body.union(chinrest)
 
-    return final_body
+    return final_body, bridge
 
 import argparse
 import json
@@ -460,13 +460,18 @@ if __name__ == "__main__":
         "c_bout_cutout_radius": args.c_bout_cutout_radius
     }
 
-    violin = create_violin_body(**params)
+    violin, bridge = create_violin_body(**params)
 
     # Calculate volume and estimated mass
     volume_mm3 = violin.val().Volume()
     mass_g = volume_mm3 * 1.24e-3 # PLA density ~ 1.24 g/cm^3
     params["volume_mm3"] = volume_mm3
     params["mass_g"] = mass_g
+
+    bridge_volume_mm3 = bridge.val().Volume()
+    bridge_mass_g = bridge_volume_mm3 * 1.24e-3
+    params["bridge_volume_mm3"] = bridge_volume_mm3
+    params["bridge_mass_g"] = bridge_mass_g
 
     # Export to step
     cq.exporters.export(violin, "violin_body.step")
