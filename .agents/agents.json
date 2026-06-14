@@ -325,6 +325,11 @@
       "id": "F-061",
       "title": "Add bridge width top and bottom",
       "status": "done"
+    },
+    {
+      "id": "F-062",
+      "title": "Parameterize purfling groove width and offset [F-062]",
+      "status": "done"
     }
   ],
   "progress": [

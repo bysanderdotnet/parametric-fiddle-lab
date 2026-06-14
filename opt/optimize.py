@@ -61,6 +61,8 @@ def objective(trial):
     tailpiece_width_bottom = trial.suggest_float("tailpiece_width_bottom", 15.0, 25.0)
     tailpiece_thickness = trial.suggest_float("tailpiece_thickness", 3.0, 8.0)
     purfling_groove_depth = trial.suggest_float("purfling_groove_depth", 0.5, 2.0)
+    purfling_groove_width = trial.suggest_float("purfling_groove_width", 0.5, 2.0)
+    purfling_groove_offset = trial.suggest_float("purfling_groove_offset", 1.0, 4.0)
     fingerboard_length = trial.suggest_float("fingerboard_length", 250.0, 290.0)
     fingerboard_width_top = trial.suggest_float("fingerboard_width_top", 22.0, 26.0)
     fingerboard_width_bottom = trial.suggest_float("fingerboard_width_bottom", 40.0, 44.0)
@@ -99,7 +101,7 @@ def objective(trial):
     print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
     print(f"        bb_l={bass_bar_length:.1f}, bb_w={bass_bar_width:.1f}, bb_h={bass_bar_height:.1f}, bb_x={bass_bar_x_offset:.1f}, bb_y={bass_bar_y_offset:.1f}")
     print(f"        tp_l={tailpiece_length:.1f}, tp_wt={tailpiece_width_top:.1f}, tp_wb={tailpiece_width_bottom:.1f}, tp_th={tailpiece_thickness:.1f}")
-    print(f"        purfling_d={purfling_groove_depth:.1f}")
+    print(f"        purfling_d={purfling_groove_depth:.1f}, purfling_w={purfling_groove_width:.1f}, purfling_off={purfling_groove_offset:.1f}")
     print(f"        fb_l={fingerboard_length:.1f}, fb_wt={fingerboard_width_top:.1f}, fb_wb={fingerboard_width_bottom:.1f}, fb_th={fingerboard_thickness:.1f}, fb_r={fingerboard_radius:.1f}")
     print(f"        nut_l={nut_length:.1f}, nut_w={nut_width:.1f}, nut_h={nut_height:.1f}")
     print(f"        saddle_l={saddle_length:.1f}, saddle_w={saddle_width:.1f}, saddle_h={saddle_height:.1f}")
@@ -161,6 +163,8 @@ def objective(trial):
         "--tailpiece_width_bottom", str(tailpiece_width_bottom),
         "--tailpiece_thickness", str(tailpiece_thickness),
         "--purfling_groove_depth", str(purfling_groove_depth),
+        "--purfling_groove_width", str(purfling_groove_width),
+        "--purfling_groove_offset", str(purfling_groove_offset),
         "--fingerboard_length", str(fingerboard_length),
         "--fingerboard_width_top", str(fingerboard_width_top),
         "--fingerboard_width_bottom", str(fingerboard_width_bottom),
@@ -320,6 +324,8 @@ if __name__ == "__main__":
         "--tailpiece_width_bottom", str(trial.params["tailpiece_width_bottom"]),
         "--tailpiece_thickness", str(trial.params["tailpiece_thickness"]),
         "--purfling_groove_depth", str(trial.params["purfling_groove_depth"]),
+        "--purfling_groove_width", str(trial.params["purfling_groove_width"]),
+        "--purfling_groove_offset", str(trial.params["purfling_groove_offset"]),
         "--fingerboard_length", str(trial.params["fingerboard_length"]),
         "--fingerboard_width_top", str(trial.params["fingerboard_width_top"]),
         "--fingerboard_width_bottom", str(trial.params["fingerboard_width_bottom"]),
