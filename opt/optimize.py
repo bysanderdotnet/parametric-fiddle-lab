@@ -35,6 +35,8 @@ def objective(trial):
     bridge_height = trial.suggest_float("bridge_height", 20.0, 40.0)
     bridge_thickness = trial.suggest_float("bridge_thickness", 3.0, 8.0)
     bridge_radius = trial.suggest_float("bridge_radius", 15.0, 40.0)
+    bridge_inner_curve_radius = trial.suggest_float("bridge_inner_curve_radius", 5.0, 15.0)
+    bridge_side_cutout_radius = trial.suggest_float("bridge_side_cutout_radius", 3.0, 10.0)
     bridge_cutout_radius = trial.suggest_float("bridge_cutout_radius", 2.0, 8.0)
     bridge_cutout_y_offset = trial.suggest_float("bridge_cutout_y_offset", 5.0, 20.0)
     bridge_foot_length = trial.suggest_float("bridge_foot_length", 5.0, 15.0)
@@ -85,7 +87,7 @@ def objective(trial):
     print(f"\n--- Starting Trial {trial.number} ---")
     print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}, f_wid={f_hole_width:.1f}, f_y_off={f_hole_y_offset:.1f}, f_ang={f_hole_angle:.1f}")
     print(f"        neck_l={neck_length:.1f}, neck_w={neck_width:.1f}, neck_h={neck_height:.1f}")
-    print(f"        br_w={bridge_width:.1f}, br_h={bridge_height:.1f}, br_t={bridge_thickness:.1f}, br_r={bridge_radius:.1f}")
+    print(f"        br_w={bridge_width:.1f}, br_h={bridge_height:.1f}, br_t={bridge_thickness:.1f}, br_r={bridge_radius:.1f}, br_inner_r={bridge_inner_curve_radius:.1f}, br_side_cut={bridge_side_cutout_radius:.1f}")
     print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
     print(f"        bb_l={bass_bar_length:.1f}, bb_w={bass_bar_width:.1f}, bb_h={bass_bar_height:.1f}, bb_x={bass_bar_x_offset:.1f}, bb_y={bass_bar_y_offset:.1f}")
     print(f"        tp_l={tailpiece_length:.1f}, tp_wt={tailpiece_width_top:.1f}, tp_wb={tailpiece_width_bottom:.1f}, tp_th={tailpiece_thickness:.1f}")
@@ -125,6 +127,8 @@ def objective(trial):
         "--bridge_height", str(bridge_height),
         "--bridge_thickness", str(bridge_thickness),
         "--bridge_radius", str(bridge_radius),
+        "--bridge_inner_curve_radius", str(bridge_inner_curve_radius),
+        "--bridge_side_cutout_radius", str(bridge_side_cutout_radius),
         "--bridge_cutout_radius", str(bridge_cutout_radius),
         "--bridge_cutout_y_offset", str(bridge_cutout_y_offset),
         "--bridge_foot_length", str(bridge_foot_length),
@@ -272,6 +276,8 @@ if __name__ == "__main__":
         "--bridge_height", str(trial.params["bridge_height"]),
         "--bridge_thickness", str(trial.params["bridge_thickness"]),
         "--bridge_radius", str(trial.params["bridge_radius"]),
+        "--bridge_inner_curve_radius", str(trial.params["bridge_inner_curve_radius"]),
+        "--bridge_side_cutout_radius", str(trial.params["bridge_side_cutout_radius"]),
         "--bridge_cutout_radius", str(trial.params["bridge_cutout_radius"]),
         "--bridge_cutout_y_offset", str(trial.params["bridge_cutout_y_offset"]),
         "--bridge_foot_length", str(trial.params["bridge_foot_length"]),
