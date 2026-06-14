@@ -95,6 +95,11 @@ def objective(trial):
     chinrest_cutout_radius = trial.suggest_float("chinrest_cutout_radius", 40.0, 80.0)
     chinrest_cutout_depth = trial.suggest_float("chinrest_cutout_depth", 2.0, 10.0)
     c_bout_cutout_radius = trial.suggest_float("c_bout_cutout_radius", 30.0, 60.0)
+    top_block_width = trial.suggest_float("top_block_width", 30.0, 60.0)
+    top_block_length = trial.suggest_float("top_block_length", 10.0, 30.0)
+    bottom_block_width = trial.suggest_float("bottom_block_width", 30.0, 60.0)
+    bottom_block_length = trial.suggest_float("bottom_block_length", 10.0, 30.0)
+
 
     print(f"\n--- Starting Trial {trial.number} ---")
     print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}, f_wid={f_hole_width:.1f}, f_y_off={f_hole_y_offset:.1f}, f_ang={f_hole_angle:.1f}")
@@ -109,7 +114,7 @@ def objective(trial):
     print(f"        saddle_l={saddle_length:.1f}, saddle_w={saddle_width:.1f}, saddle_h={saddle_height:.1f}")
     print(f"        scroll_r={scroll_radius:.1f}, scroll_w={scroll_width:.1f}")
     print(f"        chinrest_x={chinrest_x_offset:.1f}, chinrest_y={chinrest_y_offset:.1f}, chinrest_w={chinrest_width:.1f}, chinrest_l={chinrest_length:.1f}, chinrest_h={chinrest_height:.1f}")
-    print(f"        c_bout_cutout_r={c_bout_cutout_radius:.1f}")
+    print(f"        c_bout_cutout_r={c_bout_cutout_radius:.1f}, top_bw={top_block_width:.1f}, top_bl={top_block_length:.1f}, bot_bw={bottom_block_width:.1f}, bot_bl={bottom_block_length:.1f}")
 
     # 2. Generate CAD (STEP)
     subprocess.run([
@@ -198,7 +203,11 @@ def objective(trial):
         "--chinrest_height", str(chinrest_height),
         "--chinrest_cutout_radius", str(chinrest_cutout_radius),
         "--chinrest_cutout_depth", str(chinrest_cutout_depth),
-        "--c_bout_cutout_radius", str(c_bout_cutout_radius)
+        "--c_bout_cutout_radius", str(c_bout_cutout_radius),
+        "--top_block_width", str(top_block_width),
+        "--top_block_length", str(top_block_length),
+        "--bottom_block_width", str(bottom_block_width),
+        "--bottom_block_length", str(bottom_block_length)
     ], check=True)
 
     # 3. Generate Mesh
@@ -361,7 +370,11 @@ if __name__ == "__main__":
         "--chinrest_height", str(trial.params["chinrest_height"]),
         "--chinrest_cutout_radius", str(trial.params["chinrest_cutout_radius"]),
         "--chinrest_cutout_depth", str(trial.params["chinrest_cutout_depth"]),
-        "--c_bout_cutout_radius", str(trial.params["c_bout_cutout_radius"])
+        "--c_bout_cutout_radius", str(trial.params["c_bout_cutout_radius"]),
+        "--top_block_width", str(trial.params.get("top_block_width", 40.0)),
+        "--top_block_length", str(trial.params.get("top_block_length", 15.0)),
+        "--bottom_block_width", str(trial.params.get("bottom_block_width", 40.0)),
+        "--bottom_block_length", str(trial.params.get("bottom_block_length", 15.0))
     ], check=True)
 
     # Slice Model

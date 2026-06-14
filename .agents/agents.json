@@ -340,6 +340,11 @@
       "id": "F-064",
       "title": "Add bass bar angle parameter",
       "status": "done"
+    },
+    {
+      "id": "F-065",
+      "title": "Add top and bottom blocks to the violin CAD model and optimization pipeline",
+      "status": "done"
     }
   ],
   "progress": [
