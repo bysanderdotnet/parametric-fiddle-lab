@@ -40,6 +40,7 @@ def objective(trial):
     bridge_radius = trial.suggest_float("bridge_radius", 15.0, 40.0)
     bridge_inner_curve_radius = trial.suggest_float("bridge_inner_curve_radius", 5.0, 15.0)
     bridge_side_cutout_radius = trial.suggest_float("bridge_side_cutout_radius", 3.0, 10.0)
+    bridge_cutouts = trial.suggest_categorical("bridge_cutouts", [True, False])
     bridge_cutout_radius = trial.suggest_float("bridge_cutout_radius", 2.0, 8.0)
     bridge_cutout_y_offset = trial.suggest_float("bridge_cutout_y_offset", 5.0, 20.0)
     bridge_central_cutout_radius = trial.suggest_float("bridge_central_cutout_radius", 2.0, 8.0)
@@ -138,6 +139,7 @@ def objective(trial):
         "--bridge_radius", str(bridge_radius),
         "--bridge_inner_curve_radius", str(bridge_inner_curve_radius),
         "--bridge_side_cutout_radius", str(bridge_side_cutout_radius),
+        "--bridge_cutouts" if bridge_cutouts else "--no-bridge_cutouts",
         "--bridge_cutout_radius", str(bridge_cutout_radius),
         "--bridge_cutout_y_offset", str(bridge_cutout_y_offset),
         "--bridge_central_cutout_radius", str(bridge_central_cutout_radius),
@@ -295,6 +297,7 @@ if __name__ == "__main__":
         "--bridge_radius", str(trial.params["bridge_radius"]),
         "--bridge_inner_curve_radius", str(trial.params["bridge_inner_curve_radius"]),
         "--bridge_side_cutout_radius", str(trial.params["bridge_side_cutout_radius"]),
+        "--bridge_cutouts" if trial.params["bridge_cutouts"] else "--no-bridge_cutouts",
         "--bridge_cutout_radius", str(trial.params["bridge_cutout_radius"]),
         "--bridge_cutout_y_offset", str(trial.params["bridge_cutout_y_offset"]),
         "--bridge_central_cutout_radius", str(trial.params["bridge_central_cutout_radius"]),
