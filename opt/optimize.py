@@ -47,6 +47,7 @@ def objective(trial):
     bridge_central_cutout_radius = trial.suggest_float("bridge_central_cutout_radius", 2.0, 8.0)
     bridge_central_cutout_y_offset = trial.suggest_float("bridge_central_cutout_y_offset", 10.0, 25.0)
     bridge_foot_length = trial.suggest_float("bridge_foot_length", 5.0, 15.0)
+    bridge_foot_width = trial.suggest_float("bridge_foot_width", 3.0, 10.0)
     bridge_foot_height = trial.suggest_float("bridge_foot_height", 2.0, 10.0)
     soundpost_radius = trial.suggest_float("soundpost_radius", 2.0, 5.0)
     soundpost_x_offset = trial.suggest_float("soundpost_x_offset", 5.0, 25.0)
@@ -149,6 +150,7 @@ def objective(trial):
         "--bridge_central_cutout_radius", str(bridge_central_cutout_radius),
         "--bridge_central_cutout_y_offset", str(bridge_central_cutout_y_offset),
         "--bridge_foot_length", str(bridge_foot_length),
+        "--bridge_foot_width", str(bridge_foot_width),
         "--bridge_foot_height", str(bridge_foot_height),
         "--soundpost_radius", str(soundpost_radius),
         "--soundpost_x_offset", str(soundpost_x_offset),
@@ -310,6 +312,7 @@ if __name__ == "__main__":
         "--bridge_central_cutout_radius", str(trial.params["bridge_central_cutout_radius"]),
         "--bridge_central_cutout_y_offset", str(trial.params["bridge_central_cutout_y_offset"]),
         "--bridge_foot_length", str(trial.params["bridge_foot_length"]),
+        "--bridge_foot_width", str(trial.params["bridge_foot_width"]),
         "--bridge_foot_height", str(trial.params["bridge_foot_height"]),
         "--soundpost_radius", str(trial.params["soundpost_radius"]),
         "--soundpost_x_offset", str(trial.params["soundpost_x_offset"]),
