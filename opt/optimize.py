@@ -57,6 +57,7 @@ def objective(trial):
     bass_bar_height = trial.suggest_float("bass_bar_height", 5.0, 15.0)
     bass_bar_x_offset = trial.suggest_float("bass_bar_x_offset", -25.0, -5.0)
     bass_bar_y_offset = trial.suggest_float("bass_bar_y_offset", -20.0, 20.0)
+    bass_bar_angle = trial.suggest_float("bass_bar_angle", -15.0, 15.0)
     tailpiece_length = trial.suggest_float("tailpiece_length", 100.0, 120.0)
     tailpiece_width_top = trial.suggest_float("tailpiece_width_top", 30.0, 45.0)
     tailpiece_width_bottom = trial.suggest_float("tailpiece_width_bottom", 15.0, 25.0)
@@ -100,7 +101,7 @@ def objective(trial):
     print(f"        neck_l={neck_length:.1f}, neck_w={neck_width:.1f}, neck_h={neck_height:.1f}")
     print(f"        br_w_b={bridge_width_bottom:.1f}, br_w_t={bridge_width_top:.1f}, br_h={bridge_height:.1f}, br_t={bridge_thickness:.1f}, br_r={bridge_radius:.1f}, br_inner_r={bridge_inner_curve_radius:.1f}, br_side_cut={bridge_side_cutout_radius:.1f}")
     print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
-    print(f"        bb_l={bass_bar_length:.1f}, bb_w={bass_bar_width:.1f}, bb_h={bass_bar_height:.1f}, bb_x={bass_bar_x_offset:.1f}, bb_y={bass_bar_y_offset:.1f}")
+    print(f"        bb_l={bass_bar_length:.1f}, bb_w={bass_bar_width:.1f}, bb_h={bass_bar_height:.1f}, bb_x={bass_bar_x_offset:.1f}, bb_y={bass_bar_y_offset:.1f}, bb_a={bass_bar_angle:.1f}")
     print(f"        tp_l={tailpiece_length:.1f}, tp_wt={tailpiece_width_top:.1f}, tp_wb={tailpiece_width_bottom:.1f}, tp_th={tailpiece_thickness:.1f}")
     print(f"        purfling_d={purfling_groove_depth:.1f}, purfling_w={purfling_groove_width:.1f}, purfling_off={purfling_groove_offset:.1f}")
     print(f"        fb_l={fingerboard_length:.1f}, fb_wt={fingerboard_width_top:.1f}, fb_wb={fingerboard_width_bottom:.1f}, fb_th={fingerboard_thickness:.1f}, fb_r={fingerboard_radius:.1f}")
@@ -160,6 +161,7 @@ def objective(trial):
         "--bass_bar_height", str(bass_bar_height),
         "--bass_bar_x_offset", str(bass_bar_x_offset),
         "--bass_bar_y_offset", str(bass_bar_y_offset),
+        "--bass_bar_angle", str(bass_bar_angle),
         "--tailpiece_length", str(tailpiece_length),
         "--tailpiece_width_top", str(tailpiece_width_top),
         "--tailpiece_width_bottom", str(tailpiece_width_bottom),
@@ -322,6 +324,7 @@ if __name__ == "__main__":
         "--bass_bar_height", str(trial.params["bass_bar_height"]),
         "--bass_bar_x_offset", str(trial.params["bass_bar_x_offset"]),
         "--bass_bar_y_offset", str(trial.params["bass_bar_y_offset"]),
+        "--bass_bar_angle", str(trial.params["bass_bar_angle"]),
         "--tailpiece_length", str(trial.params["tailpiece_length"]),
         "--tailpiece_width_top", str(trial.params["tailpiece_width_top"]),
         "--tailpiece_width_bottom", str(trial.params["tailpiece_width_bottom"]),

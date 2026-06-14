@@ -335,6 +335,11 @@
       "id": "F-063",
       "title": "Add bridge foot width parameter",
       "status": "done"
+    },
+    {
+      "id": "F-064",
+      "title": "Add bass bar angle parameter",
+      "status": "done"
     }
   ],
   "progress": [
@@ -727,6 +732,14 @@
       "verified": "pass (2026-06-14 14:28 UTC @ a045211)",
       "blockers": "none",
       "commit": "a045211 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 15:43 UTC",
+      "title": "Add bass_bar_angle parameter",
+      "done": "Added bass_bar_angle parameter to allow tuning the bass bar rotation angle. Exposed the parameter to the CAD CLI and optimization pipeline.",
+      "verified": "pass (2026-06-14 15:42 UTC @ 55f81b9)",
+      "blockers": "none",
+      "commit": "55f81b9 (+ uncommitted changes)"
     }
   ],
   "rules": [
