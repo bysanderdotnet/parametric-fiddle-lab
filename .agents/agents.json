@@ -290,6 +290,11 @@
       "title": "Add bridge mass/volume calculation",
       "status": "done",
       "notes": "Calculate bridge mass and volume based on its geometry, output to violin_body.json similar to the body mass"
+    },
+    {
+      "id": "F-055",
+      "title": "Add neck angle parameter to CAD generator",
+      "status": "done"
     }
   ],
   "progress": [

@@ -31,6 +31,7 @@ def objective(trial):
     neck_length = trial.suggest_float("neck_length", 110.0, 150.0)
     neck_width = trial.suggest_float("neck_width", 25.0, 40.0)
     neck_height = trial.suggest_float("neck_height", 15.0, 30.0)
+    neck_angle = trial.suggest_float("neck_angle", 2.0, 8.0)
     bridge_width = trial.suggest_float("bridge_width", 30.0, 50.0)
     bridge_height = trial.suggest_float("bridge_height", 20.0, 40.0)
     bridge_thickness = trial.suggest_float("bridge_thickness", 3.0, 8.0)
@@ -124,6 +125,7 @@ def objective(trial):
         "--neck_length", str(neck_length),
         "--neck_width", str(neck_width),
         "--neck_height", str(neck_height),
+        "--neck_angle", str(neck_angle),
         "--bridge_width", str(bridge_width),
         "--bridge_height", str(bridge_height),
         "--bridge_thickness", str(bridge_thickness),
@@ -274,6 +276,7 @@ if __name__ == "__main__":
         "--neck_length", str(trial.params["neck_length"]),
         "--neck_width", str(trial.params["neck_width"]),
         "--neck_height", str(trial.params["neck_height"]),
+        "--neck_angle", str(trial.params["neck_angle"]),
         "--bridge_width", str(trial.params["bridge_width"]),
         "--bridge_height", str(trial.params["bridge_height"]),
         "--bridge_thickness", str(trial.params["bridge_thickness"]),
