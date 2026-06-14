@@ -6,7 +6,7 @@ Resonant Violin Lab is a platform for building a parametric, simulatable, and op
 
 The project uses a pipeline architecture:
 1.  **Parametric Generation:** Generating the geometry using code (CadQuery).
-2.  **Slicing as Design:** Treating slicing parameters (infill, perimeters, modifiers) as design variables via Bambu Studio CLI.
+2.  **Slicing as Design:** Treating slicing parameters (infill, perimeters, modifiers) as design variables via Orca Slicer CLI.
 3.  **Simulation:** Using structural and acoustic simulation to evaluate designs (eigenmodes, stress, cavity modes, etc.) using Gmsh, Elmer/Code_Aster.
 4.  **Optimization:** Iterating designs using bayesian optimization or evolutionary algorithms (Optuna, BoTorch).
 
@@ -14,7 +14,7 @@ The project uses a pipeline architecture:
 
 *   `cad/` - Parametric violin generator
 *   `profiles/` - Machine, process, and filament profiles
-*   `slice/` - Bambu Studio wrappers and slice data export
+*   `slice/` - Orca Slicer wrappers and slice data export
 *   `mesh/` - STEP to mesh conversion and quality checks
 *   `sim_struct/` - Simulation of preload, deflection, stresses, and eigenmodes
 *   `sim_acoustic/` - Simulation of cavity modes, radiation, and bridge mobility
