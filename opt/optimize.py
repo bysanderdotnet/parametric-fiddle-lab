@@ -203,6 +203,7 @@ def objective(trial):
     a0_freq = 300.0
     top_thickness_val = 4.0 # Default if fail
     back_thickness_val = 4.0 # Default if fail
+    bridge_mass_g = 2.0 # Default if fail
 
     try:
         with open("violin_body.json", "r") as f:
@@ -211,6 +212,7 @@ def objective(trial):
             volume_mm3 = body_res.get("volume_mm3", volume_mm3)
             top_thickness_val = body_res.get("top_thickness", top_thickness_val)
             back_thickness_val = body_res.get("back_thickness", back_thickness_val)
+            bridge_mass_g = body_res.get("bridge_mass_g", bridge_mass_g)
     except FileNotFoundError:
         print("Warning: violin_body.json not found")
 
@@ -235,8 +237,8 @@ def objective(trial):
     # Simple fitness: squared error of A0 frequency from 290Hz, plus a small penalty for mass and volume
     target_a0 = 290.0
 
-    score = abs(a0_freq - target_a0) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0)
-    print(f"Result: A0={a0_freq:.1f}Hz, Mass={mass_g:.1f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}")
+    score = abs(a0_freq - target_a0) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0) + (bridge_mass_g * 5.0)
+    print(f"Result: A0={a0_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}")
 
     return score
 

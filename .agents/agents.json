@@ -300,6 +300,11 @@
       "id": "F-056",
       "title": "Add a parameter for f-hole position along the x-axis",
       "status": "done"
+    },
+    {
+      "id": "F-057",
+      "title": "Add bridge mass to optimization score",
+      "status": "done"
     }
   ],
   "progress": [
