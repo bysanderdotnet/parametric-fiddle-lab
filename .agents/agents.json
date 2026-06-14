@@ -365,6 +365,11 @@
       "id": "F-069",
       "title": "Add bridge central cutout boolean flag",
       "status": "done"
+    },
+    {
+      "id": "F-070",
+      "title": "Deduplicate param specs + Elmer SIF across cad/opt/sim scripts",
+      "status": "done"
     }
   ],
   "progress": [
@@ -789,6 +794,15 @@
       "verified": "pass (2026-06-14 19:39 UTC @ c2a8f7c)",
       "blockers": "none",
       "commit": "c2a8f7c (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 20:32 UTC",
+      "title": "Dedup param spec + Elmer SIF",
+      "done": "Added common/params.py (single SPEC: names/kinds/opt-ranges/help; defaults from create_violin_body sig) driving cad argparse + opt suggest/cli_args. Added common/elmer.py (shared SIF template + run_elmer + eigenmode parse). Removed ~646 dup lines across cad/opt/sim_struct/sim_acoustic.",
+      "verified": "pass",
+      "blockers": "none",
+      "feature": "F-070",
+      "commit": "71b6168 (+ uncommitted changes)"
     }
   ],
   "rules": [
