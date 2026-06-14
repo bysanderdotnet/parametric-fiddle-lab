@@ -385,10 +385,10 @@ if __name__ == "__main__":
 
     # Slice Model
     try:
-        slice_model("violin_body.step", "dummy_profile.json", "violin_body.gcode")
+        slice_model("violin_body.stl", "dummy_profile.json", "violin_body.gcode")
         print("Final slice generated.")
     except Exception as e:
-        print(f"Warning: Slicing final model failed or bambu-studio not installed: {e}")
+        print(f"Warning: Slicing final model failed or orcaslicer not installed: {e}")
 
     # Final Meshing and Simulation
     print("\nRunning final meshing and simulation...")

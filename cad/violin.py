@@ -562,6 +562,7 @@ if __name__ == "__main__":
 
     # Export to step
     cq.exporters.export(violin, "violin_body.step")
+    cq.exporters.export(violin, "violin_body.stl")
 
     # Export parameters to JSON
     with open("violin_body.json", "w") as f:

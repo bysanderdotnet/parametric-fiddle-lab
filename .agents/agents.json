@@ -789,6 +789,14 @@
       "verified": "pass (2026-06-14 19:39 UTC @ c2a8f7c)",
       "blockers": "none",
       "commit": "c2a8f7c (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 20:39 UTC",
+      "title": "Integrate Orca Slicer",
+      "done": "Swapped out Bambu Studio for Orca Slicer in dependencies and python wrappers.",
+      "verified": "pass (2026-06-14 20:38 UTC @ 71b6168)",
+      "blockers": "none",
+      "commit": "71b6168 (+ uncommitted changes)"
     }
   ],
   "rules": [
