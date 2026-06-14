@@ -68,3 +68,4 @@ case_acoustic.sif
 elmer_mesh_acoustic/
 profiles/*
 !profiles/.gitkeep
+.deps_installed

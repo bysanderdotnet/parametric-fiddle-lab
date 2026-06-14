@@ -24,4 +24,6 @@ if [ -z "$PYTHON" ]; then
   exit 127
 fi
 
+"$SCRIPT_DIR/install_sys_deps.sh"
+
 exec "$PYTHON" "$AGENTS_PY" "$@"
