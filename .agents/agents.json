@@ -370,6 +370,11 @@
       "id": "F-070",
       "title": "Switch from bambu-studio to orca-slicer",
       "status": "done"
+    },
+    {
+      "id": "F-071",
+      "title": "Extract slicing pipeline to support orca-slicer configuration overrides and proper working directories",
+      "status": "done"
     }
   ],
   "progress": [
@@ -802,6 +807,14 @@
       "verified": "pass (2026-06-14 20:39 UTC @ 71b6168)",
       "blockers": "none",
       "commit": "71b6168 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 22:37 UTC",
+      "title": "Extract slicing pipeline to support orca-slicer configuration overrides and proper working directories",
+      "done": "Updated slice/slicer.py to use an isolated temp directory, extract output.gcode.3mf, and pass machine, process, and filament profiles to orca-slicer",
+      "verified": "pass (2026-06-14 22:37 UTC @ eb199c6)",
+      "blockers": "none",
+      "commit": "eb199c6 (+ uncommitted changes)"
     }
   ],
   "rules": [
