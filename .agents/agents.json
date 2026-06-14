@@ -295,6 +295,11 @@
       "id": "F-055",
       "title": "Add neck angle parameter to CAD generator",
       "status": "done"
+    },
+    {
+      "id": "F-056",
+      "title": "Add a parameter for f-hole position along the x-axis",
+      "status": "done"
     }
   ],
   "progress": [

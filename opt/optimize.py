@@ -26,6 +26,7 @@ def objective(trial):
     f_hole_profile = trial.suggest_categorical("f_hole_profile", ["slot", "classic"])
     f_hole_top_radius = trial.suggest_float("f_hole_top_radius", 3.0, 6.0)
     f_hole_bottom_radius = trial.suggest_float("f_hole_bottom_radius", 3.0, 6.0)
+    f_hole_x_offset = trial.suggest_float("f_hole_x_offset", -20.0, 20.0)
     f_hole_y_offset = trial.suggest_float("f_hole_y_offset", -20.0, 20.0)
     f_hole_angle = trial.suggest_float("f_hole_angle", 75.0, 105.0)
     neck_length = trial.suggest_float("neck_length", 110.0, 150.0)
@@ -120,6 +121,7 @@ def objective(trial):
         "--f_hole_profile", str(f_hole_profile),
         "--f_hole_top_radius", str(f_hole_top_radius),
         "--f_hole_bottom_radius", str(f_hole_bottom_radius),
+        "--f_hole_x_offset", str(f_hole_x_offset),
         "--f_hole_y_offset", str(f_hole_y_offset),
         "--f_hole_angle", str(f_hole_angle),
         "--neck_length", str(neck_length),
@@ -271,6 +273,7 @@ if __name__ == "__main__":
         "--f_hole_profile", str(trial.params["f_hole_profile"]),
         "--f_hole_top_radius", str(trial.params["f_hole_top_radius"]),
         "--f_hole_bottom_radius", str(trial.params["f_hole_bottom_radius"]),
+        "--f_hole_x_offset", str(trial.params["f_hole_x_offset"]),
         "--f_hole_y_offset", str(trial.params["f_hole_y_offset"]),
         "--f_hole_angle", str(trial.params["f_hole_angle"]),
         "--neck_length", str(trial.params["neck_length"]),
