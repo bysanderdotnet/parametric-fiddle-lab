@@ -352,200 +352,22 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
 import argparse
 import json
+import inspect
+import os
+import sys
+
+# Param names/types/help come from the shared spec; defaults from this
+# module's create_violin_body signature (single source of truth).
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from common.params import NAMES, add_arguments
 
 if __name__ == "__main__":
+    defaults = {n: p.default for n, p in inspect.signature(create_violin_body).parameters.items()}
     parser = argparse.ArgumentParser(description="Generate parametric violin body.")
-    parser.add_argument("--length", type=float, default=355, help="Length of the body")
-    parser.add_argument("--lower_bout", type=float, default=208, help="Width of the lower bout")
-    parser.add_argument("--upper_bout", type=float, default=168, help="Width of the upper bout")
-    parser.add_argument("--c_bout", type=float, default=110, help="Width of the c-bout")
-    parser.add_argument("--top_thickness", type=float, default=4, help="Top plate thickness")
-    parser.add_argument("--back_thickness", type=float, default=4, help="Back plate thickness")
-    parser.add_argument("--rib_thickness", type=float, default=4, help="Rib thickness")
-    parser.add_argument("--top_arch_height", type=float, default=15, help="Arch height of the top plate")
-    parser.add_argument("--back_arch_height", type=float, default=15, help="Arch height of the back plate")
-    parser.add_argument("--rib_height", type=float, default=30, help="Height of the ribs")
-    parser.add_argument("--f_hole_length", type=float, default=70, help="Length of the F-holes")
-    parser.add_argument("--f_hole_spacing", type=float, default=80, help="Spacing between the F-holes")
-    parser.add_argument("--f_hole_width", type=float, default=8.0, help="Width of the F-holes")
-    parser.add_argument("--f_hole_profile", type=str, default="slot", help="Profile of the F-holes (slot or classic)")
-    parser.add_argument("--f_hole_top_radius", type=float, default=4.0, help="Top radius of classic F-holes")
-    parser.add_argument("--f_hole_bottom_radius", type=float, default=5.0, help="Bottom radius of classic F-holes")
-    parser.add_argument("--f_hole_x_offset", type=float, default=0.0, help="X offset of the F-holes")
-    parser.add_argument("--f_hole_y_offset", type=float, default=0.0, help="Y offset of the F-holes")
-    parser.add_argument("--f_hole_angle", type=float, default=90.0, help="Angle of the F-holes")
-    parser.add_argument("--neck_length", type=float, default=130, help="Length of the neck")
-    parser.add_argument("--neck_width", type=float, default=30, help="Width of the neck")
-    parser.add_argument("--neck_height", type=float, default=20, help="Height/thickness of the neck")
-    parser.add_argument("--neck_angle", type=float, default=5.0, help="Angle of the neck assembly relative to the body")
-    parser.add_argument("--bridge_width_bottom", type=float, default=40, help="Width of the bridge at the bottom")
-    parser.add_argument("--bridge_width_top", type=float, default=30, help="Width of the bridge at the top")
-    parser.add_argument("--bridge_height", type=float, default=30, help="Height of the bridge")
-    parser.add_argument("--bridge_thickness", type=float, default=5, help="Thickness of the bridge")
-    parser.add_argument("--bridge_radius", type=float, default=20.0, help="Radius of the bridge top curvature")
-    parser.add_argument("--bridge_inner_curve_radius", type=float, default=8.0, help="Radius of the inner curve on the bridge sides")
-    parser.add_argument("--bridge_side_cutout_radius", type=float, default=6.0, help="Radius of the side cutouts on the bridge")
-    parser.add_argument("--bridge_cutout_radius", type=float, default=5.0, help="Radius of the bridge cutouts")
-    parser.add_argument("--bridge_cutout_y_offset", type=float, default=10.0, help="Vertical offset of the bridge cutouts")
-    parser.add_argument("--bridge_central_cutout", action=argparse.BooleanOptionalAction, default=True, help="Whether to include the central bridge cutout")
-    parser.add_argument("--bridge_central_cutout_radius", type=float, default=4.0, help="Radius of the central bridge cutout")
-    parser.add_argument("--bridge_central_cutout_y_offset", type=float, default=15.0, help="Vertical offset of the central bridge cutout")
-    parser.add_argument("--bridge_foot_length", type=float, default=10.0, help="Length of the bridge feet")
-    parser.add_argument("--bridge_foot_width", type=float, default=5.0, help="Width (thickness) of the bridge feet")
-    parser.add_argument("--bridge_foot_height", type=float, default=5.0, help="Height of the bridge feet cutout")
-    parser.add_argument("--bridge_cutouts", action=argparse.BooleanOptionalAction, default=True, help="Whether to include bridge cutouts")
-    parser.add_argument("--bridge_y_offset", type=float, default=0.0, help="Y offset of the bridge")
-    parser.add_argument("--soundpost_radius", type=float, default=3, help="Radius of the soundpost")
-    parser.add_argument("--soundpost_x_offset", type=float, default=15, help="X offset of the soundpost")
-    parser.add_argument("--soundpost_y_offset", type=float, default=-15, help="Y offset of the soundpost")
-    parser.add_argument("--bass_bar_length", type=float, default=200, help="Length of the bass bar")
-    parser.add_argument("--bass_bar_width", type=float, default=5, help="Width of the bass bar")
-    parser.add_argument("--bass_bar_height", type=float, default=10, help="Height of the bass bar")
-    parser.add_argument("--bass_bar_x_offset", type=float, default=-15, help="X offset of the bass bar")
-    parser.add_argument("--bass_bar_y_offset", type=float, default=0, help="Y offset of the bass bar")
-    parser.add_argument("--bass_bar_angle", type=float, default=0.0, help="Angle of the bass bar")
-    parser.add_argument("--tailpiece_length", type=float, default=110, help="Length of the tailpiece")
-    parser.add_argument("--tailpiece_width_top", type=float, default=40, help="Width of the tailpiece near bridge")
-    parser.add_argument("--tailpiece_width_bottom", type=float, default=20, help="Width of the tailpiece near saddle")
-    parser.add_argument("--tailpiece_thickness", type=float, default=5, help="Thickness of the tailpiece")
-    parser.add_argument("--purfling_groove_depth", type=float, default=1.0, help="Depth of the purfling groove")
-    parser.add_argument("--purfling_groove_width", type=float, default=1.0, help="Width of the purfling groove")
-    parser.add_argument("--purfling_groove_offset", type=float, default=2.0, help="Offset of the purfling groove from the edge")
-    parser.add_argument("--fingerboard_length", type=float, default=270.0, help="Length of the fingerboard")
-    parser.add_argument("--fingerboard_width_top", type=float, default=24.0, help="Width of the fingerboard near the nut")
-    parser.add_argument("--fingerboard_width_bottom", type=float, default=42.0, help="Width of the fingerboard near the bridge")
-    parser.add_argument("--fingerboard_thickness", type=float, default=5.0, help="Thickness of the fingerboard")
-    parser.add_argument("--fingerboard_radius", type=float, default=42.0, help="Radius of the fingerboard curvature")
-    parser.add_argument("--pegbox_length", type=float, default=70.0, help="Length of the pegbox")
-    parser.add_argument("--pegbox_width", type=float, default=24.0, help="Width of the pegbox")
-    parser.add_argument("--pegbox_depth", type=float, default=20.0, help="Depth of the pegbox")
-    parser.add_argument("--pegbox_thickness", type=float, default=5.0, help="Wall thickness of the pegbox")
-    parser.add_argument("--pegbox_angle", type=float, default=5.0, help="Angle of the pegbox relative to the neck")
-    parser.add_argument("--peg_hole_radius", type=float, default=3.0, help="Radius of the peg holes")
-    parser.add_argument("--peg_spacing", type=float, default=15.0, help="Spacing between pegs")
-    parser.add_argument("--peg_length", type=float, default=40.0, help="Length of the pegs")
-    parser.add_argument("--endpin_length", type=float, default=20.0, help="Length of the endpin")
-    parser.add_argument("--endpin_radius", type=float, default=4.0, help="Radius of the endpin")
-    parser.add_argument("--nut_length", type=float, default=5.0, help="Length of the nut")
-    parser.add_argument("--nut_width", type=float, default=24.0, help="Width of the nut")
-    parser.add_argument("--nut_height", type=float, default=8.0, help="Height of the nut")
-    parser.add_argument("--saddle_length", type=float, default=5.0, help="Length of the saddle")
-    parser.add_argument("--saddle_width", type=float, default=30.0, help="Width of the saddle")
-    parser.add_argument("--saddle_height", type=float, default=6.0, help="Height of the saddle")
-    parser.add_argument("--scroll_radius", type=float, default=10.0, help="Radius of the scroll")
-    parser.add_argument("--scroll_width", type=float, default=20.0, help="Width of the scroll")
-    parser.add_argument("--chinrest_x_offset", type=float, default=-40.0, help="X offset of the chinrest")
-    parser.add_argument("--chinrest_y_offset", type=float, default=-140.0, help="Y offset of the chinrest")
-    parser.add_argument("--chinrest_width", type=float, default=80.0, help="Width of the chinrest")
-    parser.add_argument("--chinrest_length", type=float, default=50.0, help="Length of the chinrest")
-    parser.add_argument("--chinrest_height", type=float, default=15.0, help="Height of the chinrest")
-    parser.add_argument("--fine_tuner_radius", type=float, default=2.0, help="Radius of the fine tuners")
-    parser.add_argument("--fine_tuner_height", type=float, default=8.0, help="Height of the fine tuners")
-    parser.add_argument("--chinrest_cutout_radius", type=float, default=64.0, help="Radius of the chinrest cutout sphere")
-    parser.add_argument("--chinrest_cutout_depth", type=float, default=5.0, help="Depth of the chinrest cutout")
-    parser.add_argument("--c_bout_cutout_radius", type=float, default=40.0, help="Radius of the C-bout cutout")
-    parser.add_argument("--top_block_width", type=float, default=40.0, help="Width of the top block")
-    parser.add_argument("--top_block_length", type=float, default=15.0, help="Length of the top block")
-    parser.add_argument("--bottom_block_width", type=float, default=40.0, help="Width of the bottom block")
-    parser.add_argument("--bottom_block_length", type=float, default=15.0, help="Length of the bottom block")
-
+    add_arguments(parser, defaults)
     args = parser.parse_args()
 
-    params = {
-        "length": args.length,
-        "lower_bout": args.lower_bout,
-        "upper_bout": args.upper_bout,
-        "c_bout": args.c_bout,
-        "top_thickness": args.top_thickness,
-        "back_thickness": args.back_thickness,
-        "rib_thickness": args.rib_thickness,
-        "top_arch_height": args.top_arch_height,
-        "back_arch_height": args.back_arch_height,
-        "rib_height": args.rib_height,
-        "f_hole_length": args.f_hole_length,
-        "f_hole_spacing": args.f_hole_spacing,
-        "f_hole_width": args.f_hole_width,
-        "f_hole_profile": args.f_hole_profile,
-        "f_hole_top_radius": args.f_hole_top_radius,
-        "f_hole_bottom_radius": args.f_hole_bottom_radius,
-        "f_hole_x_offset": args.f_hole_x_offset,
-        "f_hole_y_offset": args.f_hole_y_offset,
-        "f_hole_angle": args.f_hole_angle,
-        "neck_length": args.neck_length,
-        "neck_width": args.neck_width,
-        "neck_height": args.neck_height,
-        "neck_angle": args.neck_angle,
-        "bridge_width_bottom": args.bridge_width_bottom,
-        "bridge_width_top": args.bridge_width_top,
-        "bridge_height": args.bridge_height,
-        "bridge_thickness": args.bridge_thickness,
-        "bridge_radius": args.bridge_radius,
-        "bridge_inner_curve_radius": args.bridge_inner_curve_radius,
-        "bridge_side_cutout_radius": args.bridge_side_cutout_radius,
-        "bridge_cutout_radius": args.bridge_cutout_radius,
-        "bridge_cutout_y_offset": args.bridge_cutout_y_offset,
-        "bridge_central_cutout": args.bridge_central_cutout,
-        "bridge_central_cutout_radius": args.bridge_central_cutout_radius,
-        "bridge_central_cutout_y_offset": args.bridge_central_cutout_y_offset,
-        "bridge_foot_length": args.bridge_foot_length,
-        "bridge_foot_width": args.bridge_foot_width,
-        "bridge_foot_height": args.bridge_foot_height,
-        "bridge_cutouts": args.bridge_cutouts,
-        "bridge_y_offset": args.bridge_y_offset,
-        "soundpost_radius": args.soundpost_radius,
-        "soundpost_x_offset": args.soundpost_x_offset,
-        "soundpost_y_offset": args.soundpost_y_offset,
-        "bass_bar_length": args.bass_bar_length,
-        "bass_bar_width": args.bass_bar_width,
-        "bass_bar_height": args.bass_bar_height,
-        "bass_bar_x_offset": args.bass_bar_x_offset,
-        "bass_bar_y_offset": args.bass_bar_y_offset,
-        "bass_bar_angle": args.bass_bar_angle,
-        "tailpiece_length": args.tailpiece_length,
-        "tailpiece_width_top": args.tailpiece_width_top,
-        "tailpiece_width_bottom": args.tailpiece_width_bottom,
-        "tailpiece_thickness": args.tailpiece_thickness,
-        "purfling_groove_depth": args.purfling_groove_depth,
-        "purfling_groove_width": args.purfling_groove_width,
-        "purfling_groove_offset": args.purfling_groove_offset,
-        "fingerboard_length": args.fingerboard_length,
-        "fingerboard_width_top": args.fingerboard_width_top,
-        "fingerboard_width_bottom": args.fingerboard_width_bottom,
-        "fingerboard_thickness": args.fingerboard_thickness,
-        "fingerboard_radius": args.fingerboard_radius,
-        "pegbox_length": args.pegbox_length,
-        "pegbox_width": args.pegbox_width,
-        "pegbox_depth": args.pegbox_depth,
-        "pegbox_thickness": args.pegbox_thickness,
-        "pegbox_angle": args.pegbox_angle,
-        "peg_hole_radius": args.peg_hole_radius,
-        "peg_spacing": args.peg_spacing,
-        "peg_length": args.peg_length,
-        "endpin_length": args.endpin_length,
-        "endpin_radius": args.endpin_radius,
-        "nut_length": args.nut_length,
-        "nut_width": args.nut_width,
-        "nut_height": args.nut_height,
-        "saddle_length": args.saddle_length,
-        "saddle_width": args.saddle_width,
-        "saddle_height": args.saddle_height,
-        "scroll_radius": args.scroll_radius,
-        "scroll_width": args.scroll_width,
-        "chinrest_x_offset": args.chinrest_x_offset,
-        "chinrest_y_offset": args.chinrest_y_offset,
-        "chinrest_width": args.chinrest_width,
-        "chinrest_length": args.chinrest_length,
-        "chinrest_height": args.chinrest_height,
-        "fine_tuner_radius": args.fine_tuner_radius,
-        "fine_tuner_height": args.fine_tuner_height,
-        "chinrest_cutout_radius": args.chinrest_cutout_radius,
-        "chinrest_cutout_depth": args.chinrest_cutout_depth,
-        "c_bout_cutout_radius": args.c_bout_cutout_radius,
-        "top_block_width": args.top_block_width,
-        "top_block_length": args.top_block_length,
-        "bottom_block_width": args.bottom_block_width,
-        "bottom_block_length": args.bottom_block_length
-    }
+    params = {name: getattr(args, name) for name in NAMES}
 
     violin, bridge = create_violin_body(**params)
 

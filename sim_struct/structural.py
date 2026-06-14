@@ -1,46 +1,13 @@
 import json
 import random
 import os
-import subprocess
 import shutil
-import math
+import sys
 
-def write_sif(mesh_dir):
-    sif_content = """Header
-  CHECK KEYWORDS Warn
-  Mesh DB "." "{mesh_dir}"
-  Include Path ""
-  Results Directory ""
-End
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from common.elmer import run_elmer as elmer_eigenmodes
 
-Simulation
-  Max Output Level = 5
-  Coordinate System = Cartesian
-  Coordinate Mapping(3) = 1 2 3
-  Simulation Type = Steady state
-  Steady State Max Iterations = 1
-  Output Intervals(1) = 1
-  Solver Input File = case.sif
-  Post File = case.vtu
-End
-
-Constants
-  Gravity(4) = 0 -1 0 9.82
-  Stefan Boltzmann = 5.670374419e-08
-  Permittivity of Vacuum = 8.85418781e-12
-  Permeability of Vacuum = 1.25663706e-06
-  Boltzmann Constant = 1.380649e-23
-  Unit Charge = 1.6021766e-19
-End
-
-Body 1
-  Target Bodies(1) = 1
-  Name = "Body 1"
-  Equation = 1
-  Material = 1
-End
-
-Solver 1
+SOLVER = """Solver 1
   Equation = Linear elasticity
   Variable = -dofs 3 Displacement
   Procedure = "StressSolve" "StressSolver"
@@ -55,60 +22,20 @@ Solver 1
   Linear System Preconditioning = ILU0
   Linear System Residual Output = 10
   Linear System Abort Not Converged = False
-End
+End"""
 
-Equation 1
-  Name = "Equation 1"
-  Active Solvers(1) = 1
-End
-
-Material 1
+MATERIAL = """Material 1
   Name = "PLA"
   Density = 1240.0
   Youngs modulus = 2.58e9
   Poisson ratio = 0.35
-End
-"""
-    sif_content = sif_content.replace("{mesh_dir}", mesh_dir)
-    with open("case.sif", "w") as f:
-        f.write(sif_content)
+End"""
 
 def run_elmer(mesh_file):
     print(f"Running Elmer simulation on {mesh_file}...")
-    mesh_dir = "elmer_mesh"
-
-    # 1. ElmerGrid
-    subprocess.run(["ElmerGrid", "14", "2", mesh_file, "-out", mesh_dir], check=True)
-
-    # 2. Write SIF
-    write_sif(mesh_dir)
-
-    # 3. ElmerSolver
-    result = subprocess.run(["ElmerSolver", "case.sif"], capture_output=True, text=True, check=True)
-
-    # Parse eigenfrequencies from Elmer output
-    modes = []
-    mode_count = 1
-    for line in result.stdout.split('\n'):
-        if "EigenSolve:" in line and len(line.split()) >= 3:
-            try:
-                val = float(line.split()[2])
-                if val > 0:
-                    freq = math.sqrt(val) / (2 * math.pi)
-                else:
-                    freq = 0.0
-                modes.append({
-                    "mode": mode_count,
-                    "frequency_hz": freq,
-                    "eigenvalue": val
-                })
-                mode_count += 1
-            except ValueError:
-                pass
-
+    modes = elmer_eigenmodes(mesh_file, "elmer_mesh", "case.sif", SOLVER, MATERIAL)
     if not modes:
         return None
-
     return {
         "eigenmodes": modes,
         "max_stress_mpa": 0.0,
