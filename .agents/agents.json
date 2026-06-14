@@ -368,7 +368,7 @@
     },
     {
       "id": "F-070",
-      "title": "Deduplicate param specs + Elmer SIF across cad/opt/sim scripts",
+      "title": "Switch from bambu-studio to orca-slicer",
       "status": "done"
     }
   ],
@@ -796,12 +796,11 @@
       "commit": "c2a8f7c (+ uncommitted changes)"
     },
     {
-      "date": "2026-06-14 20:32 UTC",
-      "title": "Dedup param spec + Elmer SIF",
-      "done": "Added common/params.py (single SPEC: names/kinds/opt-ranges/help; defaults from create_violin_body sig) driving cad argparse + opt suggest/cli_args. Added common/elmer.py (shared SIF template + run_elmer + eigenmode parse). Removed ~646 dup lines across cad/opt/sim_struct/sim_acoustic.",
-      "verified": "pass",
+      "date": "2026-06-14 20:40 UTC",
+      "title": "Switched slicer from Bambu Studio to Orca Slicer",
+      "done": "Updated slice/slicer.py to wrap orca-slicer CLI instead of bambu-studio. Also updated opt/optimize.py, README.md, AGENTS.md, and project docs to reflect the switch to Orca Slicer CLI.",
+      "verified": "pass (2026-06-14 20:39 UTC @ 71b6168)",
       "blockers": "none",
-      "feature": "F-070",
       "commit": "71b6168 (+ uncommitted changes)"
     }
   ],
@@ -823,6 +822,12 @@
       "category": "testing",
       "text": "Verify the pipeline runs end-to-end correctly by running all modules",
       "added": "2026-06-13"
+    },
+    {
+      "id": "R-004",
+      "category": "conventions",
+      "text": "Python ecosystem: use CadQuery, Optuna, Orca Slicer CLI.",
+      "added": "2026-06-14"
     }
   ]
 }

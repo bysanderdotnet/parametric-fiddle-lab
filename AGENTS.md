@@ -11,7 +11,7 @@ handoff. All state in `.agents/agents.json`, CLI-owned — never hand-edit.
 ## Project
 
 - Name: Resonant Violin Lab
-- Stack: Python, CadQuery, Gmsh, Elmer, Bambu Studio CLI, Optuna
+- Stack: Python, CadQuery, Gmsh, Elmer, Orca Slicer CLI, Optuna
 - Purpose: Building a parametric, simulatable, and optimizable design chain for 3D-printed violins, combining geometry, slicing, material, and structural reinforcement.
 
 ## Rules
