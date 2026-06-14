@@ -278,7 +278,12 @@
     {
       "id": "F-052",
       "title": "Add bridge curvature parameters",
-      "status": "todo"
+      "status": "done"
+    },
+    {
+      "id": "F-053",
+      "title": "Add a variable for peg length",
+      "status": "done"
     }
   ],
   "progress": [
