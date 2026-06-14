@@ -355,6 +355,16 @@
       "id": "F-067",
       "title": "Add bridge y offset parameter",
       "status": "done"
+    },
+    {
+      "id": "F-068",
+      "title": "Add bridge central cutout parameter",
+      "status": "done"
+    },
+    {
+      "id": "F-069",
+      "title": "Add bridge central cutout boolean flag",
+      "status": "done"
     }
   ],
   "progress": [
@@ -771,6 +781,14 @@
       "verified": "pass (2026-06-14 18:12 UTC @ 38fe017)",
       "blockers": "none",
       "commit": "38fe017 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 19:41 UTC",
+      "title": "Added bridge central cutout boolean flag",
+      "done": "Added boolean flag bridge_central_cutout to toggle central cutout generation in cad/violin.py and opt/optimize.py. Verified locally.",
+      "verified": "pass (2026-06-14 19:39 UTC @ c2a8f7c)",
+      "blockers": "none",
+      "commit": "c2a8f7c (+ uncommitted changes)"
     }
   ],
   "rules": [
