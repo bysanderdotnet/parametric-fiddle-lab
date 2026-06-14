@@ -309,7 +309,7 @@
     {
       "id": "F-058",
       "title": "Add bridge parameter: bridge cutouts",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "F-059",
@@ -687,6 +687,15 @@
       "verified": "pass (2026-06-14 09:38 UTC @ c14ba13)",
       "blockers": "none",
       "commit": "c14ba13 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 11:18 UTC",
+      "title": "Add bridge_cutouts parameter",
+      "done": "Added bridge_cutouts toggle to cad/violin.py and opt/optimize.py",
+      "verified": "pass (2026-06-14 11:16 UTC @ 197c4ea)",
+      "blockers": "none",
+      "feature": "F-058",
+      "commit": "197c4ea (+ uncommitted changes)"
     }
   ],
   "rules": [
