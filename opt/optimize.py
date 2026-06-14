@@ -65,6 +65,7 @@ def objective(trial):
     pegbox_thickness = trial.suggest_float("pegbox_thickness", 4.0, 6.0)
     peg_hole_radius = trial.suggest_float("peg_hole_radius", 2.5, 3.5)
     peg_spacing = trial.suggest_float("peg_spacing", 14.0, 16.0)
+    peg_length = trial.suggest_float("peg_length", 35.0, 55.0)
     endpin_length = trial.suggest_float("endpin_length", 15.0, 25.0)
     endpin_radius = trial.suggest_float("endpin_radius", 3.0, 6.0)
     nut_length = trial.suggest_float("nut_length", 3.0, 8.0)
@@ -157,6 +158,7 @@ def objective(trial):
         "--pegbox_thickness", str(pegbox_thickness),
         "--peg_hole_radius", str(peg_hole_radius),
         "--peg_spacing", str(peg_spacing),
+        "--peg_length", str(peg_length),
         "--endpin_length", str(endpin_length),
         "--endpin_radius", str(endpin_radius),
         "--nut_length", str(nut_length),
@@ -306,6 +308,7 @@ if __name__ == "__main__":
         "--pegbox_thickness", str(trial.params["pegbox_thickness"]),
         "--peg_hole_radius", str(trial.params["peg_hole_radius"]),
         "--peg_spacing", str(trial.params["peg_spacing"]),
+        "--peg_length", str(trial.params["peg_length"]),
         "--endpin_length", str(trial.params["endpin_length"]),
         "--endpin_radius", str(trial.params["endpin_radius"]),
         "--nut_length", str(trial.params["nut_length"]),
