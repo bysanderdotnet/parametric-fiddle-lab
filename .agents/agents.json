@@ -375,6 +375,11 @@
       "id": "F-071",
       "title": "Extract slicing pipeline to support orca-slicer configuration overrides and proper working directories",
       "status": "done"
+    },
+    {
+      "id": "F-072",
+      "title": "Add progress tracking to Orca Slicer wrapper using named pipes",
+      "status": "done"
     }
   ],
   "progress": [
@@ -815,6 +820,14 @@
       "verified": "pass (2026-06-14 22:37 UTC @ eb199c6)",
       "blockers": "none",
       "commit": "eb199c6 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 23:38 UTC",
+      "title": "Add progress tracking to Orca Slicer wrapper using named pipes",
+      "done": "Updated slice/slicer.py to use a named pipe and thread for streaming orca-slicer JSON progress to logs",
+      "verified": "pass (2026-06-14 23:38 UTC @ 0420c6d)",
+      "blockers": "none",
+      "commit": "0420c6d (+ uncommitted changes)"
     }
   ],
   "rules": [

@@ -4,6 +4,8 @@ import logging
 import tempfile
 import shutil
 import zipfile
+import json
+import threading
 
 logger = logging.getLogger(__name__)
 
@@ -30,9 +32,30 @@ def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_arg
     tmpdir = tempfile.mkdtemp(prefix="orca_slice_")
     logger.info(f"Working directory created at: {tmpdir}")
 
+    pipe_path = os.path.join(tmpdir, "progress.pipe")
+    os.mkfifo(pipe_path)
+
+    def read_pipe():
+        with open(pipe_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    data = json.loads(line)
+                    pct = data.get('total_percent', 0.0)
+                    msg = data.get('message', '')
+                    logger.info(f"Orca progress: {pct}% - {msg}")
+                except json.JSONDecodeError:
+                    pass
+
+    pipe_thread = threading.Thread(target=read_pipe)
+    pipe_thread.start()
+
     try:
         # Build the generic command line array
         cmd = ["orca-slicer", "--slice", "1", "--export-3mf", "output.gcode.3mf"]
+        cmd.extend(["--pipe", pipe_path])
 
         if isinstance(profile, dict):
             settings_paths = []
@@ -55,6 +78,16 @@ def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_arg
 
         logger.info(f"Running command: {' '.join(cmd)}")
         result = subprocess.run(cmd, cwd=tmpdir, check=True, capture_output=True, text=True)
+
+        # Unblock the pipe thread safely
+        try:
+            fd = os.open(pipe_path, os.O_WRONLY | os.O_NONBLOCK)
+            os.write(fd, b'\n')
+            os.close(fd)
+        except OSError:
+            pass
+        pipe_thread.join()
+
         logger.info(f"Slicing completed successfully.")
 
         # Extract gcode from the resulting 3mf
@@ -82,6 +115,16 @@ def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_arg
         logger.error("orca-slicer command not found. Is it installed and in PATH?")
         raise RuntimeError("orca-slicer executable not found") from e
     finally:
+        # Ensure thread is joined even on exceptions
+        try:
+            fd = os.open(pipe_path, os.O_WRONLY | os.O_NONBLOCK)
+            os.write(fd, b'\n')
+            os.close(fd)
+        except OSError:
+            pass
+        if pipe_thread.is_alive():
+            pipe_thread.join()
+
         if not debug:
             shutil.rmtree(tmpdir, ignore_errors=True)
             logger.info(f"Cleaned up temporary directory {tmpdir}")
