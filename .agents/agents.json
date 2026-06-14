@@ -305,6 +305,16 @@
       "id": "F-057",
       "title": "Add bridge mass to optimization score",
       "status": "done"
+    },
+    {
+      "id": "F-058",
+      "title": "Add bridge parameter: bridge cutouts",
+      "status": "todo"
+    },
+    {
+      "id": "F-059",
+      "title": "Add central bridge cutout parameter",
+      "status": "done"
     }
   ],
   "progress": [
