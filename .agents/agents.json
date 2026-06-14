@@ -365,6 +365,11 @@
       "id": "F-069",
       "title": "Add bridge central cutout boolean flag",
       "status": "done"
+    },
+    {
+      "id": "F-070",
+      "title": "Switch from bambu-studio to orca-slicer",
+      "status": "done"
     }
   ],
   "progress": [
@@ -789,6 +794,14 @@
       "verified": "pass (2026-06-14 19:39 UTC @ c2a8f7c)",
       "blockers": "none",
       "commit": "c2a8f7c (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 20:40 UTC",
+      "title": "Switched slicer from Bambu Studio to Orca Slicer",
+      "done": "Updated slice/slicer.py to wrap orca-slicer CLI instead of bambu-studio. Also updated opt/optimize.py, README.md, AGENTS.md, and project docs to reflect the switch to Orca Slicer CLI.",
+      "verified": "pass (2026-06-14 20:39 UTC @ 71b6168)",
+      "blockers": "none",
+      "commit": "71b6168 (+ uncommitted changes)"
     }
   ],
   "rules": [
@@ -809,6 +822,12 @@
       "category": "testing",
       "text": "Verify the pipeline runs end-to-end correctly by running all modules",
       "added": "2026-06-13"
+    },
+    {
+      "id": "R-004",
+      "category": "conventions",
+      "text": "Python ecosystem: use CadQuery, Optuna, Orca Slicer CLI.",
+      "added": "2026-06-14"
     }
   ]
 }
