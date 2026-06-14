@@ -34,7 +34,8 @@ def objective(trial):
     neck_height = trial.suggest_float("neck_height", 15.0, 30.0)
     neck_angle = trial.suggest_float("neck_angle", 2.0, 8.0)
     pegbox_angle = trial.suggest_float("pegbox_angle", 0.0, 15.0)
-    bridge_width = trial.suggest_float("bridge_width", 30.0, 50.0)
+    bridge_width_bottom = trial.suggest_float("bridge_width_bottom", 35.0, 45.0)
+    bridge_width_top = trial.suggest_float("bridge_width_top", 25.0, 35.0)
     bridge_height = trial.suggest_float("bridge_height", 20.0, 40.0)
     bridge_thickness = trial.suggest_float("bridge_thickness", 3.0, 8.0)
     bridge_radius = trial.suggest_float("bridge_radius", 15.0, 40.0)
@@ -94,7 +95,7 @@ def objective(trial):
     print(f"\n--- Starting Trial {trial.number} ---")
     print(f"Params: length={length:.1f}, lower={lower_bout:.1f}, upper={upper_bout:.1f}, c={c_bout:.1f}, t_top={top_thickness:.1f}, t_back={back_thickness:.1f}, t_rib={rib_thickness:.1f}, arch_t={top_arch_height:.1f}, arch_b={back_arch_height:.1f}, h_rib={rib_height:.1f}, f_len={f_hole_length:.1f}, f_spc={f_hole_spacing:.1f}, f_wid={f_hole_width:.1f}, f_y_off={f_hole_y_offset:.1f}, f_ang={f_hole_angle:.1f}")
     print(f"        neck_l={neck_length:.1f}, neck_w={neck_width:.1f}, neck_h={neck_height:.1f}")
-    print(f"        br_w={bridge_width:.1f}, br_h={bridge_height:.1f}, br_t={bridge_thickness:.1f}, br_r={bridge_radius:.1f}, br_inner_r={bridge_inner_curve_radius:.1f}, br_side_cut={bridge_side_cutout_radius:.1f}")
+    print(f"        br_w_b={bridge_width_bottom:.1f}, br_w_t={bridge_width_top:.1f}, br_h={bridge_height:.1f}, br_t={bridge_thickness:.1f}, br_r={bridge_radius:.1f}, br_inner_r={bridge_inner_curve_radius:.1f}, br_side_cut={bridge_side_cutout_radius:.1f}")
     print(f"        sp_r={soundpost_radius:.1f}, sp_x={soundpost_x_offset:.1f}, sp_y={soundpost_y_offset:.1f}")
     print(f"        bb_l={bass_bar_length:.1f}, bb_w={bass_bar_width:.1f}, bb_h={bass_bar_height:.1f}, bb_x={bass_bar_x_offset:.1f}, bb_y={bass_bar_y_offset:.1f}")
     print(f"        tp_l={tailpiece_length:.1f}, tp_wt={tailpiece_width_top:.1f}, tp_wb={tailpiece_width_bottom:.1f}, tp_th={tailpiece_thickness:.1f}")
@@ -133,7 +134,8 @@ def objective(trial):
         "--neck_height", str(neck_height),
         "--neck_angle", str(neck_angle),
         "--pegbox_angle", str(pegbox_angle),
-        "--bridge_width", str(bridge_width),
+        "--bridge_width_bottom", str(bridge_width_bottom),
+        "--bridge_width_top", str(bridge_width_top),
         "--bridge_height", str(bridge_height),
         "--bridge_thickness", str(bridge_thickness),
         "--bridge_radius", str(bridge_radius),
@@ -291,7 +293,8 @@ if __name__ == "__main__":
         "--neck_height", str(trial.params["neck_height"]),
         "--neck_angle", str(trial.params["neck_angle"]),
         "--pegbox_angle", str(trial.params["pegbox_angle"]),
-        "--bridge_width", str(trial.params["bridge_width"]),
+        "--bridge_width_bottom", str(trial.params["bridge_width_bottom"]),
+        "--bridge_width_top", str(trial.params["bridge_width_top"]),
         "--bridge_height", str(trial.params["bridge_height"]),
         "--bridge_thickness", str(trial.params["bridge_thickness"]),
         "--bridge_radius", str(trial.params["bridge_radius"]),

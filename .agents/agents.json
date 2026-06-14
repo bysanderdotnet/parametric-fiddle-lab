@@ -320,6 +320,11 @@
       "id": "F-060",
       "title": "Add pegbox_angle parameter",
       "status": "done"
+    },
+    {
+      "id": "F-061",
+      "title": "Add bridge width top and bottom",
+      "status": "done"
     }
   ],
   "progress": [
@@ -696,6 +701,14 @@
       "blockers": "none",
       "feature": "F-058",
       "commit": "197c4ea (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 12:24 UTC",
+      "title": "Add bridge width top and bottom parameters [F-061]",
+      "done": "Added bridge_width_top and bridge_width_bottom parameters to replace bridge_width. Replaced base block with a trapezoidal extrusion. Updated optimize.py to match.",
+      "verified": "pass (2026-06-14 12:23 UTC @ 169cb1e)",
+      "blockers": "none",
+      "commit": "169cb1e (+ uncommitted changes)"
     }
   ],
   "rules": [
