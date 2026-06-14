@@ -330,6 +330,11 @@
       "id": "F-062",
       "title": "Parameterize purfling groove width and offset [F-062]",
       "status": "done"
+    },
+    {
+      "id": "F-063",
+      "title": "Add bridge foot width parameter",
+      "status": "done"
     }
   ],
   "progress": [
@@ -714,6 +719,14 @@
       "verified": "pass (2026-06-14 12:23 UTC @ 169cb1e)",
       "blockers": "none",
       "commit": "169cb1e (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 14:29 UTC",
+      "title": "Add bridge foot width parameter [F-063]",
+      "done": "Added bridge_foot_width parameter to allow varying the width of the feet in the Y direction.",
+      "verified": "pass (2026-06-14 14:28 UTC @ a045211)",
+      "blockers": "none",
+      "commit": "a045211 (+ uncommitted changes)"
     }
   ],
   "rules": [
