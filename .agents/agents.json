@@ -350,6 +350,11 @@
       "id": "F-066",
       "title": "Add top and bottom block length and width to optimization",
       "status": "done"
+    },
+    {
+      "id": "F-067",
+      "title": "Add bridge y offset parameter",
+      "status": "done"
     }
   ],
   "progress": [
@@ -758,6 +763,14 @@
       "verified": "pass (2026-06-14 17:40 UTC @ 0183787)",
       "blockers": "none",
       "commit": "0183787 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 18:13 UTC",
+      "title": "Added bridge_y_offset parameter",
+      "done": "Added bridge_y_offset to cad/violin.py and opt/optimize.py. Verified end-to-end functionality.",
+      "verified": "pass (2026-06-14 18:12 UTC @ 38fe017)",
+      "blockers": "none",
+      "commit": "38fe017 (+ uncommitted changes)"
     }
   ],
   "rules": [
