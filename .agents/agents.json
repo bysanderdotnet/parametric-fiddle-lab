@@ -284,6 +284,12 @@
       "id": "F-053",
       "title": "Add a variable for peg length",
       "status": "done"
+    },
+    {
+      "id": "F-054",
+      "title": "Add bridge mass/volume calculation",
+      "status": "done",
+      "notes": "Calculate bridge mass and volume based on its geometry, output to violin_body.json similar to the body mass"
     }
   ],
   "progress": [
@@ -635,6 +641,14 @@
       "next": "Submit changes.",
       "blockers": "none",
       "commit": "8c74d00 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 03:36 UTC",
+      "title": "Calculate bridge mass and volume",
+      "done": "Modified create_violin_body to extract bridge component, calculated its mass/volume, and exported them to violin_body.json.",
+      "verified": "pass (2026-06-14 03:35 UTC @ e0c0e79)",
+      "blockers": "none",
+      "commit": "e0c0e79 (+ uncommitted changes)"
     }
   ],
   "rules": [
