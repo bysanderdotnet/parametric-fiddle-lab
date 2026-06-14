@@ -274,6 +274,11 @@
       "id": "F-051",
       "title": "Parametric sound holes (f-holes)",
       "status": "done"
+    },
+    {
+      "id": "F-052",
+      "title": "Add bridge curvature parameters",
+      "status": "todo"
     }
   ],
   "progress": [
@@ -616,6 +621,15 @@
       "blockers": "none",
       "feature": "F-051",
       "commit": "5c08db1 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 00:43 UTC",
+      "title": "Add bridge curvature parameters",
+      "done": "Added bridge_inner_curve_radius and bridge_side_cutout_radius to CAD model and optimization pipeline.",
+      "verified": "pass (2026-06-14 00:41 UTC @ 8c74d00)",
+      "next": "Submit changes.",
+      "blockers": "none",
+      "commit": "8c74d00 (+ uncommitted changes)"
     }
   ],
   "rules": [
