@@ -345,6 +345,11 @@
       "id": "F-065",
       "title": "Add top and bottom blocks to the violin CAD model and optimization pipeline",
       "status": "done"
+    },
+    {
+      "id": "F-066",
+      "title": "Add top and bottom block length and width to optimization",
+      "status": "done"
     }
   ],
   "progress": [
@@ -745,6 +750,14 @@
       "verified": "pass (2026-06-14 15:42 UTC @ 55f81b9)",
       "blockers": "none",
       "commit": "55f81b9 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 17:42 UTC",
+      "title": "Verified top and bottom block optimization parameters",
+      "done": "Verified that top_block_width, top_block_length, bottom_block_width, and bottom_block_length are correctly extracted and passed to CadQuery within optimize.py",
+      "verified": "pass (2026-06-14 17:40 UTC @ 0183787)",
+      "blockers": "none",
+      "commit": "0183787 (+ uncommitted changes)"
     }
   ],
   "rules": [
