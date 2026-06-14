@@ -315,6 +315,11 @@
       "id": "F-059",
       "title": "Add central bridge cutout parameter",
       "status": "done"
+    },
+    {
+      "id": "F-060",
+      "title": "Add pegbox_angle parameter",
+      "status": "done"
     }
   ],
   "progress": [
@@ -674,6 +679,14 @@
       "verified": "pass (2026-06-14 03:35 UTC @ e0c0e79)",
       "blockers": "none",
       "commit": "e0c0e79 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-14 09:39 UTC",
+      "title": "Implemented pegbox angle parameter",
+      "done": "Added pegbox_angle to CAD model and optimization pipeline to allow tilting the pegbox backward relative to the neck.",
+      "verified": "pass (2026-06-14 09:38 UTC @ c14ba13)",
+      "blockers": "none",
+      "commit": "c14ba13 (+ uncommitted changes)"
     }
   ],
   "rules": [

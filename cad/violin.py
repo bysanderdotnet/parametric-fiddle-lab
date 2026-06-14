@@ -1,7 +1,7 @@
 import cadquery as cq
 import math
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, f_hole_profile="slot", f_hole_top_radius=4.0, f_hole_bottom_radius=5.0, f_hole_x_offset=0.0, f_hole_y_offset=0.0, f_hole_angle=90.0, neck_length=130, neck_width=30, neck_height=20, neck_angle=5.0, bridge_width=40, bridge_height=30, bridge_thickness=5, bridge_radius=20.0, bridge_inner_curve_radius=8.0, bridge_side_cutout_radius=6.0, bridge_cutout_radius=5.0, bridge_cutout_y_offset=10.0, bridge_central_cutout_radius=4.0, bridge_central_cutout_y_offset=15.0, bridge_foot_length=10.0, bridge_foot_height=5.0, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, fingerboard_radius=42.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, peg_hole_radius=3.0, peg_spacing=15.0, peg_length=40.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0, chinrest_x_offset=-40.0, chinrest_y_offset=-140.0, chinrest_width=80.0, chinrest_length=50.0, chinrest_height=15.0, fine_tuner_radius=2.0, fine_tuner_height=8.0, chinrest_cutout_radius=64.0, chinrest_cutout_depth=5.0, c_bout_cutout_radius=40.0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, f_hole_profile="slot", f_hole_top_radius=4.0, f_hole_bottom_radius=5.0, f_hole_x_offset=0.0, f_hole_y_offset=0.0, f_hole_angle=90.0, neck_length=130, neck_width=30, neck_height=20, neck_angle=5.0, bridge_width=40, bridge_height=30, bridge_thickness=5, bridge_radius=20.0, bridge_inner_curve_radius=8.0, bridge_side_cutout_radius=6.0, bridge_cutout_radius=5.0, bridge_cutout_y_offset=10.0, bridge_central_cutout_radius=4.0, bridge_central_cutout_y_offset=15.0, bridge_foot_length=10.0, bridge_foot_height=5.0, soundpost_radius=3, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, purfling_groove_depth=1.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, fingerboard_radius=42.0, pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, pegbox_angle=5.0, peg_hole_radius=3.0, peg_spacing=15.0, peg_length=40.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0, chinrest_x_offset=-40.0, chinrest_y_offset=-140.0, chinrest_width=80.0, chinrest_length=50.0, chinrest_height=15.0, fine_tuner_radius=2.0, fine_tuner_height=8.0, chinrest_cutout_radius=64.0, chinrest_cutout_depth=5.0, c_bout_cutout_radius=40.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -140,13 +140,21 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
         else:
             pegs = pegs.union(peg)
 
-    neck_assembly = neck_assembly.union(pegbox)
-    if pegs is not None:
-        neck_assembly = neck_assembly.union(pegs)
-
     # Add Scroll
     scroll_y = pegbox_center_y + pegbox_length / 2.0 + scroll_radius
     scroll = cq.Workplane("YZ").center(scroll_y, rib_height - neck_height / 2.0 + pegbox_depth / 2.0 - neck_height / 2.0).circle(scroll_radius).extrude(scroll_width, both=True)
+
+    if pegbox_angle != 0.0:
+        rot_axis_start = (1, length / 2.0 + neck_length + nut_length, rib_height - neck_height / 2.0)
+        rot_axis_end = (-1, length / 2.0 + neck_length + nut_length, rib_height - neck_height / 2.0)
+        pegbox = pegbox.rotate(rot_axis_start, rot_axis_end, pegbox_angle)
+        if pegs is not None:
+            pegs = pegs.rotate(rot_axis_start, rot_axis_end, pegbox_angle)
+        scroll = scroll.rotate(rot_axis_start, rot_axis_end, pegbox_angle)
+
+    neck_assembly = neck_assembly.union(pegbox)
+    if pegs is not None:
+        neck_assembly = neck_assembly.union(pegs)
     neck_assembly = neck_assembly.union(scroll)
 
     # Add Nut
@@ -374,6 +382,7 @@ if __name__ == "__main__":
     parser.add_argument("--pegbox_width", type=float, default=24.0, help="Width of the pegbox")
     parser.add_argument("--pegbox_depth", type=float, default=20.0, help="Depth of the pegbox")
     parser.add_argument("--pegbox_thickness", type=float, default=5.0, help="Wall thickness of the pegbox")
+    parser.add_argument("--pegbox_angle", type=float, default=5.0, help="Angle of the pegbox relative to the neck")
     parser.add_argument("--peg_hole_radius", type=float, default=3.0, help="Radius of the peg holes")
     parser.add_argument("--peg_spacing", type=float, default=15.0, help="Spacing between pegs")
     parser.add_argument("--peg_length", type=float, default=40.0, help="Length of the pegs")
@@ -457,6 +466,7 @@ if __name__ == "__main__":
         "pegbox_width": args.pegbox_width,
         "pegbox_depth": args.pegbox_depth,
         "pegbox_thickness": args.pegbox_thickness,
+        "pegbox_angle": args.pegbox_angle,
         "peg_hole_radius": args.peg_hole_radius,
         "peg_spacing": args.peg_spacing,
         "peg_length": args.peg_length,
