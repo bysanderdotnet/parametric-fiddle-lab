@@ -440,7 +440,7 @@
       "id": "F-084",
       "title": "Newer Elmer build with working scalar eigen (Heat/Helmholtz) — replace Python cavity FEM (common/cavity_fem.py) once 9.x stops segfaulting at AddEquationSolution",
       "status": "blocked",
-      "notes": "release-26.2.1 source build tested: setup segfault fixed, but scalar Heat/Helmholtz eigen still unusable (Steady DNAUPD-9 zero mass matrix; Transient segfault). Not version-specific; same as PPA 26.2. Keep Python cavity_fem fallback. Needs custom mass-assembling solver or upstream fix."
+      "notes": "CORRECTED: 26.2.1 does NOT fix it. On real violin_cavity.msh all eigen (scalar AND vector) segfault at AddEquationSolution MainUtils.F90:2619 (null SIZE(Solver%Matrix%Values)) during AddSolvers init -- original crash reproduces. Not size/lowdim related; mesh-content specific. Keep Python fallback."
     },
     {
       "id": "F-085",
@@ -996,6 +996,14 @@
       "verified": "unverified (no verify run recorded)",
       "blockers": "Scalar Heat/Helmholtz eigen cannot produce eigenvalues: mass matrix unassembled in Steady state (DNAUPD -9); Transient eigen segfaults. Need custom mass-assembling solver or upstream fix before replacing Python cavity_fem fallback.",
       "commit": "8820041 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 18:36 UTC",
+      "title": "CORRECTION: Elmer eigen crash NOT fixed on real violin_cavity mesh",
+      "done": "Prior entry tested a dummy cube only -> misleading. Re-ran on real violin_cavity.msh (13346 nodes) with source-built 26.2.1: ALL eigen cases SEGFAULT at AddEquationSolution (MainUtils.F90:2619, null deref SIZE(Solver%Matrix%Values)) via AddSolvers init -- the SAME originally-reported crash, NOT fixed. Not scalar-specific: vector StressSolve eigen also crashes on this mesh. Ruled out size (same-size 13k cube OK) and lowdim elements (-removelowdim no help). Plain non-eigen solve on the mesh works. Corrected common/cavity_fem.py docstring.",
+      "verified": "pass (2026-06-15 16:58 UTC @ 8820041) — STALE: files changed since that run, re-verify",
+      "blockers": "26.2.1 does not fix the eigen setup segfault on the actual violin cavity mesh. Crash is Elmer null-deref at MainUtils.F90:2619 when Solver%Matrix%Values unassociated, triggered by this mesh. Keep Python cavity_fem fallback.",
+      "commit": "5e69d40 (+ uncommitted changes)"
     }
   ],
   "rules": [

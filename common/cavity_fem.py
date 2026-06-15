@@ -7,20 +7,24 @@ walls. The zero constant-pressure mode is dropped; the rest are the rigid-wall
 internal cavity resonances. The true A0 Helmholtz mode needs the f-hole openings
 and is not modeled here.
 
-Elmer scalar-eigen status (tested 2026-06-15, installed PPA 26.2 AND a from-
-source build of release-26.2.1 in /opt/elmer-26.2.1 -- identical behavior):
-  - The old "segfault at AddEquationSolution/AddSolvers setup" is GONE; scalar
-    eigen now reaches the solver.
-  - HeatSolve / HelmholtzSolve eigen (Steady state) still fail: ARPACK
-    DNAUPD info=-9, because the mass ("B") matrix is not assembled in steady
-    state -> zero starting vector. A Dirichlet BC + eigen shift do not help
-    (M is genuinely zero). StressSolve works only because elasticity modal
-    analysis always builds its mass matrix.
-  - HeatSolve eigen in Transient mode SEGFAULTs in add1stordertime (a separate
-    eigen+transient code path bug).
-So this Python fallback stays until a custom solver assembles the scalar mass
-matrix, or upstream fixes scalar-eigen mass assembly. Note: the elmer-csc PPA
-package is labelled 9.0-* but the binary is really v26.2.
+Elmer eigen status (tested 2026-06-15, installed PPA 26.2 AND a from-source
+build of release-26.2.1 in /opt/elmer-26.2.1 -- identical behavior):
+  - On the REAL violin_cavity.msh, eigen analysis still SEGFAULTs at solver
+    init: AddSolvers -> AddEquationSolution, MainUtils.F90:2619, a null deref
+    SIZE(Solver % Matrix % Values) when Values is unassociated. This is the
+    same AddEquationSolution/AddSolvers crash originally reported -> NOT fixed
+    by 26.2.1.
+  - It is NOT scalar-specific: vector StressSolve eigen crashes on this mesh
+    too. It is NOT mesh size (a same-size 13k-node cube runs fine) and NOT the
+    lower-dim boundary elements (-removelowdim does not help). It is specific
+    to the cavity mesh content, which leaves Solver % Matrix % Values null.
+  - A plain (non-eigen) solve on the same cavity mesh works.
+  - A trivial cube DID survive setup and instead hit ARPACK DNAUPD info=-9
+    (mass/"B" matrix not assembled in steady state) -- but that path is moot
+    here because the violin mesh never reaches it.
+So this Python fallback stays: a newer Elmer build alone does not fix the
+crash on our actual geometry. Note: the elmer-csc PPA package is labelled
+9.0-* but the binary is really v26.2.
 """
 import numpy as np
 import scipy.sparse as sp
