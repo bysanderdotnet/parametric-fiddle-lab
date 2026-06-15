@@ -107,6 +107,8 @@ SPEC = [
     ("top_block_length", "float", (10.0, 30.0), "Length of the top block"),
     ("bottom_block_width", "float", (30.0, 60.0), "Width of the bottom block"),
     ("bottom_block_length", "float", (10.0, 30.0), "Length of the bottom block"),
+    ("corner_block_width", "float", (10.0, 30.0), "Width of the corner blocks"),
+    ("corner_block_length", "float", (10.0, 30.0), "Length of the corner blocks"),
 ]
 
 NAMES = [name for name, _, _, _ in SPEC]

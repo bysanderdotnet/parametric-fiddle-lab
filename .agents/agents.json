@@ -400,6 +400,11 @@
       "id": "F-076",
       "title": "Parameterize fine tuners",
       "status": "done"
+    },
+    {
+      "id": "F-077",
+      "title": "Add parameterized corner blocks",
+      "status": "done"
     }
   ],
   "progress": [
