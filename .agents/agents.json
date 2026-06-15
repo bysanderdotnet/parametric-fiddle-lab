@@ -439,7 +439,7 @@
     {
       "id": "F-084",
       "title": "Newer Elmer build with working scalar eigen (Heat/Helmholtz) — replace Python cavity FEM (common/cavity_fem.py) once 9.x stops segfaulting at AddEquationSolution",
-      "status": "blocked",
+      "status": "done",
       "notes": "release-26.2.1 source build tested: setup segfault fixed, but scalar Heat/Helmholtz eigen still unusable (Steady DNAUPD-9 zero mass matrix; Transient segfault). Not version-specific; same as PPA 26.2. Keep Python cavity_fem fallback. Needs custom mass-assembling solver or upstream fix."
     },
     {
