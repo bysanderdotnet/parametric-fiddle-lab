@@ -439,7 +439,8 @@
     {
       "id": "F-084",
       "title": "Newer Elmer build with working scalar eigen (Heat/Helmholtz) — replace Python cavity FEM (common/cavity_fem.py) once 9.x stops segfaulting at AddEquationSolution",
-      "status": "todo"
+      "status": "blocked",
+      "notes": "release-26.2.1 source build tested: setup segfault fixed, but scalar Heat/Helmholtz eigen still unusable (Steady DNAUPD-9 zero mass matrix; Transient segfault). Not version-specific; same as PPA 26.2. Keep Python cavity_fem fallback. Needs custom mass-assembling solver or upstream fix."
     },
     {
       "id": "F-085",
@@ -987,6 +988,14 @@
       "verified": "pass (2026-06-15 12:36 UTC @ 62b336a)",
       "blockers": "none",
       "commit": "62b336a (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 16:54 UTC",
+      "title": "Elmer 26.2.1 source build: scalar eigen still unusable",
+      "done": "Built Elmer release-26.2.1 from source -> /opt/elmer-26.2.1 (no GUI/MPI, OpenMP+Mumps, internal ARPACK/UMFPACK). Ran cube-cavity eigen matrix vs both installed PPA 26.2 and source 26.2.1; IDENTICAL results. Table: StressSolve vector eigen=OK(5 vals); Heat scalar eigen Steady=DNAUPD info=-9; Helmholtz scalar eigen Steady=DNAUPD info=-9; Heat eigen Transient=SEGFAULT add1stordertime. KEY: original AddEquationSolution/AddSolvers setup segfault is FIXED; remaining steady-state failure is zero mass(B) matrix (not assembled for scalar solvers), not version-specific. PPA pkg labelled 9.0 but binary is v26.2. Updated common/cavity_fem.py docstring with findings.",
+      "verified": "unverified (no verify run recorded)",
+      "blockers": "Scalar Heat/Helmholtz eigen cannot produce eigenvalues: mass matrix unassembled in Steady state (DNAUPD -9); Transient eigen segfaults. Need custom mass-assembling solver or upstream fix before replacing Python cavity_fem fallback.",
+      "commit": "8820041 (+ uncommitted changes)"
     }
   ],
   "rules": [
