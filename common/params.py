@@ -65,6 +65,7 @@ SPEC = [
     ("tailpiece_width_top", "float", (30.0, 45.0), "Width of the tailpiece near bridge"),
     ("tailpiece_width_bottom", "float", (15.0, 25.0), "Width of the tailpiece near saddle"),
     ("tailpiece_thickness", "float", (3.0, 8.0), "Thickness of the tailpiece"),
+    ("tailpiece_y_offset", "float", (-20.0, 20.0), "Y offset of the tailpiece"),
     ("purfling_groove_depth", "float", (0.5, 2.0), "Depth of the purfling groove"),
     ("purfling_groove_width", "float", (0.5, 2.0), "Width of the purfling groove"),
     ("purfling_groove_offset", "float", (1.0, 4.0), "Offset of the purfling groove from the edge"),
