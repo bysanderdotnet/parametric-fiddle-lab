@@ -415,6 +415,11 @@
       "id": "F-079",
       "title": "Add a variable for fingerboard end shape (curve or flat)",
       "status": "done"
+    },
+    {
+      "id": "F-080",
+      "title": "Parameterize tailpiece position with tailpiece_y_offset",
+      "status": "done"
     }
   ],
   "progress": [
@@ -912,6 +917,14 @@
       "verified": "pass (2026-06-15 06:14 UTC @ 7fe4fb5)",
       "blockers": "none",
       "commit": "7fe4fb5 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 07:22 UTC",
+      "title": "Added tailpiece_y_offset to parameterize tailpiece position",
+      "done": "Added parameter in common/params.py and updated CAD logic in cad/violin.py.",
+      "verified": "pass (2026-06-15 07:20 UTC @ 3129b76)",
+      "blockers": "none",
+      "commit": "3129b76 (+ uncommitted changes)"
     }
   ],
   "rules": [
