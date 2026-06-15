@@ -380,6 +380,11 @@
       "id": "F-072",
       "title": "Add progress tracking to Orca Slicer wrapper using named pipes",
       "status": "done"
+    },
+    {
+      "id": "F-073",
+      "title": "Add parameterized neck width to cad/violin.py and common/params.py",
+      "status": "done"
     }
   ],
   "progress": [
@@ -828,6 +833,15 @@
       "verified": "pass (2026-06-14 23:38 UTC @ 0420c6d)",
       "blockers": "none",
       "commit": "0420c6d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 00:26 UTC",
+      "title": "Add parameterized neck width",
+      "done": "Updated cad/violin.py to use neck_width_top and neck_width_bottom for a trapezoidal neck. Updated common/params.py to track these new variables.",
+      "verified": "pass (2026-06-15 00:25 UTC @ 95a4bfb)",
+      "next": "Submit changes.",
+      "blockers": "none",
+      "commit": "95a4bfb (+ uncommitted changes)"
     }
   ],
   "rules": [
