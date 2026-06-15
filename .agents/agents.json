@@ -385,6 +385,11 @@
       "id": "F-073",
       "title": "Add parameterized neck width to cad/violin.py and common/params.py",
       "status": "done"
+    },
+    {
+      "id": "F-074",
+      "title": "Add a variable for peg width and make it parameterized",
+      "status": "done"
     }
   ],
   "progress": [
@@ -842,6 +847,14 @@
       "next": "Submit changes.",
       "blockers": "none",
       "commit": "95a4bfb (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 01:21 UTC",
+      "title": "Add a variable for peg width and make it parameterized",
+      "done": "Added peg_width to params.py and cad/violin.py, drawing a wider visual head for each peg.",
+      "verified": "pass (2026-06-15 01:21 UTC @ 49b3f15)",
+      "blockers": "none",
+      "commit": "49b3f15 (+ uncommitted changes)"
     }
   ],
   "rules": [
