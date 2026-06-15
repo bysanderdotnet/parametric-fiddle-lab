@@ -41,6 +41,7 @@ data/*
 !data/.gitkeep
 slice/*
 !slice/*.py
+!slice/*.sh
 !slice/.gitkeep
 mesh/*
 !mesh/*.py
