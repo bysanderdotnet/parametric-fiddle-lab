@@ -420,6 +420,11 @@
       "id": "F-080",
       "title": "Parameterize tailpiece position with tailpiece_y_offset",
       "status": "done"
+    },
+    {
+      "id": "F-081",
+      "title": "Add a thickness parameter for the f-holes",
+      "status": "done"
     }
   ],
   "progress": [
@@ -925,6 +930,14 @@
       "verified": "pass (2026-06-15 07:20 UTC @ 3129b76)",
       "blockers": "none",
       "commit": "3129b76 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 08:54 UTC",
+      "title": "Added f_hole_thickness to parameterize f-hole edge reinforcement",
+      "done": "Added parameter in common/params.py and updated CAD logic in cad/violin.py to generate the rim reinforcement around the F-holes.",
+      "verified": "pass (2026-06-15 08:54 UTC @ 04aaddb)",
+      "blockers": "none",
+      "commit": "04aaddb (+ uncommitted changes)"
     }
   ],
   "rules": [

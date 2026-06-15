@@ -24,6 +24,7 @@ SPEC = [
     ("f_hole_length", "float", (60.0, 90.0), "Length of the F-holes"),
     ("f_hole_spacing", "float", (60.0, 100.0), "Spacing between the F-holes"),
     ("f_hole_width", "float", (5.0, 12.0), "Width of the F-holes"),
+    ("f_hole_thickness", "float", (1.0, 5.0), "Thickness of the f-hole edge reinforcement"),
     ("f_hole_profile", "str", ["slot", "classic"], "Profile of the F-holes (slot or classic)"),
     ("f_hole_top_radius", "float", (3.0, 6.0), "Top radius of classic F-holes"),
     ("f_hole_bottom_radius", "float", (3.0, 6.0), "Bottom radius of classic F-holes"),
