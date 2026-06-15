@@ -405,6 +405,11 @@
       "id": "F-077",
       "title": "Add parameterized corner blocks",
       "status": "done"
+    },
+    {
+      "id": "F-078",
+      "title": "Add a parameterized neck thickness to cad/violin.py and common/params.py",
+      "status": "done"
     }
   ],
   "progress": [
@@ -886,6 +891,14 @@
       "verified": "pass (2026-06-15 03:23 UTC @ 14ecdec)",
       "blockers": "none",
       "commit": "47304da"
+    },
+    {
+      "date": "2026-06-15 05:31 UTC",
+      "title": "Added a parameterized neck thickness to cad/violin.py and common/params.py",
+      "done": "Updated param spec in common/params.py and cad/violin.py to use neck_thickness instead of neck_height",
+      "verified": "pass (2026-06-15 05:31 UTC @ 94a5e3f)",
+      "blockers": "none",
+      "commit": "94a5e3f (+ uncommitted changes)"
     }
   ],
   "rules": [

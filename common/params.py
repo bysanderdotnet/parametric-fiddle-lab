@@ -33,7 +33,7 @@ SPEC = [
     ("neck_length", "float", (110.0, 150.0), "Length of the neck"),
     ("neck_width_top", "float", (20.0, 30.0), "Width of the neck at the nut"),
     ("neck_width_bottom", "float", (30.0, 40.0), "Width of the neck at the body"),
-    ("neck_height", "float", (15.0, 30.0), "Height/thickness of the neck"),
+    ("neck_thickness", "float", (15.0, 30.0), "Height/thickness of the neck"),
     ("neck_angle", "float", (2.0, 8.0), "Angle of the neck assembly relative to the body"),
     ("bridge_width_bottom", "float", (35.0, 45.0), "Width of the bridge at the bottom"),
     ("bridge_width_top", "float", (25.0, 35.0), "Width of the bridge at the top"),
