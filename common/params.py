@@ -73,6 +73,7 @@ SPEC = [
     ("fingerboard_width_bottom", "float", (40.0, 44.0), "Width of the fingerboard near the bridge"),
     ("fingerboard_thickness", "float", (4.0, 7.0), "Thickness of the fingerboard"),
     ("fingerboard_radius", "float", (30.0, 60.0), "Radius of the fingerboard curvature"),
+    ("fingerboard_end_shape", "str", ["flat", "curve"], "Shape of the fingerboard end near the bridge"),
     ("pegbox_length", "float", (65.0, 75.0), "Length of the pegbox"),
     ("pegbox_width", "float", (22.0, 26.0), "Width of the pegbox"),
     ("pegbox_depth", "float", (18.0, 22.0), "Depth of the pegbox"),
