@@ -18,7 +18,16 @@ else
     python3-venv \
     gmsh \
     libfuse2t64 \
-    libwebkit2gtk-4.1-0
+    libwebkit2gtk-4.1-0 \
+    libmspack0 \
+    curl \
+    wget
+
+  echo "Installing OrcaSlicer..."
+  sudo wget -O /usr/local/bin/OrcaSlicer.AppImage https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.3.2/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.3.2.AppImage
+  sudo chmod +x /usr/local/bin/OrcaSlicer.AppImage
+  sudo ln -sf /usr/local/bin/OrcaSlicer.AppImage /usr/local/bin/orcaslicer
+  sudo ln -sf /usr/local/bin/OrcaSlicer.AppImage /usr/local/bin/orca-slicer
 
   touch "$MARKER_FILE"
   echo "System dependencies installed successfully."
