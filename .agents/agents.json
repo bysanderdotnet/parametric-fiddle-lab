@@ -390,6 +390,11 @@
       "id": "F-074",
       "title": "Add a variable for peg width and make it parameterized",
       "status": "done"
+    },
+    {
+      "id": "F-075",
+      "title": "Parameterize peg head thickness",
+      "status": "done"
     }
   ],
   "progress": [
@@ -855,6 +860,14 @@
       "verified": "pass (2026-06-15 01:21 UTC @ 49b3f15)",
       "blockers": "none",
       "commit": "49b3f15 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 02:43 UTC",
+      "title": "Parameterize peg head thickness",
+      "done": "Added peg_head_thickness to common/params.py and updated cad/violin.py signature and implementation.",
+      "verified": "pass (2026-06-15 02:41 UTC @ d3492bb)",
+      "blockers": "none",
+      "commit": "d3492bb (+ uncommitted changes)"
     }
   ],
   "rules": [
