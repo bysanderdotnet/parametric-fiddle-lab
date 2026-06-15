@@ -1,12 +1,26 @@
 """Acoustic air-cavity eigenmodes via P1 tetrahedral FEM.
 
-Elmer's scalar eigen analysis (Heat/Helmholtz solvers) segfaults at setup in
-the packaged 9.0 build, so cavity modes are solved here directly: assemble the
-P1 Laplacian stiffness/mass on the gmsh tet mesh and solve the generalized
-eigenproblem  K f = (omega/c)^2 M f  with rigid (Neumann) walls. The zero
-constant-pressure mode is dropped; the rest are the rigid-wall internal cavity
-resonances. The true A0 Helmholtz mode needs the f-hole openings and is not
-modeled here.
+Elmer cannot run our scalar acoustic eigenanalysis, so cavity modes are solved
+here directly: assemble the P1 Laplacian stiffness/mass on the gmsh tet mesh and
+solve the generalized eigenproblem  K f = (omega/c)^2 M f  with rigid (Neumann)
+walls. The zero constant-pressure mode is dropped; the rest are the rigid-wall
+internal cavity resonances. The true A0 Helmholtz mode needs the f-hole openings
+and is not modeled here.
+
+Elmer scalar-eigen status (tested 2026-06-15, installed PPA 26.2 AND a from-
+source build of release-26.2.1 in /opt/elmer-26.2.1 -- identical behavior):
+  - The old "segfault at AddEquationSolution/AddSolvers setup" is GONE; scalar
+    eigen now reaches the solver.
+  - HeatSolve / HelmholtzSolve eigen (Steady state) still fail: ARPACK
+    DNAUPD info=-9, because the mass ("B") matrix is not assembled in steady
+    state -> zero starting vector. A Dirichlet BC + eigen shift do not help
+    (M is genuinely zero). StressSolve works only because elasticity modal
+    analysis always builds its mass matrix.
+  - HeatSolve eigen in Transient mode SEGFAULTs in add1stordertime (a separate
+    eigen+transient code path bug).
+So this Python fallback stays until a custom solver assembles the scalar mass
+matrix, or upstream fixes scalar-eigen mass assembly. Note: the elmer-csc PPA
+package is labelled 9.0-* but the binary is really v26.2.
 """
 import numpy as np
 import scipy.sparse as sp
