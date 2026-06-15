@@ -401,7 +401,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     final_body = final_body.union(chinrest)
 
-    return final_body, bridge
+    return final_body, bridge, cavity_volume
 
 import argparse
 import json
@@ -422,7 +422,7 @@ if __name__ == "__main__":
 
     params = {name: getattr(args, name) for name in NAMES}
 
-    violin, bridge = create_violin_body(**params)
+    violin, bridge, cavity = create_violin_body(**params)
 
     # Calculate volume and estimated mass
     volume_mm3 = violin.val().Volume()
@@ -435,8 +435,13 @@ if __name__ == "__main__":
     params["bridge_volume_mm3"] = bridge_volume_mm3
     params["bridge_mass_g"] = bridge_mass_g
 
+    cavity_volume_mm3 = cavity.val().Volume()
+    params["cavity_volume_mm3"] = cavity_volume_mm3
+
     # Export to step
     cq.exporters.export(violin, "violin_body.step")
+    # Air cavity solid drives the acoustic cavity-mode sim
+    cq.exporters.export(cavity, "violin_cavity.step")
 
     # Export parameters to JSON
     with open("violin_body.json", "w") as f:

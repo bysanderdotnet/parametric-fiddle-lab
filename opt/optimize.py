@@ -20,16 +20,16 @@ def objective(trial):
     subprocess.run(["python3", "cad/violin.py", *cli_args(params)], check=True)
 
     # 3. Generate Mesh
-    step_file = "violin_body.step"
     mesh_file = "violin_body.msh"
-    # the mesher script uses hardcoded input/output when run directly so we will rename if needed or just let it use violin_body.step
+    cavity_mesh = "violin_cavity.msh"
+    # mesher meshes both violin_body.step and violin_cavity.step when run directly
     subprocess.run(["python3", "mesh/mesher.py"], check=True)
 
-    # 4. Run Structural Sim
+    # 4. Run Structural Sim (solid body mesh)
     subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
 
-    # 5. Run Acoustic Sim
-    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", mesh_file], check=True)
+    # 5. Run Acoustic Sim (air cavity mesh)
+    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
 
     # 6. Evaluate Objective
     # We want to minimize some penalty. Let's say target A0 cavity mode is 290Hz and we want low mass and volume.
@@ -105,7 +105,8 @@ if __name__ == "__main__":
     # Final Meshing and Simulation
     print("\nRunning final meshing and simulation...")
     mesh_file = "violin_body.msh"
+    cavity_mesh = "violin_cavity.msh"
     subprocess.run(["python3", "mesh/mesher.py"], check=True)
     subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
-    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", mesh_file], check=True)
+    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
     print("End-to-End Pipeline Completed Successfully.")

@@ -29,14 +29,20 @@ def generate_mesh(step_file, output_mesh, mesh_size=5.0):
         gmsh.finalize()
 
 if __name__ == "__main__":
-    import sys
-    # For testing when run directly
-    step_input = "violin_body.step"
-    mesh_output = "violin_body.msh"
-
-    if os.path.exists(step_input):
-        print(f"Generating mesh for {step_input} -> {mesh_output}")
-        generate_mesh(step_input, mesh_output)
+    # Body mesh drives the structural sim, cavity mesh the acoustic sim.
+    targets = [
+        ("violin_body.step", "violin_body.msh"),
+        ("violin_cavity.step", "violin_cavity.msh"),
+    ]
+    any_done = False
+    for step_input, mesh_output in targets:
+        if os.path.exists(step_input):
+            print(f"Generating mesh for {step_input} -> {mesh_output}")
+            generate_mesh(step_input, mesh_output)
+            any_done = True
+        else:
+            print(f"File {step_input} not found, skipping.")
+    if any_done:
         print("Mesh generation complete.")
     else:
-        print(f"File {step_input} not found. Run cad/violin.py first.")
+        print("No input STEP files found. Run cad/violin.py first.")
