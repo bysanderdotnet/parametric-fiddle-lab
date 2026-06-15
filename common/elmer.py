@@ -19,6 +19,7 @@ Simulation
   Max Output Level = 5
   Coordinate System = Cartesian
   Coordinate Mapping(3) = 1 2 3
+  Coordinate Scaling = 0.001
   Simulation Type = Steady state
   Steady State Max Iterations = 1
   Output Intervals(1) = 1

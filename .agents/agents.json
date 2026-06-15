@@ -430,6 +430,26 @@
       "id": "F-082",
       "title": "Add a bash script wrapper for the orca slicer",
       "status": "done"
+    },
+    {
+      "id": "F-083",
+      "title": "Install Elmer (ElmerSolver/ElmerGrid) so structural+acoustic sims run real FEM",
+      "status": "done"
+    },
+    {
+      "id": "F-084",
+      "title": "Newer Elmer build with working scalar eigen (Heat/Helmholtz) — replace Python cavity FEM (common/cavity_fem.py) once 9.x stops segfaulting at AddEquationSolution",
+      "status": "todo"
+    },
+    {
+      "id": "F-085",
+      "title": "Acoustic A0 Helmholtz mode: model f-holes as pressure-release openings (currently only rigid-wall internal cavity modes ~600Hz)",
+      "status": "todo"
+    },
+    {
+      "id": "F-086",
+      "title": "Fuse violin body into single solid: mesh is 8 disconnected pieces (neck/fingerboard/pegs/chinrest unfused) -> free-free structural modes, low fidelity",
+      "status": "todo"
     }
   ],
   "progress": [
@@ -951,6 +971,14 @@
       "verified": "pass (2026-06-15 09:47 UTC @ 0c6ecfc)",
       "blockers": "none",
       "commit": "0c6ecfc (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 11:59 UTC",
+      "title": "Install Elmer; real FEM for structural + acoustic",
+      "done": "Elmer 9.0 via elmer-csc PPA in install_sys_deps.sh. Struct: Elmer eigen now converges (Direct/UMFPACK solver + Coordinate Scaling 0.001 mm->m). Acoustic: Elmer scalar eigen segfaults in 9.0 build, so cavity modes solved via P1 tet FEM (common/cavity_fem.py) on new air-cavity mesh (violin_cavity.step/.msh). Sims default to real meshes; mass flows from CAD.",
+      "verified": "pass (2026-06-15 11:56 UTC @ 63f60ea)",
+      "blockers": "none",
+      "commit": "63f60ea (+ uncommitted changes)"
     }
   ],
   "rules": [

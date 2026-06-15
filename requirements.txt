@@ -2,3 +2,4 @@ cadquery
 optuna
 botorch
 gmsh
+scipy

@@ -23,6 +23,19 @@ else
     curl \
     wget
 
+  echo "Installing Elmer (ElmerSolver/ElmerGrid) from elmer-csc PPA..."
+  # add-apt-repository is unreliable here, so wire the PPA by hand: fetch the
+  # PPA signing key over HTTPS, dearmor to a keyring, add the apt source.
+  ELMER_KEY=1FE4A88ACFEE8388A409F23A89358ABF9FB7E178
+  CODENAME=$(. /etc/os-release && echo "$VERSION_CODENAME")
+  curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x${ELMER_KEY}" \
+    | sudo gpg --dearmor -o /usr/share/keyrings/elmer-csc.gpg --yes
+  sudo chmod 644 /usr/share/keyrings/elmer-csc.gpg
+  echo "deb [signed-by=/usr/share/keyrings/elmer-csc.gpg] https://ppa.launchpadcontent.net/elmer-csc-ubuntu/elmer-csc-ppa/ubuntu ${CODENAME} main" \
+    | sudo tee /etc/apt/sources.list.d/elmer-csc.list
+  sudo apt-get update
+  sudo apt-get install -y elmerfem-csc
+
   echo "Installing OrcaSlicer..."
   sudo wget -O /usr/local/bin/OrcaSlicer.AppImage https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.3.2/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.3.2.AppImage
   sudo chmod +x /usr/local/bin/OrcaSlicer.AppImage
