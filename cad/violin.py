@@ -120,8 +120,8 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     # The lip should only extend downwards from the top plate
     f_holes_outer_tool = make_f_holes_2d().offset2D(f_hole_thickness).extrude(1000).translate((0, 0, -500))
     # Bound the lip from top to bottom
-    top_bound = rib_height/2 + top_arch_height
-    bottom_bound = rib_height/2 - top_thickness
+    top_bound = rib_height + top_arch_height
+    bottom_bound = rib_height/2 - top_thickness - 5
     bounding_box = cq.Workplane("XY").box(1000, 1000, top_bound - bottom_bound).translate((0, 0, (top_bound + bottom_bound)/2))
     f_holes_outer_tool = f_holes_outer_tool.intersect(bounding_box)
 
@@ -135,8 +135,8 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     # Create Neck Assembly Group
     # Add Neck
     neck_pts = [
-        (-neck_width_bottom / 2.0, length / 2.0),
-        (neck_width_bottom / 2.0, length / 2.0),
+        (-neck_width_bottom / 2.0, length / 2.0 - 5.0),
+        (neck_width_bottom / 2.0, length / 2.0 - 5.0),
         (neck_width_top / 2.0, length / 2.0 + neck_length),
         (-neck_width_top / 2.0, length / 2.0 + neck_length)
     ]
@@ -184,7 +184,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
             pegs = pegs.union(peg)
 
     # Add Scroll
-    scroll_y = pegbox_center_y + pegbox_length / 2.0 + scroll_radius
+    scroll_y = pegbox_center_y + pegbox_length / 2.0 + scroll_radius - 2.0
     scroll = cq.Workplane("YZ").center(scroll_y, rib_height - neck_thickness / 2.0 + pegbox_depth / 2.0 - neck_thickness / 2.0).circle(scroll_radius).extrude(scroll_width, both=True)
 
     if pegbox_angle != 0.0:
@@ -202,8 +202,8 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     # Add Nut
     nut_y = length / 2.0 + neck_length
-    nut = cq.Workplane("XY").center(0, nut_y + nut_length / 2.0).box(nut_width, nut_length, nut_height)
-    nut = nut.translate((0, 0, rib_height + nut_height / 2.0))
+    nut = cq.Workplane("XY").center(0, nut_y + nut_length / 2.0).box(nut_width, nut_length, nut_height + 5.0)
+    nut = nut.translate((0, 0, rib_height + nut_height / 2.0 - 2.5))
     neck_assembly = neck_assembly.union(nut)
 
     # Add Fingerboard
@@ -263,8 +263,8 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     # Add Bridge
     # Create base block
     bridge_pts = [
-        (-bridge_width_bottom / 2.0, 0),
-        (bridge_width_bottom / 2.0, 0),
+        (-bridge_width_bottom / 2.0, -5.0),
+        (bridge_width_bottom / 2.0, -5.0),
         (bridge_width_top / 2.0, bridge_height),
         (-bridge_width_top / 2.0, bridge_height)
     ]
@@ -337,8 +337,8 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     final_body = final_body.union(endpin)
 
     # Add Saddle
-    saddle = cq.Workplane("XY").center(0, -length / 2.0 + saddle_length / 2.0).box(saddle_width, saddle_length, saddle_height)
-    saddle = saddle.translate((0, 0, rib_height + saddle_height / 2.0))
+    saddle = cq.Workplane("XY").center(0, -length / 2.0 + saddle_length / 2.0).box(saddle_width, saddle_length, saddle_height + 2.0)
+    saddle = saddle.translate((0, 0, rib_height + saddle_height / 2.0 - 1.0))
     final_body = final_body.union(saddle)
 
     # Add Tailpiece
@@ -351,7 +351,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     ]
     tailpiece = cq.Workplane("XY").polyline(tp_pts).close().extrude(tailpiece_thickness)
     # Translate so the wide part is near the bridge, narrow part near bottom
-    tailpiece = tailpiece.translate((0, -length / 2.0 + tailpiece_y_offset, rib_height + top_arch_height))
+    tailpiece = tailpiece.translate((0, -length / 2.0 + tailpiece_y_offset, rib_height + top_arch_height - 5.0))
 
     final_body = final_body.union(tailpiece)
 
@@ -390,16 +390,31 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     # A simple block placed at the lower left bout, curved on top
     chinrest_base = cq.Workplane("XY").center(chinrest_x_offset, chinrest_y_offset).box(chinrest_width, chinrest_length, chinrest_height)
     # Translate to be attached to the top of the violin
-    chinrest_base = chinrest_base.translate((0, 0, rib_height + top_arch_height + chinrest_height / 2.0))
+    chinrest_base = chinrest_base.translate((0, 0, rib_height + top_arch_height + chinrest_height / 2.0 - 10.0))
 
     # Cut out a sphere to make it curved/ergonomic
     chinrest_cutout = cq.Workplane("XY").center(chinrest_x_offset, chinrest_y_offset).sphere(chinrest_cutout_radius)
     # Place sphere slightly above the top surface to carve out the top
-    chinrest_cutout = chinrest_cutout.translate((0, 0, rib_height + top_arch_height + chinrest_height + chinrest_cutout_radius - chinrest_cutout_depth))
+    chinrest_cutout = chinrest_cutout.translate((0, 0, rib_height + top_arch_height + chinrest_height + chinrest_cutout_radius - chinrest_cutout_depth - 10.0))
 
     chinrest = chinrest_base.cut(chinrest_cutout)
 
     final_body = final_body.union(chinrest)
+
+
+    # Fuzzy Fuse to join all parts together
+    from OCP.BRepAlgoAPI import BRepAlgoAPI_Fuse
+
+    solids = final_body.solids().vals()
+    if solids:
+        fused_result = solids[0]
+        for s in solids[1:]:
+            fuse_op = BRepAlgoAPI_Fuse(fused_result.wrapped, s.wrapped)
+            fuse_op.SetFuzzyValue(0.1)
+            fuse_op.Build()
+            if fuse_op.IsDone():
+                fused_result = cq.Solid(fuse_op.Shape())
+        final_body = cq.Workplane("XY").add(fused_result)
 
     return final_body, bridge, cavity_volume
 

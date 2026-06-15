@@ -449,7 +449,7 @@
     {
       "id": "F-086",
       "title": "Fuse violin body into single solid: mesh is 8 disconnected pieces (neck/fingerboard/pegs/chinrest unfused) -> free-free structural modes, low fidelity",
-      "status": "todo"
+      "status": "done"
     }
   ],
   "progress": [
@@ -979,6 +979,14 @@
       "verified": "pass (2026-06-15 11:56 UTC @ 63f60ea)",
       "blockers": "none",
       "commit": "63f60ea (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 12:36 UTC",
+      "title": "Fuse violin body parts for free-free structural modes",
+      "done": "Made all 8 disconnected violin body pieces overlap slightly and combined them using BRepAlgoAPI_Fuse with fuzzy tolerance.",
+      "verified": "pass (2026-06-15 12:36 UTC @ 62b336a)",
+      "blockers": "none",
+      "commit": "62b336a (+ uncommitted changes)"
     }
   ],
   "rules": [
