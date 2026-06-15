@@ -425,6 +425,11 @@
       "id": "F-081",
       "title": "Add a thickness parameter for the f-holes",
       "status": "done"
+    },
+    {
+      "id": "F-082",
+      "title": "Add a bash script wrapper for the orca slicer",
+      "status": "done"
     }
   ],
   "progress": [
@@ -938,6 +943,14 @@
       "verified": "pass (2026-06-15 08:54 UTC @ 04aaddb)",
       "blockers": "none",
       "commit": "04aaddb (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 09:47 UTC",
+      "title": "Added bash script wrapper for orca slicer",
+      "done": "Created slice/orca.sh to wrap orca-slicer with setting handling and output extraction",
+      "verified": "pass (2026-06-15 09:47 UTC @ 0c6ecfc)",
+      "blockers": "none",
+      "commit": "0c6ecfc (+ uncommitted changes)"
     }
   ],
   "rules": [
