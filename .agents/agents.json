@@ -445,7 +445,7 @@
     {
       "id": "F-085",
       "title": "Acoustic A0 Helmholtz mode: model f-holes as pressure-release openings (currently only rigid-wall internal cavity modes ~600Hz)",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "F-086",
