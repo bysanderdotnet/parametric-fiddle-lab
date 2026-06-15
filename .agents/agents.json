@@ -395,6 +395,11 @@
       "id": "F-075",
       "title": "Parameterize peg head thickness",
       "status": "done"
+    },
+    {
+      "id": "F-076",
+      "title": "Parameterize fine tuners",
+      "status": "done"
     }
   ],
   "progress": [
@@ -868,6 +873,14 @@
       "verified": "pass (2026-06-15 02:41 UTC @ d3492bb)",
       "blockers": "none",
       "commit": "d3492bb (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 03:26 UTC",
+      "title": "Parameterize fine tuners",
+      "done": "Added fine_tuner_radius and fine_tuner_height optimization ranges to common/params.py",
+      "verified": "pass (2026-06-15 03:23 UTC @ 14ecdec)",
+      "blockers": "none",
+      "commit": "47304da"
     }
   ],
   "rules": [
