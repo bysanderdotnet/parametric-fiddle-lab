@@ -410,6 +410,11 @@
       "id": "F-078",
       "title": "Add a parameterized neck thickness to cad/violin.py and common/params.py",
       "status": "done"
+    },
+    {
+      "id": "F-079",
+      "title": "Add a variable for fingerboard end shape (curve or flat)",
+      "status": "done"
     }
   ],
   "progress": [
@@ -899,6 +904,14 @@
       "verified": "pass (2026-06-15 05:31 UTC @ 94a5e3f)",
       "blockers": "none",
       "commit": "94a5e3f (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-15 06:16 UTC",
+      "title": "Added a variable for fingerboard end shape (curve or flat)",
+      "done": "Added fingerboard_end_shape parameter to common/params.py and implemented CAD logic in cad/violin.py.",
+      "verified": "pass (2026-06-15 06:14 UTC @ 7fe4fb5)",
+      "blockers": "none",
+      "commit": "7fe4fb5 (+ uncommitted changes)"
     }
   ],
   "rules": [
