@@ -532,6 +532,11 @@
       "id": "F-102",
       "title": "Add nut mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-103",
+      "title": "Add peg mass to objective function",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1189,6 +1194,14 @@
       "verified": "pass (2026-06-16 08:15 UTC @ 2b98733)",
       "blockers": "none",
       "commit": "2b98733 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 09:32 UTC",
+      "title": "Add peg mass to objective function",
+      "done": "Updated cad/violin.py to export peg geometry and its mass to violin_body.json. Updated opt/optimize.py to parse pegs_mass_g and add to objective function",
+      "verified": "pass (2026-06-16 09:30 UTC @ a5f0ec8)",
+      "blockers": "none",
+      "commit": "a5f0ec8 (+ uncommitted changes)"
     }
   ],
   "rules": [
