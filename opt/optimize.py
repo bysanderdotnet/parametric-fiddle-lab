@@ -43,6 +43,7 @@ def objective(trial):
     soundpost_mass_g = 1.0 # Default if fail
     bass_bar_mass_g = 5.0 # Default if fail
     tailpiece_mass_g = 10.0 # Default if fail
+    chinrest_mass_g = 15.0 # Default if fail
 
     try:
         with open("violin_body.json", "r") as f:
@@ -55,6 +56,7 @@ def objective(trial):
             soundpost_mass_g = body_res.get("soundpost_mass_g", soundpost_mass_g)
             bass_bar_mass_g = body_res.get("bass_bar_mass_g", bass_bar_mass_g)
             tailpiece_mass_g = body_res.get("tailpiece_mass_g", tailpiece_mass_g)
+            chinrest_mass_g = body_res.get("chinrest_mass_g", chinrest_mass_g)
     except FileNotFoundError:
         print("Warning: violin_body.json not found")
 
@@ -79,8 +81,8 @@ def objective(trial):
     # Simple fitness: squared error of A0 frequency from 290Hz, plus a small penalty for mass and volume
     target_a0 = 290.0
 
-    score = abs(a0_freq - target_a0) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0) + (bridge_mass_g * 5.0) + (soundpost_mass_g * 5.0) + (bass_bar_mass_g * 5.0) + (tailpiece_mass_g * 5.0)
-    print(f"Result: A0={a0_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, SoundpostMass={soundpost_mass_g:.2f}g, BassBarMass={bass_bar_mass_g:.2f}g, TailpieceMass={tailpiece_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}")
+    score = abs(a0_freq - target_a0) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0) + (bridge_mass_g * 5.0) + (soundpost_mass_g * 5.0) + (bass_bar_mass_g * 5.0) + (tailpiece_mass_g * 5.0) + (chinrest_mass_g * 5.0)
+    print(f"Result: A0={a0_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, SoundpostMass={soundpost_mass_g:.2f}g, BassBarMass={bass_bar_mass_g:.2f}g, TailpieceMass={tailpiece_mass_g:.2f}g, ChinrestMass={chinrest_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}")
 
     return score
 

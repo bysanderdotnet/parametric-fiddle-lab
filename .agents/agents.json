@@ -491,6 +491,17 @@
       "id": "F-094",
       "title": "Add bridge feet cutouts for better sound transmission",
       "status": "done"
+    },
+    {
+      "id": "F-095",
+      "title": "Add bridge mass to objective function",
+      "status": "blocked",
+      "notes": "Already done"
+    },
+    {
+      "id": "F-096",
+      "title": "Add chinrest mass to objective function",
+      "status": "done"
     }
   ],
   "progress": [
