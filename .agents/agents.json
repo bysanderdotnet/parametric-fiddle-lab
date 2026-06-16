@@ -466,6 +466,26 @@
       "id": "F-089",
       "title": "Add a fine tuner position parameter to the model",
       "status": "done"
+    },
+    {
+      "id": "F-090",
+      "title": "Add bridge mass to objective function",
+      "status": "done"
+    },
+    {
+      "id": "F-091",
+      "title": "Add soundpost parameters to objective function",
+      "status": "done"
+    },
+    {
+      "id": "F-092",
+      "title": "Add bass bar mass and volume to objective function",
+      "status": "done"
+    },
+    {
+      "id": "F-093",
+      "title": "Add tailpiece mass to objective function",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1035,6 +1055,38 @@
       "verified": "pass (2026-06-16 01:34 UTC @ 2e81a7b)",
       "blockers": "none",
       "commit": "2e81a7b (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 02:23 UTC",
+      "title": "Close F-090 as already completed",
+      "done": "No changes needed, bridge mass was already in the objective function.",
+      "verified": "pass (2026-06-16 02:22 UTC @ c406703)",
+      "blockers": "none",
+      "commit": "c406703 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 02:26 UTC",
+      "title": "Add soundpost mass and volume to cad/violin.py and opt/optimize.py objective",
+      "done": "Added soundpost mass and volume computation to cad/violin.py and included soundpost mass in objective function in opt/optimize.py",
+      "verified": "pass (2026-06-16 02:25 UTC @ 3d31308)",
+      "blockers": "none",
+      "commit": "3d31308 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 02:27 UTC",
+      "title": "Add bass bar mass and volume to cad/violin.py and opt/optimize.py objective",
+      "done": "Added bass bar mass and volume computation to cad/violin.py and included bass bar mass in objective function in opt/optimize.py",
+      "verified": "pass (2026-06-16 02:27 UTC @ 79fa2f3)",
+      "blockers": "none",
+      "commit": "79fa2f3 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 02:30 UTC",
+      "title": "Add tailpiece mass to objective function",
+      "done": "Added tailpiece mass and volume computation to cad/violin.py and included tailpiece mass in objective function in opt/optimize.py",
+      "verified": "pass (2026-06-16 02:30 UTC @ d9da673)",
+      "blockers": "none",
+      "commit": "d9da673 (+ uncommitted changes)"
     }
   ],
   "rules": [
