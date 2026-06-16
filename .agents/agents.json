@@ -522,6 +522,11 @@
       "id": "F-100",
       "title": "Add saddle mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-101",
+      "title": "Add strings mass to objective function",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1163,6 +1168,14 @@
       "verified": "pass (2026-06-16 06:31 UTC @ 955552b)",
       "blockers": "none",
       "commit": "955552b (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 07:29 UTC",
+      "title": "Add strings mass to objective function",
+      "done": "Added strings CAD geometry to cad/violin.py, exported strings_mass_g to violin_body.json, and updated objective penalty in opt/optimize.py.",
+      "verified": "pass (2026-06-16 07:28 UTC @ e0e95d8)",
+      "blockers": "none",
+      "commit": "e0e95d8 (+ uncommitted changes)"
     }
   ],
   "rules": [
