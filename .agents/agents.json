@@ -456,6 +456,11 @@
       "id": "F-087",
       "title": "Add bridge mass and volume to optimization and calculation",
       "status": "done"
+    },
+    {
+      "id": "F-088",
+      "title": "Add a feature",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1009,6 +1014,14 @@
       "verified": "pass (2026-06-15 23:18 UTC @ a4258d5)",
       "blockers": "none",
       "commit": "a4258d5 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 00:18 UTC",
+      "title": "Add peg_head_length parameter [F-088]",
+      "done": "Added peg_head_length to common/params.py and cad/violin.py to generate elliptical peg heads instead of circular ones.",
+      "verified": "pass (2026-06-16 00:17 UTC @ 54196bd)",
+      "blockers": "none",
+      "commit": "54196bd (+ uncommitted changes)"
     }
   ],
   "rules": [
