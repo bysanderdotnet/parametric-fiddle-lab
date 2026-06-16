@@ -495,7 +495,7 @@
     {
       "id": "F-095",
       "title": "Add bridge mass to objective function",
-      "status": "blocked",
+      "status": "done",
       "notes": "Already done"
     },
     {
@@ -546,7 +546,7 @@
     {
       "id": "F-105",
       "title": "Add fine tuners mass to objective function",
-      "status": "blocked",
+      "status": "done",
       "notes": "Already implemented"
     },
     {
@@ -1230,12 +1230,6 @@
       "id": "R-001",
       "category": "architecture",
       "text": "Pipeline: cad -> slice -> sim_struct/sim_acoustic -> opt. Data flows through these stages.",
-      "added": "2026-06-11"
-    },
-    {
-      "id": "R-002",
-      "category": "conventions",
-      "text": "Python ecosystem: use CadQuery, Optuna, Bambu CLI.",
       "added": "2026-06-11"
     },
     {
