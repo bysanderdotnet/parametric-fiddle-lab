@@ -527,6 +527,11 @@
       "id": "F-101",
       "title": "Add strings mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-102",
+      "title": "Add nut mass to objective function",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1176,6 +1181,14 @@
       "verified": "pass (2026-06-16 07:28 UTC @ e0e95d8)",
       "blockers": "none",
       "commit": "e0e95d8 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 08:19 UTC",
+      "title": "Add nut mass to objective function",
+      "done": "Updated cad/violin.py to export nut geometry, compute its mass and save it to violin_body.json. Updated opt/optimize.py to read nut_mass_g and include it in the objective function.",
+      "verified": "pass (2026-06-16 08:15 UTC @ 2b98733)",
+      "blockers": "none",
+      "commit": "2b98733 (+ uncommitted changes)"
     }
   ],
   "rules": [
