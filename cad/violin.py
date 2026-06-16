@@ -397,6 +397,39 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
         final_body = final_body.cut(purfling_tool)
 
+    # Add Strings
+    # Simple cylindrical strings from tailpiece to the nut area
+    strings = None
+    string_radius = 0.5
+    import math
+    for i in range(num_strings):
+        x_pos_tp = -tailpiece_width_top / 2.0 + string_spacing / 2.0 + i * string_spacing
+        y_pos_tp = -length / 2.0 + tailpiece_length + tailpiece_y_offset
+        z_pos_tp = rib_height + top_arch_height + tailpiece_thickness
+
+        # End of string at "nut" area roughly
+        x_pos_nut = -neck_width_top / 2.0 + (neck_width_top / num_strings) / 2.0 + i * (neck_width_top / num_strings)
+        y_pos_nut = length / 2.0 + neck_length
+        z_pos_nut = rib_height + top_arch_height + fingerboard_thickness + nut_height
+
+        # Calculate dx, dy, dz relative to the start point (tailpiece)
+        dx = x_pos_nut - x_pos_tp
+        dy = y_pos_nut - y_pos_tp
+        dz = z_pos_nut - z_pos_tp
+        str_length = math.sqrt(dx**2 + dy**2 + dz**2)
+
+        # Create a workplane orthogonal to the string line at the start point
+        normal_vec = (dx, dy, dz)
+        plane = cq.Plane(origin=(x_pos_tp, y_pos_tp, z_pos_tp), normal=normal_vec)
+        st = cq.Workplane(plane).circle(string_radius).extrude(str_length)
+
+        if strings is None:
+            strings = st
+        else:
+            strings = strings.union(st)
+
+    final_body = final_body.union(strings)
+
     # Add Chinrest
     # A simple block placed at the lower left bout, curved on top
     chinrest_base = cq.Workplane("XY").center(chinrest_x_offset, chinrest_y_offset).box(chinrest_width, chinrest_length, chinrest_height)
@@ -427,7 +460,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
                 fused_result = cq.Solid(fuse_op.Shape())
         final_body = cq.Workplane("XY").add(fused_result)
 
-    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle
+    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings
 
 import argparse
 import json
@@ -448,7 +481,7 @@ if __name__ == "__main__":
 
     params = {name: getattr(args, name) for name in NAMES}
 
-    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle = create_violin_body(**params)
+    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings = create_violin_body(**params)
 
     # Calculate volume and estimated mass
     volume_mm3 = violin.val().Volume()
@@ -490,6 +523,11 @@ if __name__ == "__main__":
     saddle_mass_g = saddle_volume_mm3 * 1.24e-3
     params["saddle_volume_mm3"] = saddle_volume_mm3
     params["saddle_mass_g"] = saddle_mass_g
+
+    strings_volume_mm3 = strings.val().Volume() if strings else 0.0
+    strings_mass_g = strings_volume_mm3 * 1.24e-3
+    params["strings_volume_mm3"] = strings_volume_mm3
+    params["strings_mass_g"] = strings_mass_g
 
     cavity_volume_mm3 = cavity.val().Volume()
     params["cavity_volume_mm3"] = cavity_volume_mm3
