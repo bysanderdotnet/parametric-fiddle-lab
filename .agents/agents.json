@@ -461,6 +461,11 @@
       "id": "F-088",
       "title": "Add a feature",
       "status": "done"
+    },
+    {
+      "id": "F-089",
+      "title": "Add a fine tuner position parameter to the model",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1022,6 +1027,14 @@
       "verified": "pass (2026-06-16 00:17 UTC @ 54196bd)",
       "blockers": "none",
       "commit": "54196bd (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 01:35 UTC",
+      "title": "Add a fine tuner position parameter to the model [F-089]",
+      "done": "Added fine_tuner_y_offset to params and cad/violin.py to allow vertical shifting of fine tuners.",
+      "verified": "pass (2026-06-16 01:34 UTC @ 2e81a7b)",
+      "blockers": "none",
+      "commit": "2e81a7b (+ uncommitted changes)"
     }
   ],
   "rules": [
