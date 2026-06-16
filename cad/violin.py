@@ -460,7 +460,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
                 fused_result = cq.Solid(fuse_op.Shape())
         final_body = cq.Workplane("XY").add(fused_result)
 
-    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings
+    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings, nut
 
 import argparse
 import json
@@ -481,7 +481,7 @@ if __name__ == "__main__":
 
     params = {name: getattr(args, name) for name in NAMES}
 
-    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings = create_violin_body(**params)
+    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut = create_violin_body(**params)
 
     # Calculate volume and estimated mass
     volume_mm3 = violin.val().Volume()
@@ -528,6 +528,11 @@ if __name__ == "__main__":
     strings_mass_g = strings_volume_mm3 * 1.24e-3
     params["strings_volume_mm3"] = strings_volume_mm3
     params["strings_mass_g"] = strings_mass_g
+
+    nut_volume_mm3 = nut.val().Volume()
+    nut_mass_g = nut_volume_mm3 * 1.24e-3
+    params["nut_volume_mm3"] = nut_volume_mm3
+    params["nut_mass_g"] = nut_mass_g
 
     cavity_volume_mm3 = cavity.val().Volume()
     params["cavity_volume_mm3"] = cavity_volume_mm3
