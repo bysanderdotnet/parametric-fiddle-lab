@@ -542,6 +542,22 @@
       "id": "F-104",
       "title": "Add fingerboard mass parameter to objective function and calculate it in violin body generation",
       "status": "done"
+    },
+    {
+      "id": "F-105",
+      "title": "Add fine tuners mass to objective function",
+      "status": "blocked",
+      "notes": "Already implemented"
+    },
+    {
+      "id": "F-106",
+      "title": "Add endpin mass to objective function",
+      "status": "done"
+    },
+    {
+      "id": "F-107",
+      "title": "Add top block mass to objective function",
+      "status": "todo"
     }
   ],
   "progress": [
