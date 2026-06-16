@@ -85,6 +85,7 @@ SPEC = [
     ("peg_spacing", "float", (14.0, 16.0), "Spacing between pegs"),
     ("peg_length", "float", (35.0, 55.0), "Length of the pegs"),
     ("peg_width", "float", (15.0, 25.0), "Width of the peg head"),
+    ("peg_head_length", "float", (10.0, 30.0), "Length of the peg head"),
     ("peg_head_thickness", "float", (3.0, 10.0), "Thickness of the peg head"),
     ("endpin_length", "float", (15.0, 25.0), "Length of the endpin"),
     ("endpin_radius", "float", (3.0, 6.0), "Radius of the endpin"),
