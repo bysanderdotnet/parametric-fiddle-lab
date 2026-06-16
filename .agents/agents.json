@@ -486,6 +486,11 @@
       "id": "F-093",
       "title": "Add tailpiece mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-094",
+      "title": "Add bridge feet cutouts for better sound transmission",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1087,6 +1092,14 @@
       "verified": "pass (2026-06-16 02:30 UTC @ d9da673)",
       "blockers": "none",
       "commit": "d9da673 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 03:33 UTC",
+      "title": "Add bridge feet cutouts for better sound transmission",
+      "done": "Added bridge_foot_cutout_width and bridge_foot_cutout_height to common/params.py and updated cad/violin.py to use these parameters to cut arch cutouts under the bridge feet.",
+      "verified": "pass (2026-06-16 03:31 UTC @ dda9956)",
+      "blockers": "none",
+      "commit": "dda9956 (+ uncommitted changes)"
     }
   ],
   "rules": [
