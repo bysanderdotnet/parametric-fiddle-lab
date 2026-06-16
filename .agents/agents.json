@@ -537,6 +537,11 @@
       "id": "F-103",
       "title": "Add peg mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-104",
+      "title": "Add fingerboard mass parameter to objective function and calculate it in violin body generation",
+      "status": "done"
     }
   ],
   "progress": [
