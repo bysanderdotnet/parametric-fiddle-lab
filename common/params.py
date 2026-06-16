@@ -104,6 +104,7 @@ SPEC = [
     ("chinrest_height", "float", (10.0, 25.0), "Height of the chinrest"),
     ("fine_tuner_radius", "float", (1.0, 4.0), "Radius of the fine tuners"),
     ("fine_tuner_height", "float", (4.0, 15.0), "Height of the fine tuners"),
+    ("fine_tuner_y_offset", "float", (-10.0, 10.0), "Y offset of the fine tuners"),
     ("chinrest_cutout_radius", "float", (40.0, 80.0), "Radius of the chinrest cutout sphere"),
     ("chinrest_cutout_depth", "float", (2.0, 10.0), "Depth of the chinrest cutout"),
     ("c_bout_cutout_radius", "float", (30.0, 60.0), "Radius of the C-bout cutout"),
