@@ -502,6 +502,16 @@
       "id": "F-096",
       "title": "Add chinrest mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-097",
+      "title": "Add chinrest mass to objective function",
+      "status": "done"
+    },
+    {
+      "id": "F-098",
+      "title": "Add a fine tuner mass parameter to objective function",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1111,6 +1121,22 @@
       "verified": "pass (2026-06-16 03:31 UTC @ dda9956)",
       "blockers": "none",
       "commit": "dda9956 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 05:11 UTC",
+      "title": "Closed duplicate feature",
+      "done": "No changes made as the feature was a duplicate of PR #95",
+      "verified": "unverified (no verify run recorded)",
+      "blockers": "none",
+      "commit": "20af79d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 05:27 UTC",
+      "title": "Add fine tuner mass to objective function",
+      "done": "Updated cad/violin.py to calculate fine_tuners_mass_g and opt/optimize.py to include it in the objective function",
+      "verified": "pass (2026-06-16 05:26 UTC @ 20af79d)",
+      "blockers": "none",
+      "commit": "20af79d (+ uncommitted changes)"
     }
   ],
   "rules": [
