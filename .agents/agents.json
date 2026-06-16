@@ -512,6 +512,16 @@
       "id": "F-098",
       "title": "Add a fine tuner mass parameter to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-099",
+      "title": "Add chinrest mass to objective function",
+      "status": "done"
+    },
+    {
+      "id": "F-100",
+      "title": "Add saddle mass to objective function",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1137,6 +1147,22 @@
       "verified": "pass (2026-06-16 05:26 UTC @ 20af79d)",
       "blockers": "none",
       "commit": "20af79d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 06:19 UTC",
+      "title": "Closed duplicate feature",
+      "done": "No changes made as chinrest_mass_g is already in opt/optimize.py and calculated in cad/violin.py.",
+      "verified": "unverified (no verify run recorded)",
+      "blockers": "none",
+      "commit": "955552b (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-16 06:33 UTC",
+      "title": "Add saddle mass to objective function",
+      "done": "Updated cad/violin.py to return saddle geometry and properly calculate saddle_volume_mm3 and saddle_mass_g. Updated opt/optimize.py to parse saddle_mass_g from violin_body.json and include it in the objective function's penalty calculation.",
+      "verified": "pass (2026-06-16 06:31 UTC @ 955552b)",
+      "blockers": "none",
+      "commit": "955552b (+ uncommitted changes)"
     }
   ],
   "rules": [
