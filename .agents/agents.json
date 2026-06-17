@@ -612,7 +612,18 @@
     {
       "id": "F-118",
       "title": "Add soundpost thickness and length parameters",
-      "status": "in_progress"
+      "status": "done"
+    },
+    {
+      "id": "F-119",
+      "title": "Add a0 cavity mode objective",
+      "status": "blocked",
+      "notes": "Misunderstood objective"
+    },
+    {
+      "id": "F-120",
+      "title": "Include structural eigenmode frequencies in the objective function",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1370,6 +1381,14 @@
       "verified": "pass (2026-06-17 10:29 UTC @ 5bb2a91)",
       "blockers": "None",
       "commit": "5bb2a91 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 11:59 UTC",
+      "title": "Added structural eigenmode frequency to objective function",
+      "done": "Updated opt/objective.py to read B1- structural mode (target 400Hz) and incorporate it into the penalty score alongside the A0 cavity mode",
+      "verified": "pass (2026-06-17 11:56 UTC @ e23a390)",
+      "blockers": "none",
+      "commit": "e23a390 (+ uncommitted changes)"
     }
   ],
   "rules": [
