@@ -624,6 +624,26 @@
       "id": "F-120",
       "title": "Include structural eigenmode frequencies in the objective function",
       "status": "done"
+    },
+    {
+      "id": "F-121",
+      "title": "Add a bottom block mass parameter to objective function and calculate it in violin body generation",
+      "status": "done"
+    },
+    {
+      "id": "F-122",
+      "title": "Add bridge central cutout diameter parameter and update common/params.py and cad/violin.py",
+      "status": "done"
+    },
+    {
+      "id": "F-123",
+      "title": "Extract top block and bottom block parameter definitions and handling into separate classes to improve modularity in cad/violin.py",
+      "status": "todo"
+    },
+    {
+      "id": "F-124",
+      "title": "Add a C-bout height parameter to common/params.py and apply it to cad/violin.py",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1398,6 +1418,30 @@
       "blockers": "none",
       "feature": "F-119",
       "commit": "6917cdf (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 22:28 UTC",
+      "title": "Closed F-121 as already completed",
+      "done": "bottom_block_mass_g is already calculated in cad/violin.py and used in opt/objective.py.",
+      "verified": "unverified (no verify run recorded)",
+      "blockers": "none",
+      "commit": "bad2187 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 22:36 UTC",
+      "title": "Closed F-122 as already completed",
+      "done": "bridge_central_cutout_radius is already added to common/params.py and used in cad/violin.py.",
+      "verified": "pass (2026-06-17 22:34 UTC @ bad2187)",
+      "blockers": "none",
+      "commit": "288fd3b (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 22:43 UTC",
+      "title": "Added a C-bout height parameter to common/params.py and applied it to cad/violin.py",
+      "done": "Updated common/params.py to include c_bout_height parameter and modified cad/violin.py to use ellipse shapes for c-bout cutters instead of circles.",
+      "verified": "pass (2026-06-17 22:42 UTC @ 07161e1) — STALE: files changed since that run, re-verify",
+      "blockers": "none",
+      "commit": "07161e1 (+ uncommitted changes)"
     }
   ],
   "rules": [

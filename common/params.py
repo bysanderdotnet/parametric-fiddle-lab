@@ -111,6 +111,7 @@ SPEC = [
     ("chinrest_cutout_radius", "float", (40.0, 80.0), "Radius of the chinrest cutout sphere"),
     ("chinrest_cutout_depth", "float", (2.0, 10.0), "Depth of the chinrest cutout"),
     ("c_bout_cutout_radius", "float", (30.0, 60.0), "Radius of the C-bout cutout"),
+    ("c_bout_height", "float", (40.0, 80.0), "Height of the C-bout cutout"),
     ("top_block_width", "float", (30.0, 60.0), "Width of the top block"),
     ("top_block_length", "float", (10.0, 30.0), "Length of the top block"),
     ("bottom_block_width", "float", (30.0, 60.0), "Width of the bottom block"),
