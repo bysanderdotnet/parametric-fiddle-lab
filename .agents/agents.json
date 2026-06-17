@@ -563,6 +563,16 @@
       "id": "F-108",
       "title": "Add neck mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-109",
+      "title": "Add top block mass to objective function",
+      "status": "done"
+    },
+    {
+      "id": "F-110",
+      "title": "Add scroll mass to objective function",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1245,6 +1255,22 @@
       "verified": "pass (2026-06-17 03:41 UTC @ 00e4134)",
       "blockers": "none",
       "commit": "00e4134 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 04:32 UTC",
+      "title": "Abandon feature F-109 because top_block_mass_g is already implemented in the objective function.",
+      "done": "Nothing.",
+      "verified": "unverified (no verify run recorded)",
+      "blockers": "None",
+      "commit": "4cf9436 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 04:47 UTC",
+      "title": "Add scroll mass to objective function",
+      "done": "Updated cad/violin.py to export scroll solid and scroll_mass_g. Updated opt/optimize.py to parse and include scroll_mass_g in the objective penalty calculation.",
+      "verified": "pass (2026-06-17 04:46 UTC @ 4cf9436)",
+      "blockers": "None",
+      "commit": "4cf9436 (+ uncommitted changes)"
     }
   ],
   "rules": [

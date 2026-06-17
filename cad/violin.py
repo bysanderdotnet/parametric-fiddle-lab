@@ -462,7 +462,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
                 fused_result = cq.Solid(fuse_op.Shape())
         final_body = cq.Workplane("XY").add(fused_result)
 
-    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck
+    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll
 
 import argparse
 import json
@@ -483,7 +483,7 @@ if __name__ == "__main__":
 
     params = {name: getattr(args, name) for name in NAMES}
 
-    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck = create_violin_body(**params)
+    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll = create_violin_body(**params)
 
     # Calculate volume and estimated mass
     volume_mm3 = violin.val().Volume()
@@ -555,6 +555,11 @@ if __name__ == "__main__":
     neck_mass_g = neck_volume_mm3 * 1.24e-3
     params["neck_volume_mm3"] = neck_volume_mm3
     params["neck_mass_g"] = neck_mass_g
+
+    scroll_volume_mm3 = scroll.val().Volume()
+    scroll_mass_g = scroll_volume_mm3 * 1.24e-3
+    params["scroll_volume_mm3"] = scroll_volume_mm3
+    params["scroll_mass_g"] = scroll_mass_g
 
     cavity_volume_mm3 = cavity.val().Volume()
     params["cavity_volume_mm3"] = cavity_volume_mm3
