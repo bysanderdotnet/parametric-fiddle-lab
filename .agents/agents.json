@@ -558,6 +558,11 @@
       "id": "F-107",
       "title": "Add top block mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-108",
+      "title": "Add neck mass to objective function",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1232,6 +1237,14 @@
       "next": "Nothing",
       "blockers": "none",
       "commit": "c11989f (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 03:42 UTC",
+      "title": "Add neck mass to objective function",
+      "done": "Updated cad/violin.py to export neck_mass_g. Updated opt/optimize.py to include neck_mass_g in objective penalty.",
+      "verified": "pass (2026-06-17 03:41 UTC @ 00e4134)",
+      "blockers": "none",
+      "commit": "00e4134 (+ uncommitted changes)"
     }
   ],
   "rules": [
