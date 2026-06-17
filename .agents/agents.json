@@ -638,7 +638,7 @@
     {
       "id": "F-123",
       "title": "Extract top block and bottom block parameter definitions and handling into separate classes to improve modularity in cad/violin.py",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "F-124",
@@ -1442,6 +1442,14 @@
       "verified": "pass (2026-06-17 22:42 UTC @ 07161e1) — STALE: files changed since that run, re-verify",
       "blockers": "none",
       "commit": "07161e1 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 23:29 UTC",
+      "title": "Extracted TopBlock and BottomBlock",
+      "done": "Created TopBlock and BottomBlock classes and replaced inline variable assignments in create_violin_body",
+      "verified": "pass (2026-06-17 23:27 UTC @ 8176d42)",
+      "blockers": "none",
+      "commit": "8176d42 (+ uncommitted changes)"
     }
   ],
   "rules": [
