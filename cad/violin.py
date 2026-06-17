@@ -462,7 +462,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
                 fused_result = cq.Solid(fuse_op.Shape())
         final_body = cq.Workplane("XY").add(fused_result)
 
-    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter
+    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl
 
 import argparse
 import json
@@ -483,7 +483,7 @@ if __name__ == "__main__":
 
     params = {name: getattr(args, name) for name in NAMES}
 
-    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter = create_violin_body(**params)
+    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl = create_violin_body(**params)
 
     # Calculate volume and estimated mass
     volume_mm3 = violin.val().Volume()
@@ -563,6 +563,11 @@ if __name__ == "__main__":
     bottom_block_mass_g = bottom_block_volume_mm3 * 1.24e-3
     params["bottom_block_volume_mm3"] = bottom_block_volume_mm3
     params["bottom_block_mass_g"] = bottom_block_mass_g
+
+    corner_blocks_volume_mm3 = corner_tr.val().Volume() + corner_tl.val().Volume() + corner_br.val().Volume() + corner_bl.val().Volume()
+    corner_blocks_mass_g = corner_blocks_volume_mm3 * 1.24e-3
+    params["corner_blocks_volume_mm3"] = corner_blocks_volume_mm3
+    params["corner_blocks_mass_g"] = corner_blocks_mass_g
 
     # Export to step
     cq.exporters.export(violin, "violin_body.step")
