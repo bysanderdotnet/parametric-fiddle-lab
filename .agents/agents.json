@@ -1223,6 +1223,15 @@
       "verified": "pass (2026-06-16 09:30 UTC @ a5f0ec8)",
       "blockers": "none",
       "commit": "a5f0ec8 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 01:58 UTC",
+      "title": "Add bottom block mass to objective function",
+      "done": "Updated cad/violin.py to export bottom_block_cutter and bottom_block_mass_g. Updated opt/optimize.py to include bottom_block_mass_g in objective penalty.",
+      "verified": "pass (2026-06-17 01:58 UTC @ c11989f)",
+      "next": "Nothing",
+      "blockers": "none",
+      "commit": "c11989f (+ uncommitted changes)"
     }
   ],
   "rules": [
