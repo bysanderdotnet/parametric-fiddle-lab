@@ -582,7 +582,7 @@
     {
       "id": "F-112",
       "title": "Add bridge foot arch width parameter",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "F-113",
@@ -1319,6 +1319,15 @@
       "blockers": "none",
       "feature": "F-116",
       "commit": "9552674 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 09:33 UTC",
+      "title": "Closed feature F-112 as it is already implemented",
+      "done": "No code changes needed, the bridge foot arch width parameter (bridge_foot_cutout_width) was already added to common/params.py and cad/violin.py.",
+      "verified": "pass (2026-06-17 09:29 UTC @ 0a6e694)",
+      "blockers": "none",
+      "feature": "F-112",
+      "commit": "0a6e694 (+ uncommitted changes)"
     }
   ],
   "rules": [
