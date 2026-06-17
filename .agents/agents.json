@@ -617,7 +617,7 @@
     {
       "id": "F-119",
       "title": "Add a0 cavity mode objective",
-      "status": "blocked",
+      "status": "done",
       "notes": "Misunderstood objective"
     },
     {
@@ -1389,6 +1389,15 @@
       "verified": "pass (2026-06-17 11:56 UTC @ e23a390)",
       "blockers": "none",
       "commit": "e23a390 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 12:39 UTC",
+      "title": "Fixed F-119",
+      "done": "Updated opt/objective.py to explicitly look for the A0 cavity mode by matching description instead of simply using the first cavity mode.",
+      "verified": "pass (2026-06-17 12:37 UTC @ 6917cdf)",
+      "blockers": "none",
+      "feature": "F-119",
+      "commit": "6917cdf (+ uncommitted changes)"
     }
   ],
   "rules": [

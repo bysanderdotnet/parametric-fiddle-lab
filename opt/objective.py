@@ -71,10 +71,16 @@ def evaluate_objective():
     try:
         with open("acoustic_results.json", "r") as f:
             ac_res = json.load(f)
-            # Find first mode
+            # Find A0 mode explicitly
             modes = ac_res.get("cavity_modes", [])
-            if modes:
-                a0_freq = modes[0].get("frequency_hz", a0_freq)
+            for mode in modes:
+                if "A0" in mode.get("description", ""):
+                    a0_freq = mode.get("frequency_hz", a0_freq)
+                    break
+            else:
+                # Fallback to first mode if no A0 description is found
+                if modes:
+                    a0_freq = modes[0].get("frequency_hz", a0_freq)
     except FileNotFoundError:
         print("Warning: acoustic_results.json not found")
 
