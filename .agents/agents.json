@@ -573,6 +573,16 @@
       "id": "F-110",
       "title": "Add scroll mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-111",
+      "title": "Add a peg hole radius parameter to the model",
+      "status": "todo"
+    },
+    {
+      "id": "F-112",
+      "title": "Add top plate edge overhang parameter",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1271,6 +1281,14 @@
       "verified": "pass (2026-06-17 04:46 UTC @ 4cf9436)",
       "blockers": "None",
       "commit": "4cf9436 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 07:44 UTC",
+      "title": "Add top plate edge overhang parameter",
+      "done": "Added top_plate_edge_overhang parameter to common/params.py and updated cad/violin.py geometry construction to offset the top plate correctly.",
+      "verified": "pass (2026-06-17 07:42 UTC @ fdc8c8c)",
+      "blockers": "none",
+      "commit": "fdc8c8c (+ uncommitted changes)"
     }
   ],
   "rules": [

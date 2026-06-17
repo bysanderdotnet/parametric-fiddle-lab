@@ -116,6 +116,7 @@ SPEC = [
     ("bottom_block_length", "float", (10.0, 30.0), "Length of the bottom block"),
     ("corner_block_width", "float", (10.0, 30.0), "Width of the corner blocks"),
     ("corner_block_length", "float", (10.0, 30.0), "Length of the corner blocks"),
+    ("top_plate_edge_overhang", "float", (0.0, 5.0), "Overhang of the top plate edge beyond the ribs"),
 ]
 
 NAMES = [name for name, _, _, _ in SPEC]
