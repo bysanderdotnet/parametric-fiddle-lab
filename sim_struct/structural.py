@@ -6,6 +6,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.elmer import run_elmer as elmer_eigenmodes
+from filaments import bambu_pla_basic as filament
 
 SOLVER = """Solver 1
   Equation = Linear elasticity
@@ -24,11 +25,16 @@ SOLVER = """Solver 1
 End"""
 
 MATERIAL = """Material 1
-  Name = "PLA"
-  Density = 1240.0
-  Youngs modulus = 2.58e9
-  Poisson ratio = 0.35
-End"""
+  Name = "{name}"
+  Density = {density}
+  Youngs modulus = {youngs}
+  Poisson ratio = {poisson}
+End""".format(
+    name=filament.NAME,
+    density=filament.DENSITY_KG_M3,
+    youngs=filament.YOUNGS_MODULUS_PA,
+    poisson=filament.POISSON_RATIO,
+)
 
 def mass_from_json(default=380.0):
     """Mass is a geometric quantity already computed by the CAD step."""
