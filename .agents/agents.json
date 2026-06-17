@@ -587,22 +587,32 @@
     {
       "id": "F-113",
       "title": "Add a bridge cutout y offset parameter",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "F-114",
       "title": "Add soundpost parameters to common/params.py and cad/violin.py",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "F-115",
       "title": "Add bass bar angle parameter",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "F-116",
       "title": "Extract objective function logic to opt/objective.py",
       "status": "done"
+    },
+    {
+      "id": "F-117",
+      "title": "Add bridge central cutout dimensions to params and CAD",
+      "status": "done"
+    },
+    {
+      "id": "F-118",
+      "title": "Add soundpost thickness and length parameters",
+      "status": "in_progress"
     }
   ],
   "progress": [
@@ -1328,6 +1338,38 @@
       "blockers": "none",
       "feature": "F-112",
       "commit": "0a6e694 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 10:31 UTC",
+      "title": "Closed F-113 as already completed",
+      "done": "bridge_cutout_y_offset parameter was already present in common/params.py and used in cad/violin.py.",
+      "verified": "pass (2026-06-17 10:29 UTC @ 5bb2a91)",
+      "blockers": "None",
+      "commit": "5bb2a91 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 10:32 UTC",
+      "title": "Closed F-114 as already completed",
+      "done": "soundpost_radius, soundpost_x_offset, and soundpost_y_offset are already in common/params.py and cad/violin.py.",
+      "verified": "pass (2026-06-17 10:29 UTC @ 5bb2a91)",
+      "blockers": "None",
+      "commit": "5bb2a91 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 10:33 UTC",
+      "title": "Closed F-115 as already completed",
+      "done": "bass_bar_angle is already in common/params.py and cad/violin.py.",
+      "verified": "pass (2026-06-17 10:29 UTC @ 5bb2a91)",
+      "blockers": "None",
+      "commit": "5bb2a91 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 10:34 UTC",
+      "title": "Closed F-117 as already completed",
+      "done": "bridge_central_cutout dimensions are already in common/params.py and cad/violin.py.",
+      "verified": "pass (2026-06-17 10:29 UTC @ 5bb2a91)",
+      "blockers": "None",
+      "commit": "5bb2a91 (+ uncommitted changes)"
     }
   ],
   "rules": [
