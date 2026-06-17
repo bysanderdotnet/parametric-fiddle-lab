@@ -52,6 +52,7 @@ def objective(trial):
     fingerboard_mass_g = 10.0 # Default if fail
     endpin_mass_g = 2.0 # Default if fail
     top_block_mass_g = 10.0 # Default if fail
+    bottom_block_mass_g = 10.0 # Default if fail
 
     try:
         with open("violin_body.json", "r") as f:
@@ -73,6 +74,7 @@ def objective(trial):
             fingerboard_mass_g = body_res.get("fingerboard_mass_g", fingerboard_mass_g)
             endpin_mass_g = body_res.get("endpin_mass_g", endpin_mass_g)
             top_block_mass_g = body_res.get("top_block_mass_g", top_block_mass_g)
+            bottom_block_mass_g = body_res.get("bottom_block_mass_g", bottom_block_mass_g)
     except FileNotFoundError:
         print("Warning: violin_body.json not found")
 
@@ -97,8 +99,8 @@ def objective(trial):
     # Simple fitness: squared error of A0 frequency from 290Hz, plus a small penalty for mass and volume
     target_a0 = 290.0
 
-    score = abs(a0_freq - target_a0) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0) + (bridge_mass_g * 5.0) + (soundpost_mass_g * 5.0) + (bass_bar_mass_g * 5.0) + (tailpiece_mass_g * 5.0) + (chinrest_mass_g * 5.0) + (fine_tuners_mass_g * 5.0) + (saddle_mass_g * 5.0) + (strings_mass_g * 5.0) + (nut_mass_g * 5.0) + (pegs_mass_g * 5.0) + (fingerboard_mass_g * 5.0) + (endpin_mass_g * 5.0) + (top_block_mass_g * 5.0)
-    print(f"Result: A0={a0_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, SoundpostMass={soundpost_mass_g:.2f}g, BassBarMass={bass_bar_mass_g:.2f}g, TailpieceMass={tailpiece_mass_g:.2f}g, ChinrestMass={chinrest_mass_g:.2f}g, FineTunersMass={fine_tuners_mass_g:.2f}g, SaddleMass={saddle_mass_g:.2f}g, StringsMass={strings_mass_g:.2f}g, NutMass={nut_mass_g:.2f}g, PegsMass={pegs_mass_g:.2f}g, FingerboardMass={fingerboard_mass_g:.2f}g, EndpinMass={endpin_mass_g:.2f}g, TopBlockMass={top_block_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}")
+    score = abs(a0_freq - target_a0) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0) + (bridge_mass_g * 5.0) + (soundpost_mass_g * 5.0) + (bass_bar_mass_g * 5.0) + (tailpiece_mass_g * 5.0) + (chinrest_mass_g * 5.0) + (fine_tuners_mass_g * 5.0) + (saddle_mass_g * 5.0) + (strings_mass_g * 5.0) + (nut_mass_g * 5.0) + (pegs_mass_g * 5.0) + (fingerboard_mass_g * 5.0) + (endpin_mass_g * 5.0) + (top_block_mass_g * 5.0) + (bottom_block_mass_g * 5.0)
+    print(f"Result: A0={a0_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, SoundpostMass={soundpost_mass_g:.2f}g, BassBarMass={bass_bar_mass_g:.2f}g, TailpieceMass={tailpiece_mass_g:.2f}g, ChinrestMass={chinrest_mass_g:.2f}g, FineTunersMass={fine_tuners_mass_g:.2f}g, SaddleMass={saddle_mass_g:.2f}g, StringsMass={strings_mass_g:.2f}g, NutMass={nut_mass_g:.2f}g, PegsMass={pegs_mass_g:.2f}g, FingerboardMass={fingerboard_mass_g:.2f}g, EndpinMass={endpin_mass_g:.2f}g, TopBlockMass={top_block_mass_g:.2f}g, BottomBlockMass={bottom_block_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}")
 
     return score
 
