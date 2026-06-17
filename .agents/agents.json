@@ -573,6 +573,36 @@
       "id": "F-110",
       "title": "Add scroll mass to objective function",
       "status": "done"
+    },
+    {
+      "id": "F-111",
+      "title": "Add bridge dimensions to params and CAD",
+      "status": "done"
+    },
+    {
+      "id": "F-112",
+      "title": "Add bridge foot arch width parameter",
+      "status": "todo"
+    },
+    {
+      "id": "F-113",
+      "title": "Add a bridge cutout y offset parameter",
+      "status": "todo"
+    },
+    {
+      "id": "F-114",
+      "title": "Add soundpost parameters to common/params.py and cad/violin.py",
+      "status": "todo"
+    },
+    {
+      "id": "F-115",
+      "title": "Add bass bar angle parameter",
+      "status": "todo"
+    },
+    {
+      "id": "F-116",
+      "title": "Extract objective function logic to opt/objective.py",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1271,6 +1301,24 @@
       "verified": "pass (2026-06-17 04:46 UTC @ 4cf9436)",
       "blockers": "None",
       "commit": "4cf9436 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-17 07:26 UTC",
+      "title": "Started F-111, closed as already implemented",
+      "done": "No code changes needed. bridge parameters and dimensions were already in common/params.py and cad/violin.py.",
+      "verified": "pass (2026-06-17 07:25 UTC @ fdc8c8c)",
+      "blockers": "none",
+      "feature": "F-111",
+      "commit": "f3841eb"
+    },
+    {
+      "date": "2026-06-17 07:40 UTC",
+      "title": "Extract objective function logic to opt/objective.py",
+      "done": "Extracted the evaluation logic from opt/optimize.py to a new module opt/objective.py. Updated opt/optimize.py to use the new module.",
+      "verified": "pass (2026-06-17 07:40 UTC @ 9552674)",
+      "blockers": "none",
+      "feature": "F-116",
+      "commit": "9552674 (+ uncommitted changes)"
     }
   ],
   "rules": [
