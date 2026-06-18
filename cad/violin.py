@@ -473,6 +473,14 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll
 
+def load_step(filepath: str) -> cq.Workplane:
+    """Load a STEP file into a cadquery Workplane."""
+    return cq.importers.importStep(filepath)
+
+def save_step(workplane: cq.Workplane, filepath: str):
+    """Export a cadquery Workplane to a STEP file."""
+    cq.exporters.export(workplane, filepath)
+
 import argparse
 import json
 import inspect
@@ -591,9 +599,9 @@ if __name__ == "__main__":
     params["corner_blocks_mass_g"] = corner_blocks_mass_g
 
     # Export to step
-    cq.exporters.export(violin, "violin_body.step")
+    save_step(violin, "violin_body.step")
     # Air cavity solid drives the acoustic cavity-mode sim
-    cq.exporters.export(cavity, "violin_cavity.step")
+    save_step(cavity, "violin_cavity.step")
 
     # Export parameters to JSON
     with open("violin_body.json", "w") as f:
