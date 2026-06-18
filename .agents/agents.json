@@ -654,6 +654,11 @@
       "id": "F-126",
       "title": "Add descriptions to structural eigenmodes in structural.py based on frequency ranges",
       "status": "done"
+    },
+    {
+      "id": "F-127",
+      "title": "Add descriptions to acoustic cavity modes based on frequency ranges",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1477,6 +1482,14 @@
       "verified": "pass (2026-06-18 01:43 UTC @ fd5ec29)",
       "blockers": "none",
       "commit": "fd5ec29 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 02:37 UTC",
+      "title": "Added descriptions to acoustic cavity modes based on frequency ranges",
+      "done": "Updated sim_acoustic/acoustic.py to add A0-like and A1-like descriptions based on frequencies.",
+      "verified": "pass (2026-06-18 02:35 UTC @ fedb587)",
+      "blockers": "none",
+      "commit": "fedb587 (+ uncommitted changes)"
     }
   ],
   "rules": [
