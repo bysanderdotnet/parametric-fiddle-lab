@@ -90,10 +90,11 @@ def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_arg
 
         logger.info(f"Slicing completed successfully.")
 
-        # Extract gcode from the resulting 3mf
+        # Extract gcode and metadata from the resulting 3mf
         out_3mf = os.path.join(tmpdir, "output.gcode.3mf")
         if os.path.exists(out_3mf):
             with zipfile.ZipFile(out_3mf, 'r') as z:
+                # Extract gcode
                 gcode_files = [f for f in z.namelist() if f.endswith('.gcode')]
                 if gcode_files:
                     # Just take the first one
@@ -102,6 +103,15 @@ def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_arg
                     logger.info(f"Extracted {gcode_files[0]} to {output_gcode_abs}")
                 else:
                     logger.warning("No .gcode file found inside the generated .3mf archive.")
+
+                # Extract slice_info.config
+                if "Metadata/slice_info.config" in z.namelist():
+                    slice_info_path = os.path.join(os.path.dirname(output_gcode_abs), "slice_info.config")
+                    with z.open("Metadata/slice_info.config") as zf, open(slice_info_path, 'wb') as f:
+                        shutil.copyfileobj(zf, f)
+                    logger.info(f"Extracted Metadata/slice_info.config to {slice_info_path}")
+                else:
+                    logger.warning("No Metadata/slice_info.config found inside the generated .3mf archive.")
         else:
             logger.warning("output.gcode.3mf was not generated.")
 
