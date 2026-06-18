@@ -16,6 +16,16 @@ def run_acoustic_sim(mesh_file):
         try:
             print(f"Running cavity-mode FEM on {mesh_file}...")
             modes = cavity_eigenmodes(mesh_file, sound_speed=SOUND_SPEED)
+            if modes:
+                for mode in modes:
+                    freq = mode.get("frequency_hz", 0.0)
+                    if freq < 350.0:
+                        mode["description"] = "A0-like (Helmholtz)"
+                    elif 350.0 <= freq <= 550.0:
+                        mode["description"] = "A1-like"
+                    else:
+                        mode["description"] = "Higher cavity mode"
+
             results = {"cavity_modes": modes, "radiation_efficiency": None}
             with open("acoustic_results.json", "w") as f:
                 json.dump(results, f, indent=4)
