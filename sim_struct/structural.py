@@ -50,6 +50,16 @@ def run_elmer(mesh_file):
     modes = elmer_eigenmodes(mesh_file, "elmer_mesh", "case.sif", SOLVER, MATERIAL)
     if not modes:
         return None
+
+    for mode in modes:
+        freq = mode.get("frequency_hz", 0.0)
+        if freq < 340.0:
+            mode["description"] = "CBR-like"
+        elif 340.0 <= freq <= 465.0:
+            mode["description"] = "B1- like"
+        else:
+            mode["description"] = "B1+ like"
+
     return {
         "eigenmodes": modes,
         "max_stress_mpa": 0.0,  # eigenanalysis only; stress not computed
