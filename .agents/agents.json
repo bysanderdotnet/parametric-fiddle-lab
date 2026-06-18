@@ -8,6 +8,10 @@
     "test_objective": {
       "run": ". .venv/bin/activate && PYTHONPATH=opt python3 -m pytest opt/test_objective.py",
       "verify": true
+    },
+    "test_violin": {
+      "run": ". .venv/bin/activate && PYTHONPATH=cad python3 -m pytest cad/test_violin.py",
+      "verify": true
     }
   },
   "features": [
@@ -687,6 +691,11 @@
     {
       "id": "F-132",
       "title": "Extract slicing parameters from generated gcode",
+      "status": "done"
+    },
+    {
+      "id": "F-133",
+      "title": "Add unit tests for violin.py module",
       "status": "done"
     }
   ],
@@ -1567,6 +1576,14 @@
       "verified": "pass (2026-06-18 11:53 UTC @ 5cd431f)",
       "blockers": "none",
       "commit": "5cd431f (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 13:00 UTC",
+      "title": "Add unit tests for violin.py module",
+      "done": "Created cad/test_violin.py with pytest tests for cad/violin.py and registered with the AGENTS.sh test harness.",
+      "verified": "pass (2026-06-18 12:48 UTC @ 0a15b39)",
+      "blockers": "none",
+      "commit": "0a15b39 (+ uncommitted changes)"
     }
   ],
   "rules": [
