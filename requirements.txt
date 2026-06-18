@@ -3,3 +3,4 @@ optuna
 botorch
 gmsh
 scipy
+pytest
