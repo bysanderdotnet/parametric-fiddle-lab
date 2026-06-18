@@ -669,6 +669,11 @@
       "id": "F-129",
       "title": "Add unit tests for slicer functionality",
       "status": "done"
+    },
+    {
+      "id": "F-130",
+      "title": "Add a logging mechanism to record the optimization history to a CSV file",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1524,6 +1529,14 @@
       "verified": "pass (2026-06-18 06:35 UTC @ 82e0a57)",
       "blockers": "none",
       "commit": "82e0a57 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 09:52 UTC",
+      "title": "Added CSV logging to optimization",
+      "done": "Updated opt/optimize.py to log trial history and scores to a CSV. Uses csv.DictWriter and extracts scores to save trial values reliably.",
+      "verified": "pass (2026-06-18 09:51 UTC @ b436ddf)",
+      "blockers": "none",
+      "commit": "b436ddf (+ uncommitted changes)"
     }
   ],
   "rules": [

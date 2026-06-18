@@ -3,6 +3,7 @@ import subprocess
 import json
 import os
 import sys
+import csv
 
 # Ensure the root directory is in sys.path so we can import from slice/common
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -31,12 +32,43 @@ def objective(trial):
 
     # 5. Run Acoustic Sim (air cavity mesh)
     subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
-
     # 6. Evaluate Objective
     score, result_str = evaluate_objective()
     print(result_str)
 
+    # 7. Log to CSV
+    csv_file = "data/optimization_history.csv"
+    os.makedirs(os.path.dirname(csv_file), exist_ok=True)
+    file_exists = os.path.isfile(csv_file)
+
+    # Extract metrics from result_str robustly
+    metrics = {}
+    if result_str.startswith("Result: "):
+        parts = result_str[8:].split(" -> Score=")
+        if len(parts) == 2:
+            metrics_str = parts[0]
+            for item in metrics_str.split(", "):
+                if "=" in item:
+                    k, v = item.split("=", 1)
+                    metrics[k] = v
+
+    row_dict = {
+        "trial_number": trial.number,
+        "score": score
+    }
+    row_dict.update(metrics)
+    row_dict.update(params)
+
+    fieldnames = ["trial_number", "score"] + list(metrics.keys()) + list(params.keys())
+
+    with open(csv_file, mode='a', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(row_dict)
+
     return score
+
 
 if __name__ == "__main__":
     # Create study and run optimization
