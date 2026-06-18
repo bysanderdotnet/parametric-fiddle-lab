@@ -4,7 +4,8 @@ import tempfile
 from unittest.mock import patch
 from objective import evaluate_objective
 
-def test_evaluate_objective_default_fallback():
+@patch('builtins.open', side_effect=FileNotFoundError)
+def test_evaluate_objective_default_fallback(mock_open):
     # Test fallback to defaults when no files exist
     score, result_str = evaluate_objective()
 

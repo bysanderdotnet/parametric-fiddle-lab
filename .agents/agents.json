@@ -4,6 +4,10 @@
     "check": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && python3 cad/violin.py && python3 mesh/mesher.py && python3 sim_struct/structural.py && python3 sim_acoustic/acoustic.py",
       "verify": true
+    },
+    "test_objective": {
+      "run": "PYTHONPATH=opt python3 -m pytest opt/test_objective.py",
+      "verify": true
     }
   },
   "features": [
@@ -668,6 +672,11 @@
     {
       "id": "F-129",
       "title": "Add unit tests for slicer functionality",
+      "status": "done"
+    },
+    {
+      "id": "F-130",
+      "title": "Add a bash command to test objective module",
       "status": "done"
     }
   ],
@@ -1524,6 +1533,14 @@
       "verified": "pass (2026-06-18 06:35 UTC @ 82e0a57)",
       "blockers": "none",
       "commit": "82e0a57 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 08:50 UTC",
+      "title": "Added a bash command to test objective module",
+      "done": "Fixed opt/test_objective.py by mocking builtins.open. Added unit test checking via a registered command test_objective.",
+      "verified": "pass (2026-06-18 08:49 UTC @ b436ddf)",
+      "blockers": "none",
+      "commit": "b436ddf (+ uncommitted changes)"
     }
   ],
   "rules": [
