@@ -70,3 +70,4 @@ elmer_mesh_acoustic/
 profiles/*
 !profiles/.gitkeep
 .deps_installed
+*.log
