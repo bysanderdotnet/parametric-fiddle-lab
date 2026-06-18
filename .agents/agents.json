@@ -6,7 +6,7 @@
       "verify": true
     },
     "test_objective": {
-      "run": "PYTHONPATH=opt python3 -m pytest opt/test_objective.py",
+      "run": ". .venv/bin/activate && PYTHONPATH=opt python3 -m pytest opt/test_objective.py",
       "verify": true
     }
   },
