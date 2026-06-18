@@ -1490,6 +1490,14 @@
       "verified": "pass (2026-06-18 02:35 UTC @ fedb587)",
       "blockers": "none",
       "commit": "fedb587 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 04:41 UTC",
+      "title": "Added tracking for A1, CBR, and B1+ modes to optimization objective",
+      "done": "Updated opt/objective.py to extract and log A1, CBR, and B1+ frequencies from acoustic and structural results.",
+      "verified": "pass (2026-06-18 04:39 UTC @ ef0d4c2)",
+      "blockers": "none",
+      "commit": "ef0d4c2 (+ uncommitted changes)"
     }
   ],
   "rules": [
