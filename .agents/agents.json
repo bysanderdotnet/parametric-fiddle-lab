@@ -697,6 +697,11 @@
       "id": "F-133",
       "title": "Add unit tests for violin.py module",
       "status": "done"
+    },
+    {
+      "id": "F-134",
+      "title": "Add a mechanism to save and load CadQuery models to/from step files",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1584,6 +1589,15 @@
       "verified": "pass (2026-06-18 12:48 UTC @ 0a15b39)",
       "blockers": "none",
       "commit": "0a15b39 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 22:40 UTC",
+      "title": "Add step file loading and saving to cad/violin.py",
+      "done": "Added save_step and load_step functions, used them in violin.py, and added test_step_io test",
+      "verified": "pass (2026-06-18 22:38 UTC @ c63f120)",
+      "blockers": "none",
+      "feature": "F-134",
+      "commit": "c63f120 (+ uncommitted changes)"
     }
   ],
   "rules": [
