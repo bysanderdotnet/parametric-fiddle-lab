@@ -678,6 +678,11 @@
       "id": "F-130",
       "title": "Add a bash command to test objective module",
       "status": "done"
+    },
+    {
+      "id": "F-131",
+      "title": "Parameterize slicing properties (infill and layer height)",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1541,6 +1546,14 @@
       "verified": "pass (2026-06-18 08:49 UTC @ b436ddf)",
       "blockers": "none",
       "commit": "b436ddf (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 10:56 UTC",
+      "title": "Parameterize slicing properties (infill and layer height)",
+      "done": "Added infill_density and layer_height to common/params.py, updated cad/violin.py to exclude them from CAD parameters, and updated opt/optimize.py to run the slicer inside the optimization loop.",
+      "verified": "pass (2026-06-18 10:53 UTC @ 1b2c217)",
+      "blockers": "none",
+      "commit": "1b2c217 (+ uncommitted changes)"
     }
   ],
   "rules": [

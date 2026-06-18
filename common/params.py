@@ -118,6 +118,8 @@ SPEC = [
     ("bottom_block_length", "float", (10.0, 30.0), "Length of the bottom block"),
     ("corner_block_width", "float", (10.0, 30.0), "Width of the corner blocks"),
     ("corner_block_length", "float", (10.0, 30.0), "Length of the corner blocks"),
+    ("infill_density", "float", (5.0, 100.0), "Sparse infill density percentage"),
+    ("layer_height", "float", (0.08, 0.28), "Layer height"),
 ]
 
 NAMES = [name for name, _, _, _ in SPEC]
@@ -127,12 +129,19 @@ def add_arguments(parser, defaults):
     """Register one argparse argument per SPEC entry, default pulled from `defaults`."""
     import argparse
     for name, kind, _opt, help_ in SPEC:
+        # If the parameter is not present in defaults (e.g., slicing params not in CAD function), skip it or provide a default.
+        default_val = defaults.get(name)
+        if default_val is None:
+            if kind == "float": default_val = _opt[0]
+            elif kind == "bool": default_val = False
+            else: default_val = _opt[0] if _opt else ""
+
         if kind == "bool":
             parser.add_argument(f"--{name}", action=argparse.BooleanOptionalAction,
-                                default=defaults[name], help=help_)
+                                default=default_val, help=help_)
         else:
             parser.add_argument(f"--{name}", type=(float if kind == "float" else str),
-                                default=defaults[name], help=help_)
+                                default=default_val, help=help_)
 
 
 def suggest(trial):
@@ -149,10 +158,13 @@ def suggest(trial):
 
 
 def cli_args(values):
-    """Turn a {name: value} dict into cad/violin.py CLI args (SPEC order)."""
+    """Turn a {name: value} dict into cad/violin.py CLI args (SPEC order), excluding slicing parameters."""
     args = []
     kinds = {name: kind for name, kind, _, _ in SPEC}
+    slicing_params = {"infill_density", "layer_height"}
     for name in NAMES:
+        if name in slicing_params:
+            continue
         if name not in values:
             continue
         if kinds[name] == "bool":
