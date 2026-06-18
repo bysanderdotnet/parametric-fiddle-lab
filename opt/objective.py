@@ -4,7 +4,7 @@ def evaluate_objective():
     mass_g = 400.0 # Default if fail
     volume_mm3 = 300000.0 # Default if fail
     a0_freq = 300.0
-    first_struct_freq = 400.0 # Default if fail
+    b1_minus_freq = 400.0 # Default if fail
     top_thickness_val = 4.0 # Default if fail
     back_thickness_val = 4.0 # Default if fail
     bridge_mass_g = 2.0 # Default if fail
@@ -58,13 +58,23 @@ def evaluate_objective():
             # fallback in case structural_results has updated mass
             mass_g = struct_res.get("mass_g", mass_g)
 
-            # Find first structural mode (filter rigid body modes near 0Hz)
             struct_modes = struct_res.get("eigenmodes", [])
+
+            # Find B1- mode explicitly
+            b1_found = False
             for mode in struct_modes:
-                freq = mode.get("frequency_hz", 0)
-                if freq > 100.0:
-                    first_struct_freq = freq
+                if "B1-" in mode.get("description", ""):
+                    b1_minus_freq = mode.get("frequency_hz", b1_minus_freq)
+                    b1_found = True
                     break
+
+            # Fallback if no B1- description is found: use the 2nd mode > 100Hz
+            if not b1_found:
+                real_modes = [m for m in struct_modes if m.get("frequency_hz", 0) > 100.0]
+                if len(real_modes) > 1:
+                    b1_minus_freq = real_modes[1].get("frequency_hz", b1_minus_freq)
+                elif len(real_modes) == 1:
+                    b1_minus_freq = real_modes[0].get("frequency_hz", b1_minus_freq)
     except FileNotFoundError:
         print("Warning: structural_results.json not found")
 
@@ -88,7 +98,7 @@ def evaluate_objective():
     target_a0 = 290.0
     target_struct = 400.0
 
-    score = abs(a0_freq - target_a0) + abs(first_struct_freq - target_struct) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0) + (bridge_mass_g * 5.0) + (soundpost_mass_g * 5.0) + (bass_bar_mass_g * 5.0) + (tailpiece_mass_g * 5.0) + (chinrest_mass_g * 5.0) + (fine_tuners_mass_g * 5.0) + (saddle_mass_g * 5.0) + (strings_mass_g * 5.0) + (nut_mass_g * 5.0) + (pegs_mass_g * 5.0) + (fingerboard_mass_g * 5.0) + (endpin_mass_g * 5.0) + (neck_mass_g * 5.0) + (scroll_mass_g * 5.0) + (top_block_mass_g * 5.0) + (bottom_block_mass_g * 5.0) + (corner_blocks_mass_g * 5.0)
-    result_str = f"Result: A0={a0_freq:.1f}Hz, Struct1={first_struct_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, SoundpostMass={soundpost_mass_g:.2f}g, BassBarMass={bass_bar_mass_g:.2f}g, TailpieceMass={tailpiece_mass_g:.2f}g, ChinrestMass={chinrest_mass_g:.2f}g, FineTunersMass={fine_tuners_mass_g:.2f}g, SaddleMass={saddle_mass_g:.2f}g, StringsMass={strings_mass_g:.2f}g, NutMass={nut_mass_g:.2f}g, PegsMass={pegs_mass_g:.2f}g, FingerboardMass={fingerboard_mass_g:.2f}g, EndpinMass={endpin_mass_g:.2f}g, NeckMass={neck_mass_g:.2f}g, ScrollMass={scroll_mass_g:.2f}g, TopBlockMass={top_block_mass_g:.2f}g, BottomBlockMass={bottom_block_mass_g:.2f}g, CornerBlocksMass={corner_blocks_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}"
+    score = abs(a0_freq - target_a0) + abs(b1_minus_freq - target_struct) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0) + (bridge_mass_g * 5.0) + (soundpost_mass_g * 5.0) + (bass_bar_mass_g * 5.0) + (tailpiece_mass_g * 5.0) + (chinrest_mass_g * 5.0) + (fine_tuners_mass_g * 5.0) + (saddle_mass_g * 5.0) + (strings_mass_g * 5.0) + (nut_mass_g * 5.0) + (pegs_mass_g * 5.0) + (fingerboard_mass_g * 5.0) + (endpin_mass_g * 5.0) + (neck_mass_g * 5.0) + (scroll_mass_g * 5.0) + (top_block_mass_g * 5.0) + (bottom_block_mass_g * 5.0) + (corner_blocks_mass_g * 5.0)
+    result_str = f"Result: A0={a0_freq:.1f}Hz, B1-={b1_minus_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, SoundpostMass={soundpost_mass_g:.2f}g, BassBarMass={bass_bar_mass_g:.2f}g, TailpieceMass={tailpiece_mass_g:.2f}g, ChinrestMass={chinrest_mass_g:.2f}g, FineTunersMass={fine_tuners_mass_g:.2f}g, SaddleMass={saddle_mass_g:.2f}g, StringsMass={strings_mass_g:.2f}g, NutMass={nut_mass_g:.2f}g, PegsMass={pegs_mass_g:.2f}g, FingerboardMass={fingerboard_mass_g:.2f}g, EndpinMass={endpin_mass_g:.2f}g, NeckMass={neck_mass_g:.2f}g, ScrollMass={scroll_mass_g:.2f}g, TopBlockMass={top_block_mass_g:.2f}g, BottomBlockMass={bottom_block_mass_g:.2f}g, CornerBlocksMass={corner_blocks_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}"
 
     return score, result_str
