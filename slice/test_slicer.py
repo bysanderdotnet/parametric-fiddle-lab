@@ -72,6 +72,7 @@ def test_slice_model_successful_extraction(mock_run, tmp_path):
             out_3mf = os.path.join(cwd, "output.gcode.3mf")
             with zipfile.ZipFile(out_3mf, 'w') as z:
                 z.writestr("plate_1.gcode", "G1 X10 Y10 Z10\nM104 S200\n")
+                z.writestr("Metadata/slice_info.config", '{"weight": 10.5, "volume": 12000}')
         return MagicMock(stdout="Slice success", returncode=0)
 
     mock_run.side_effect = mock_run_side_effect
@@ -84,6 +85,12 @@ def test_slice_model_successful_extraction(mock_run, tmp_path):
     with open(output_gcode, "r") as f:
         content = f.read()
     assert "G1 X10 Y10 Z10" in content
+
+    slice_info_file = tmp_path / "slice_info.config"
+    assert slice_info_file.exists()
+    with open(slice_info_file, "r") as f:
+        info_content = f.read()
+    assert '"weight": 10.5' in info_content
 
 @patch("subprocess.run")
 def test_slice_model_subprocess_error(mock_run, tmp_path):

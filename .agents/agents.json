@@ -683,6 +683,11 @@
       "id": "F-131",
       "title": "Parameterize slicing properties (infill and layer height)",
       "status": "done"
+    },
+    {
+      "id": "F-132",
+      "title": "Extract slicing parameters from generated gcode",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1554,6 +1559,14 @@
       "verified": "pass (2026-06-18 10:53 UTC @ 1b2c217)",
       "blockers": "none",
       "commit": "1b2c217 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 11:54 UTC",
+      "title": "Extract slice_info.config from generated gcode 3mf archive",
+      "done": "Updated slice/slicer.py to extract Metadata/slice_info.config from the generated output.gcode.3mf and updated test_slicer.py",
+      "verified": "pass (2026-06-18 11:53 UTC @ 5cd431f)",
+      "blockers": "none",
+      "commit": "5cd431f (+ uncommitted changes)"
     }
   ],
   "rules": [
