@@ -644,6 +644,11 @@
       "id": "F-124",
       "title": "Add a C-bout height parameter to common/params.py and apply it to cad/violin.py",
       "status": "done"
+    },
+    {
+      "id": "F-125",
+      "title": "Review optimization results and implement missing objective metrics",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1450,6 +1455,15 @@
       "verified": "pass (2026-06-17 23:27 UTC @ 8176d42)",
       "blockers": "none",
       "commit": "8176d42 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 00:21 UTC",
+      "title": "Review optimization results and implement missing objective metrics",
+      "done": "Updated opt/objective.py to explicitly look for the B1- structural mode (instead of arbitrarily using the first mode above 100Hz) when computing fitness scores. Made sure string formatting clearly labels B1-.",
+      "verified": "pass (2026-06-18 00:21 UTC @ 6e4f884)",
+      "next": "Implement tracking and analysis of more modes if Elmer exposes structural descriptions",
+      "blockers": "none",
+      "commit": "6e4f884 (+ uncommitted changes)"
     }
   ],
   "rules": [
