@@ -4,7 +4,10 @@ def evaluate_objective():
     mass_g = 400.0 # Default if fail
     volume_mm3 = 300000.0 # Default if fail
     a0_freq = 300.0
+    a1_freq = 450.0 # Default if fail
+    cbr_freq = 300.0 # Default if fail
     b1_minus_freq = 400.0 # Default if fail
+    b1_plus_freq = 500.0 # Default if fail
     top_thickness_val = 4.0 # Default if fail
     back_thickness_val = 4.0 # Default if fail
     bridge_mass_g = 2.0 # Default if fail
@@ -60,13 +63,17 @@ def evaluate_objective():
 
             struct_modes = struct_res.get("eigenmodes", [])
 
-            # Find B1- mode explicitly
+            # Find CBR, B1-, and B1+ modes explicitly
             b1_found = False
             for mode in struct_modes:
-                if "B1-" in mode.get("description", ""):
+                desc = mode.get("description", "")
+                if "CBR" in desc:
+                    cbr_freq = mode.get("frequency_hz", cbr_freq)
+                elif "B1-" in desc:
                     b1_minus_freq = mode.get("frequency_hz", b1_minus_freq)
                     b1_found = True
-                    break
+                elif "B1+" in desc:
+                    b1_plus_freq = mode.get("frequency_hz", b1_plus_freq)
 
             # Fallback if no B1- description is found: use the 2nd mode > 100Hz
             if not b1_found:
@@ -81,16 +88,20 @@ def evaluate_objective():
     try:
         with open("acoustic_results.json", "r") as f:
             ac_res = json.load(f)
-            # Find A0 mode explicitly
+            # Find A0 and A1 modes explicitly
             modes = ac_res.get("cavity_modes", [])
+            a0_found = False
             for mode in modes:
-                if "A0" in mode.get("description", ""):
+                desc = mode.get("description", "")
+                if "A0" in desc:
                     a0_freq = mode.get("frequency_hz", a0_freq)
-                    break
-            else:
+                    a0_found = True
+                elif "A1" in desc:
+                    a1_freq = mode.get("frequency_hz", a1_freq)
+
+            if not a0_found and modes:
                 # Fallback to first mode if no A0 description is found
-                if modes:
-                    a0_freq = modes[0].get("frequency_hz", a0_freq)
+                a0_freq = modes[0].get("frequency_hz", a0_freq)
     except FileNotFoundError:
         print("Warning: acoustic_results.json not found")
 
@@ -99,6 +110,6 @@ def evaluate_objective():
     target_struct = 400.0
 
     score = abs(a0_freq - target_a0) + abs(b1_minus_freq - target_struct) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0) + (bridge_mass_g * 5.0) + (soundpost_mass_g * 5.0) + (bass_bar_mass_g * 5.0) + (tailpiece_mass_g * 5.0) + (chinrest_mass_g * 5.0) + (fine_tuners_mass_g * 5.0) + (saddle_mass_g * 5.0) + (strings_mass_g * 5.0) + (nut_mass_g * 5.0) + (pegs_mass_g * 5.0) + (fingerboard_mass_g * 5.0) + (endpin_mass_g * 5.0) + (neck_mass_g * 5.0) + (scroll_mass_g * 5.0) + (top_block_mass_g * 5.0) + (bottom_block_mass_g * 5.0) + (corner_blocks_mass_g * 5.0)
-    result_str = f"Result: A0={a0_freq:.1f}Hz, B1-={b1_minus_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, SoundpostMass={soundpost_mass_g:.2f}g, BassBarMass={bass_bar_mass_g:.2f}g, TailpieceMass={tailpiece_mass_g:.2f}g, ChinrestMass={chinrest_mass_g:.2f}g, FineTunersMass={fine_tuners_mass_g:.2f}g, SaddleMass={saddle_mass_g:.2f}g, StringsMass={strings_mass_g:.2f}g, NutMass={nut_mass_g:.2f}g, PegsMass={pegs_mass_g:.2f}g, FingerboardMass={fingerboard_mass_g:.2f}g, EndpinMass={endpin_mass_g:.2f}g, NeckMass={neck_mass_g:.2f}g, ScrollMass={scroll_mass_g:.2f}g, TopBlockMass={top_block_mass_g:.2f}g, BottomBlockMass={bottom_block_mass_g:.2f}g, CornerBlocksMass={corner_blocks_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}"
+    result_str = f"Result: A0={a0_freq:.1f}Hz, A1={a1_freq:.1f}Hz, CBR={cbr_freq:.1f}Hz, B1-={b1_minus_freq:.1f}Hz, B1+={b1_plus_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, SoundpostMass={soundpost_mass_g:.2f}g, BassBarMass={bass_bar_mass_g:.2f}g, TailpieceMass={tailpiece_mass_g:.2f}g, ChinrestMass={chinrest_mass_g:.2f}g, FineTunersMass={fine_tuners_mass_g:.2f}g, SaddleMass={saddle_mass_g:.2f}g, StringsMass={strings_mass_g:.2f}g, NutMass={nut_mass_g:.2f}g, PegsMass={pegs_mass_g:.2f}g, FingerboardMass={fingerboard_mass_g:.2f}g, EndpinMass={endpin_mass_g:.2f}g, NeckMass={neck_mass_g:.2f}g, ScrollMass={scroll_mass_g:.2f}g, TopBlockMass={top_block_mass_g:.2f}g, BottomBlockMass={bottom_block_mass_g:.2f}g, CornerBlocksMass={corner_blocks_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}"
 
     return score, result_str
