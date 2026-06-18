@@ -492,7 +492,9 @@ if __name__ == "__main__":
 
     params = {name: getattr(args, name) for name in NAMES}
 
-    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll = create_violin_body(**params)
+    # Filter out slicing parameters before calling CAD generation
+    cad_params = {k: v for k, v in params.items() if k not in ("infill_density", "layer_height")}
+    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll = create_violin_body(**cad_params)
 
     # Calculate volume and estimated mass
     volume_mm3 = violin.val().Volume()

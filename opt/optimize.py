@@ -20,19 +20,32 @@ def objective(trial):
     # 2. Generate CAD (STEP)
     subprocess.run(["python3", "cad/violin.py", *cli_args(params)], check=True)
 
-    # 3. Generate Mesh
+    # 3. Slice Model
+    try:
+        extra_args = []
+        if "infill_density" in params:
+            extra_args.extend(["--sparse-infill-density", f"{params['infill_density']}%"])
+        if "layer_height" in params:
+            extra_args.extend(["--layer-height", str(params['layer_height'])])
+
+        slice_model("violin_body.step", "dummy_profile.json", "violin_body.gcode", extra_args=extra_args)
+        print("Slice generated for trial.")
+    except Exception as e:
+        print(f"Warning: Slicing failed or orca-slicer not installed: {e}")
+
+    # 4. Generate Mesh
     mesh_file = "violin_body.msh"
     cavity_mesh = "violin_cavity.msh"
     # mesher meshes both violin_body.step and violin_cavity.step when run directly
     subprocess.run(["python3", "mesh/mesher.py"], check=True)
 
-    # 4. Run Structural Sim (solid body mesh)
+    # 5. Run Structural Sim (solid body mesh)
     subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
 
-    # 5. Run Acoustic Sim (air cavity mesh)
+    # 6. Run Acoustic Sim (air cavity mesh)
     subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
 
-    # 6. Evaluate Objective
+    # 7. Evaluate Objective
     score, result_str = evaluate_objective()
     print(result_str)
 
@@ -57,7 +70,13 @@ if __name__ == "__main__":
 
     # Slice Model
     try:
-        slice_model("violin_body.step", "dummy_profile.json", "violin_body.gcode")
+        extra_args = []
+        if "infill_density" in trial.params:
+            extra_args.extend(["--sparse-infill-density", f"{trial.params['infill_density']}%"])
+        if "layer_height" in trial.params:
+            extra_args.extend(["--layer-height", str(trial.params['layer_height'])])
+
+        slice_model("violin_body.step", "dummy_profile.json", "violin_body.gcode", extra_args=extra_args)
         print("Final slice generated.")
     except Exception as e:
         print(f"Warning: Slicing final model failed or orca-slicer not installed: {e}")
