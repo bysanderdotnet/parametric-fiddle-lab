@@ -659,6 +659,11 @@
       "id": "F-127",
       "title": "Add descriptions to acoustic cavity modes based on frequency ranges",
       "status": "done"
+    },
+    {
+      "id": "F-128",
+      "title": "Add unit tests to objective function to ensure score and description formatting work properly",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1498,6 +1503,14 @@
       "verified": "pass (2026-06-18 04:39 UTC @ ef0d4c2)",
       "blockers": "none",
       "commit": "ef0d4c2 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-18 05:34 UTC",
+      "title": "Added test_objective.py",
+      "done": "Created a unit test suite for the objective function and verified scoring algorithms",
+      "verified": "pass (2026-06-18 05:33 UTC @ 09a5f1b)",
+      "blockers": "none",
+      "commit": "09a5f1b (+ uncommitted changes)"
     }
   ],
   "rules": [
