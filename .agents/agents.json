@@ -32,6 +32,9 @@
     "test_sweep_bridge_mass": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_mass.py",
       "verify": true
+    },
+    "test_objective_script": {
+      "run": "./scripts/test_objective.sh"
     }
   },
   "features": [
@@ -751,6 +754,11 @@
     {
       "id": "F-140",
       "title": "Add a script to sweep bridge mass parameters",
+      "status": "done"
+    },
+    {
+      "id": "F-141",
+      "title": "Add a bash script to test objective function logic quickly",
       "status": "done"
     }
   ],
@@ -1704,6 +1712,14 @@
       "verified": "pass (2026-06-19 09:34 UTC @ 1f21ee5)",
       "blockers": "none",
       "commit": "1f21ee5 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 10:28 UTC",
+      "title": "Add test_objective_script command to quickly test objective logic",
+      "done": "Created scripts/test_objective.sh and added it to AGENTS cmds",
+      "verified": "pass (2026-06-19 10:28 UTC @ 9e755e8)",
+      "blockers": "none",
+      "commit": "9e755e8 (+ uncommitted changes)"
     }
   ],
   "rules": [
