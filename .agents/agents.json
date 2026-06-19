@@ -39,6 +39,10 @@
     "test_common": {
       "run": ". .venv/bin/activate && PYTHONPATH=. pytest common/test_*.py",
       "verify": true
+    },
+    "test_sweep_bridge_height": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_height.py",
+      "verify": true
     }
   },
   "features": [
@@ -768,6 +772,11 @@
     {
       "id": "F-142",
       "title": "Add unit tests to check common modules",
+      "status": "done"
+    },
+    {
+      "id": "F-143",
+      "title": "Add a script to sweep bridge height parameters",
       "status": "done"
     }
   ],
@@ -1737,6 +1746,14 @@
       "verified": "pass (2026-06-19 12:09 UTC @ 88a0ee2)",
       "blockers": "none",
       "commit": "88a0ee2 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 12:41 UTC",
+      "title": "Added a script to sweep bridge height parameters",
+      "done": "Created scripts/sweep_bridge_height.py and test_sweep_bridge_height.py, then registered to verification",
+      "verified": "pass (2026-06-19 12:40 UTC @ 249cc2c)",
+      "blockers": "none",
+      "commit": "249cc2c (+ uncommitted changes)"
     }
   ],
   "rules": [
