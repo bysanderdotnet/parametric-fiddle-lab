@@ -778,6 +778,11 @@
       "id": "F-143",
       "title": "Add a script to sweep bridge height parameters",
       "status": "done"
+    },
+    {
+      "id": "F-144",
+      "title": "Add unit tests to check simulation",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1754,6 +1759,14 @@
       "verified": "pass (2026-06-19 12:40 UTC @ 249cc2c)",
       "blockers": "none",
       "commit": "249cc2c (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 22:38 UTC",
+      "title": "Added test coverage for sim wrappers",
+      "done": "Added test cases with mock patches to sim_struct/test_structural.py and sim_acoustic/test_acoustic.py to cover run_elmer_sim branches.",
+      "verified": "pass (2026-06-19 22:38 UTC @ b134fa8)",
+      "blockers": "none",
+      "commit": "b134fa8 (+ uncommitted changes)"
     }
   ],
   "rules": [

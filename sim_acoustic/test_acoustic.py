@@ -1,6 +1,7 @@
 import os
 import json
 import pytest
+from unittest.mock import patch
 from sim_acoustic.acoustic import run_acoustic_sim
 
 def test_run_acoustic_sim_dummy(tmpdir):
@@ -24,6 +25,35 @@ def test_run_acoustic_sim_dummy(tmpdir):
         with open("acoustic_results.json", "r") as f:
             data = json.load(f)
             assert len(data["cavity_modes"]) == 2
+
+    finally:
+        os.chdir(orig_dir)
+
+@patch("sim_acoustic.acoustic.cavity_eigenmodes")
+@patch("sim_acoustic.acoustic.os.path.exists")
+def test_run_acoustic_sim_fem(mock_exists, mock_cavity_eigenmodes, tmpdir):
+    orig_dir = os.getcwd()
+    os.chdir(tmpdir)
+
+    try:
+        mock_exists.return_value = True
+
+        mock_cavity_eigenmodes.return_value = [
+            {"mode": 1, "frequency_hz": 300.0},
+            {"mode": 2, "frequency_hz": 400.0},
+            {"mode": 3, "frequency_hz": 600.0}
+        ]
+
+        results = run_acoustic_sim("dummy_mesh.msh")
+
+        assert "cavity_modes" in results
+        assert len(results["cavity_modes"]) == 3
+
+        assert results["cavity_modes"][0]["description"] == "A0-like (Helmholtz)"
+        assert results["cavity_modes"][1]["description"] == "A1-like"
+        assert results["cavity_modes"][2]["description"] == "Higher cavity mode"
+
+        assert os.path.exists("acoustic_results.json")
 
     finally:
         os.chdir(orig_dir)
