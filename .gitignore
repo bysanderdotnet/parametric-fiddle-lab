@@ -71,3 +71,4 @@ profiles/*
 !profiles/.gitkeep
 .deps_installed
 *.log
+*.stl
