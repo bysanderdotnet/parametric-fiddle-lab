@@ -23,8 +23,15 @@ echo "-----------------------------------"
 # pi ~ 3.141592653589793
 
 awk '/EigenSolve:/ {
-    if (NF >= 4) {
-        val = $4
+    # Match the last field or any field that looks like the eigenvalue
+    val = ""
+    for (i=1; i<=NF; i++) {
+        if ($i ~ /^[+-]?[0-9]*\.[0-9]+[eE][+-]?[0-9]+$/ || $i ~ /^[+-]?[0-9]*\.[0-9]+$/ || $i ~ /^[0-9]+$/) {
+            val = $i
+        }
+    }
+
+    if (val != "") {
         # Ensure it is a number
         if (val ~ /^[+-]?[0-9]*(\.[0-9]+)?([eE][+-]?[0-9]+)?$/) {
             # Compute square root using awk math (sqrt)

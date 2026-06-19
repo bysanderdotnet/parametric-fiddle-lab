@@ -1,0 +1,85 @@
+==================================================================
+ElmerGrid mesh conversion and manipulation utility, Welcome!
+Version: 26.2 (Rev: NA, Compiled: NA)
+This program is free software licensed under GPL
+==================================================================
+Elmergrid reading in-line arguments
+Output will be saved to file elmer_mesh.
+
+Elmergrid loading data:
+-----------------------
+Format chosen using the first line: $MeshFormat
+Gmsh input file format is type   4.1 in ASCII.
+Loading mesh in Gmsh format 4.1 from file violin_body.msh
+Reading 400 entities in 0D
+Reading 609 entities in 1D
+Reading 250 entities in 2D
+Reading 6 entities in 3D
+Allocating for 18692 knots and 46439 elements.
+Leading element dimension is 3
+Allocating lookup table for tags of size 609
+Defined 400 0DIM entities with geometric tag range [1 400]
+Defined 609 1DIM entities with geometric tag range [1 609]
+Defined 250 2DIM entities with geometric tag range [1 250]
+Defined 6 3DIM entities with geometric tag range [1 6]
+Physical tag offset for 1D is 0
+Physical tag offset for 0D is 0
+Geometric tag offset for 1D is 250
+Geometric tag offset for 0D is 859
+Reading 18692 nodes in 1265 blocks.
+Reading 46439 elements in 1263 blocks.
+Moving bulk elements to boundary elements
+Leading bulk elementtype is 504
+Trailing bulk elementtype is 101
+Checking that different dimensions have unique boundary tags!
+Tag interval for boundaries: [0 1259]
+No overlap, no offsets needed!
+There are 41169 (out of 46439) lower dimensional elements.
+Node 18669 belongs to maximum of 42 elements
+Studied 41169 lower dimensional elements
+Defined 4287 side elements
+Defined 0 lower dimensional bulk elements
+Removing 36882 lower dimensional elements from the element list
+Parent elements were reordered up to index 5270.
+Moved 5270 elements (out of 46439) to new positions
+Successfully read the mesh from the Gmsh input file violin_body.msh
+Using physical numbering of entities
+
+Elmergrid creating and manipulating meshes:
+-------------------------------------------
+Bounding box of all nodes in mesh:
+X:[-104,104] Y:[-197.5,397.778] Z:[-15.2713,75]
+
+Notice: the longest bounding box side length of [595.278] is greater than 50.
+ElmerGUI includes a library of material properties, defined in SI units.  If using ElmerGUI,
+then the geometry is expected to have meters as length.  Geometry that exceeds 50 meters
+in length or width or height may not be intended.  Many Geometry generators assume
+millimeters as the basic unit of length.  Scaling the geometry from millimeters to meters
+may be the desired action.  For more help, search the Elmer users forum for posts
+about SI units, or for posts about Coordinate Scaling.
+Scaling can be accomplished in at least three ways, as follows:
+ 1. Define the original geometry in meters, not millimeters.
+ 2. Call ElmerGrid with -scale 0.001 0.001 0.001 as an option.
+ 3. Add Coordinate Scaling = 0.001 to the simulation section of the sif file.
+If using Elmer to analyze large geometry, such as a glacier, then ignore this notice.
+
+Calculate Mesh Pieces in mesh:
+Number of non-body (hanging) nodes in mesh is 16788
+Consider running ElmerGrid with -autoclean command
+Number of separate pieces in mesh is 5
+The mesh is non-conforming. If not expecting a non-conforming
+mesh, then refer to the Elmer User Forum for help.
+
+Elmergrid saving data with method 2:
+-------------------------------------
+Saving mesh in ElmerSolver format to directory elmer_mesh.
+Reusing an existing directory
+Saving 18692 coordinates to mesh.nodes.
+Saving 5270 element topologies to mesh.elements.
+Saving boundary elements to mesh.boundary.
+Saving header info to mesh.header.
+
+Thank you for using Elmergrid!
+Send bug reports and feature wishes to elmeradm@csc.fi
+Running Elmer simulation on violin_body.msh...
+Elmer Simulation complete. Results saved to structural_results.json
