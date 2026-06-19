@@ -702,6 +702,11 @@
       "id": "F-134",
       "title": "Add a mechanism to save and load CadQuery models to/from step files",
       "status": "done"
+    },
+    {
+      "id": "F-135",
+      "title": "Add a bash script script for extracting resonant frequencies from Elmer output log",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1606,6 +1611,14 @@
       "verified": "pass (2026-06-19 00:27 UTC @ ef06985)",
       "blockers": "none",
       "commit": "ef06985 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 02:39 UTC",
+      "title": "Add Elmer log parser script",
+      "done": "Created and verified scripts/extract_resonant_frequencies.sh",
+      "verified": "pass (2026-06-19 02:38 UTC @ 2976717)",
+      "blockers": "None",
+      "commit": "2976717 (+ uncommitted changes)"
     }
   ],
   "rules": [
