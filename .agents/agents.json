@@ -16,6 +16,10 @@
     "test_scripts": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_extract_resonant_frequencies.py",
       "verify": true
+    },
+    "test_visualize": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 cad/violin.py && python3 scripts/visualize.py violin_body.step my_test_vis.stl",
+      "verify": true
     }
   },
   "features": [
@@ -715,6 +719,11 @@
     {
       "id": "F-136",
       "title": "Add a python test for extract_resonant_frequencies.sh",
+      "status": "done"
+    },
+    {
+      "id": "F-137",
+      "title": "Add visualization of the pipeline outputs",
       "status": "done"
     }
   ],
@@ -1636,6 +1645,14 @@
       "verified": "pass (2026-06-19 03:55 UTC @ 7f1b2c3)",
       "blockers": "None",
       "commit": "7f1b2c3 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 06:47 UTC",
+      "title": "Add visualization script for STL export",
+      "done": "Added scripts/visualize.py to export STEP to STL for visualization",
+      "verified": "pass (2026-06-19 06:46 UTC @ a7cc218)",
+      "blockers": "none",
+      "commit": "a7cc218 (+ uncommitted changes)"
     }
   ],
   "rules": [
