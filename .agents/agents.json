@@ -28,6 +28,10 @@
     "test_sim_acoustic": {
       "run": ". .venv/bin/activate && PYTHONPATH=. pytest sim_acoustic/test_acoustic.py",
       "verify": true
+    },
+    "test_sweep_bridge_mass": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_mass.py",
+      "verify": true
     }
   },
   "features": [
@@ -737,6 +741,16 @@
     {
       "id": "F-138",
       "title": "Add unit tests to check simulation scripts",
+      "status": "done"
+    },
+    {
+      "id": "F-139",
+      "title": "Add unit tests to check cad generation",
+      "status": "done"
+    },
+    {
+      "id": "F-140",
+      "title": "Add a script to sweep bridge mass parameters",
       "status": "done"
     }
   ],
@@ -1674,6 +1688,22 @@
       "verified": "pass (2026-06-19 07:42 UTC @ 1bfb8a0)",
       "blockers": "none",
       "commit": "1bfb8a0 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 09:22 UTC",
+      "title": "Add unit tests to check cad generation",
+      "done": "Created and verified test_violin.py, added it to the verify pipeline",
+      "verified": "pass (2026-06-19 09:22 UTC @ a9ad650)",
+      "blockers": "none",
+      "commit": "a9ad650 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 09:35 UTC",
+      "title": "Add a script to sweep bridge mass parameters",
+      "done": "Created and tested scripts/sweep_bridge_mass.py, and registered it in the verify pipeline.",
+      "verified": "pass (2026-06-19 09:34 UTC @ 1f21ee5)",
+      "blockers": "none",
+      "commit": "1f21ee5 (+ uncommitted changes)"
     }
   ],
   "rules": [
