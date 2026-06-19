@@ -35,6 +35,10 @@
     },
     "test_objective_script": {
       "run": "./scripts/test_objective.sh"
+    },
+    "test_common": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. pytest common/test_*.py",
+      "verify": true
     }
   },
   "features": [
@@ -759,6 +763,11 @@
     {
       "id": "F-141",
       "title": "Add a bash script to test objective function logic quickly",
+      "status": "done"
+    },
+    {
+      "id": "F-142",
+      "title": "Add unit tests to check common modules",
       "status": "done"
     }
   ],
@@ -1720,6 +1729,14 @@
       "verified": "pass (2026-06-19 10:28 UTC @ 9e755e8)",
       "blockers": "none",
       "commit": "9e755e8 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 12:10 UTC",
+      "title": "Add unit tests to check common modules",
+      "done": "Created unit tests for params.py, cavity_fem.py, and elmer.py",
+      "verified": "pass (2026-06-19 12:09 UTC @ 88a0ee2)",
+      "blockers": "none",
+      "commit": "88a0ee2 (+ uncommitted changes)"
     }
   ],
   "rules": [
