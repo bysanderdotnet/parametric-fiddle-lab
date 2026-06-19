@@ -1,6 +1,7 @@
 import os
 import json
 import pytest
+from unittest.mock import patch
 from sim_struct.structural import run_structural_sim
 
 def test_run_structural_sim_dummy(tmpdir):
@@ -25,6 +26,37 @@ def test_run_structural_sim_dummy(tmpdir):
         with open("structural_results.json", "r") as f:
             data = json.load(f)
             assert data["max_stress_mpa"] == 15.4
+
+    finally:
+        os.chdir(orig_dir)
+
+@patch("sim_struct.structural.elmer_eigenmodes")
+@patch("sim_struct.structural.shutil.which")
+@patch("sim_struct.structural.os.path.exists")
+def test_run_structural_sim_elmer(mock_exists, mock_which, mock_elmer_eigenmodes, tmpdir):
+    orig_dir = os.getcwd()
+    os.chdir(tmpdir)
+
+    try:
+        mock_exists.return_value = True
+        mock_which.return_value = True
+
+        mock_elmer_eigenmodes.return_value = [
+            {"mode": 1, "frequency_hz": 300.0},
+            {"mode": 2, "frequency_hz": 400.0},
+            {"mode": 3, "frequency_hz": 500.0}
+        ]
+
+        results = run_structural_sim("dummy_mesh.msh")
+
+        assert "eigenmodes" in results
+        assert len(results["eigenmodes"]) == 3
+
+        assert results["eigenmodes"][0]["description"] == "CBR-like"
+        assert results["eigenmodes"][1]["description"] == "B1- like"
+        assert results["eigenmodes"][2]["description"] == "B1+ like"
+
+        assert os.path.exists("structural_results.json")
 
     finally:
         os.chdir(orig_dir)
