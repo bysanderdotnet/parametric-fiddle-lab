@@ -20,6 +20,14 @@
     "test_visualize": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 cad/violin.py && python3 scripts/visualize.py violin_body.step my_test_vis.stl",
       "verify": true
+    },
+    "test_sim_struct": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. pytest sim_struct/test_structural.py",
+      "verify": true
+    },
+    "test_sim_acoustic": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. pytest sim_acoustic/test_acoustic.py",
+      "verify": true
     }
   },
   "features": [
@@ -724,6 +732,11 @@
     {
       "id": "F-137",
       "title": "Add visualization of the pipeline outputs",
+      "status": "done"
+    },
+    {
+      "id": "F-138",
+      "title": "Add unit tests to check simulation scripts",
       "status": "done"
     }
   ],
@@ -1653,6 +1666,14 @@
       "verified": "pass (2026-06-19 06:46 UTC @ a7cc218)",
       "blockers": "none",
       "commit": "a7cc218 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 07:44 UTC",
+      "title": "Add unit tests to check simulation scripts",
+      "done": "Created and verified test_structural.py and test_acoustic.py for simulation module, added them to the verify pipeline.",
+      "verified": "pass (2026-06-19 07:42 UTC @ 1bfb8a0)",
+      "blockers": "none",
+      "commit": "1bfb8a0 (+ uncommitted changes)"
     }
   ],
   "rules": [
