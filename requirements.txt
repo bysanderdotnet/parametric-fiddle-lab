@@ -1,6 +1,5 @@
 cadquery
 optuna
-botorch
 gmsh
 scipy
 pytest

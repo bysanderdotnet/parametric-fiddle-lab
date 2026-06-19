@@ -1598,6 +1598,14 @@
       "blockers": "none",
       "feature": "F-134",
       "commit": "c63f120 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 00:28 UTC",
+      "title": "maintenance: cleanup and documentation",
+      "done": "Cleaned ignored untracked files, removed unused BoTorch from dependencies and README.md.",
+      "verified": "pass (2026-06-19 00:27 UTC @ ef06985)",
+      "blockers": "none",
+      "commit": "ef06985 (+ uncommitted changes)"
     }
   ],
   "rules": [

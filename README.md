@@ -8,7 +8,7 @@ The project uses a pipeline architecture:
 1.  **Parametric Generation:** Generating the geometry using code (CadQuery).
 2.  **Slicing as Design:** Treating slicing parameters (infill, perimeters, modifiers) as design variables via Orca Slicer CLI.
 3.  **Simulation:** Using structural and acoustic simulation to evaluate designs (eigenmodes, stress, cavity modes, etc.) using Gmsh, Elmer.
-4.  **Optimization:** Iterating designs using bayesian optimization or evolutionary algorithms (Optuna, BoTorch).
+4.  **Optimization:** Iterating designs using bayesian optimization or evolutionary algorithms (Optuna).
 
 ## Directory Structure
 
