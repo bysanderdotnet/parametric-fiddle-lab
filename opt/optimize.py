@@ -43,7 +43,7 @@ def objective(trial):
     subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
 
     # 6. Run Acoustic Sim (air cavity mesh)
-    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
+    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--input", "violin_cavity.step"], check=True)
 
     # 7. Evaluate Objective
     score, result_str = evaluate_objective()
@@ -87,5 +87,5 @@ if __name__ == "__main__":
     cavity_mesh = "violin_cavity.msh"
     subprocess.run(["python3", "mesh/mesher.py"], check=True)
     subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
-    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
+    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--input", "violin_cavity.step"], check=True)
     print("End-to-End Pipeline Completed Successfully.")

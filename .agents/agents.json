@@ -702,6 +702,11 @@
       "id": "F-134",
       "title": "Add a mechanism to save and load CadQuery models to/from step files",
       "status": "done"
+    },
+    {
+      "id": "F-135",
+      "title": "Evaluate acoustic properties of STEP model using OpenCASCADE and pygmsh",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1598,6 +1603,15 @@
       "blockers": "none",
       "feature": "F-134",
       "commit": "c63f120 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-19 00:38 UTC",
+      "title": "Evaluate acoustic properties of STEP model using pygmsh",
+      "done": "Updated sim_acoustic/acoustic.py and common/cavity_fem.py to optionally evaluate step models using pygmsh without writing the intermediate msh file to disk. Passed violin_cavity.step to simulation from opt/optimize.py.",
+      "verified": "pass (2026-06-19 00:37 UTC @ a0edeae)",
+      "next": "Implement tracking and analysis of more modes if Elmer exposes structural descriptions",
+      "blockers": "none",
+      "commit": "a0edeae (+ uncommitted changes)"
     }
   ],
   "rules": [

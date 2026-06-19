@@ -28,6 +28,7 @@ from scipy.sparse.linalg import eigsh
 import json
 import math
 import os
+import pygmsh
 
 
 def is_in_f_hole(x, y, p):
@@ -93,13 +94,35 @@ def _read_tets(msh_file):
     return coords, tets, boundary_nodes
 
 
-def cavity_eigenmodes(msh_file, sound_speed=343.0, n_modes=6, mesh_scale=1e-3):
-    """Lowest cavity resonances (Hz) of the air volume in msh_file, including A0 Helmholtz mode."""
-    coords, tets, boundary_nodes = _read_tets(msh_file)
-    X = coords * mesh_scale  # gmsh mesh is in mm; FEM works in metres
+def _read_tets_from_step(step_file, mesh_size=5.0):
+    """Return (node coords (Nn,3), tet connectivity (Nt,4), and boundary node indices) directly from a STEP file using pygmsh."""
+    with pygmsh.occ.Geometry() as geom:
+        geom.import_shapes(step_file)
+        geom.characteristic_length_min = mesh_size
+        geom.characteristic_length_max = mesh_size
+        mesh = geom.generate_mesh(dim=3)
+
+    coords = mesh.points
+    tets = mesh.cells_dict.get('tetra', np.array([], dtype=np.int64).reshape(-1, 4))
+
+    if 'triangle' in mesh.cells_dict:
+        boundary_nodes = set(mesh.cells_dict['triangle'].flatten())
+    else:
+        boundary_nodes = set()
+
+    return coords, tets, boundary_nodes
+
+
+def cavity_eigenmodes(input_file, sound_speed=343.0, n_modes=6, mesh_scale=1e-3, mesh_size=5.0):
+    """Lowest cavity resonances (Hz) of the air volume, including A0 Helmholtz mode. Accepts .msh or .step file."""
+    if input_file.endswith('.step') or input_file.endswith('.stp'):
+        coords, tets, boundary_nodes = _read_tets_from_step(input_file, mesh_size=mesh_size)
+    else:
+        coords, tets, boundary_nodes = _read_tets(input_file)
+    X = coords * mesh_scale  # gmsh/pygmsh mesh is in mm; FEM works in metres
 
     # Read violin parameters to identify F-holes
-    params_file = os.path.join(os.path.dirname(msh_file), "violin_body.json")
+    params_file = os.path.join(os.path.dirname(input_file), "violin_body.json")
     dirichlet_nodes = []
     if os.path.exists(params_file):
         with open(params_file) as f:

@@ -10,12 +10,12 @@ from common.cavity_fem import cavity_eigenmodes
 SOUND_SPEED = 343.0  # m/s, air at room temperature
 
 
-def run_acoustic_sim(mesh_file):
+def run_acoustic_sim(input_file):
     """Solve rigid-wall air-cavity modes via P1 FEM, fallback to dummy if no mesh."""
-    if os.path.exists(mesh_file):
+    if os.path.exists(input_file):
         try:
-            print(f"Running cavity-mode FEM on {mesh_file}...")
-            modes = cavity_eigenmodes(mesh_file, sound_speed=SOUND_SPEED)
+            print(f"Running cavity-mode FEM on {input_file}...")
+            modes = cavity_eigenmodes(input_file, sound_speed=SOUND_SPEED)
             if modes:
                 for mode in modes:
                     freq = mode.get("frequency_hz", 0.0)
@@ -36,9 +36,9 @@ def run_acoustic_sim(mesh_file):
         except Exception as e:
             print(f"Cavity-mode FEM failed: {e}. Falling back to dummy results.")
     else:
-        print(f"Cavity mesh {mesh_file} not found. Using dummy results.")
+        print(f"Cavity input file {input_file} not found. Using dummy results.")
 
-    print(f"Running placeholder acoustic simulation on {mesh_file}...")
+    print(f"Running placeholder acoustic simulation on {input_file}...")
 
     # Dummy results: eigenfrequencies (e.g. A0, A1 modes for a violin cavity)
     dummy_results = {
@@ -59,7 +59,7 @@ def run_acoustic_sim(mesh_file):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run acoustic simulation.")
-    parser.add_argument("--mesh", type=str, default="violin_cavity.msh", help="Cavity mesh file to simulate")
+    parser.add_argument("--input", type=str, default="violin_cavity.step", help="Cavity STEP or MSH file to simulate")
     args = parser.parse_args()
 
-    run_acoustic_sim(args.mesh)
+    run_acoustic_sim(args.input)
