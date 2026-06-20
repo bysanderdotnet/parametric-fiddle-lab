@@ -67,6 +67,10 @@
     "test_sweep_corner_block_length": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_corner_block_length.py",
       "verify": true
+    },
+    "test_sweep_top_block_width": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_top_block_width.py",
+      "verify": true
     }
   },
   "features": [
@@ -846,6 +850,11 @@
     {
       "id": "F-152",
       "title": "Add a script to sweep corner block length and extract mass",
+      "status": "done"
+    },
+    {
+      "id": "F-153",
+      "title": "Add a script to sweep top block width and extract mass",
       "status": "done"
     }
   ],
@@ -1900,6 +1909,14 @@
       "verified": "pass (2026-06-20 07:54 UTC @ 4375f96)",
       "blockers": "none",
       "commit": "4375f96 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 09:44 UTC",
+      "title": "Added a script to sweep top block width and extract mass [F-153]",
+      "done": "Created scripts/sweep_top_block_width.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 09:41 UTC @ e3f753d)",
+      "blockers": "none",
+      "commit": "e3f753d (+ uncommitted changes)"
     }
   ],
   "rules": [
