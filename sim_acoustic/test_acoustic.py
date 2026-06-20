@@ -29,6 +29,39 @@ def test_run_acoustic_sim_dummy(tmpdir):
     finally:
         os.chdir(orig_dir)
 
+def test_acoustic_cli(tmpdir):
+    orig_dir = os.getcwd()
+    os.chdir(tmpdir)
+    try:
+        script_path = os.path.abspath(os.path.join(orig_dir, "sim_acoustic", "acoustic.py"))
+        import subprocess
+        import sys
+
+        env = os.environ.copy()
+        env["PYTHONPATH"] = orig_dir
+
+        result = subprocess.run([sys.executable, script_path, "--mesh", "non_existent_mesh.msh"], capture_output=True, text=True, env=env)
+        assert result.returncode == 0
+        assert os.path.exists("acoustic_results.json")
+    finally:
+        os.chdir(orig_dir)
+
+@patch("sim_acoustic.acoustic.cavity_eigenmodes")
+@patch("sim_acoustic.acoustic.os.path.exists")
+def test_run_acoustic_sim_exception(mock_exists, mock_cavity_eigenmodes, tmpdir):
+    orig_dir = os.getcwd()
+    os.chdir(tmpdir)
+    try:
+        mock_exists.return_value = True
+        mock_cavity_eigenmodes.side_effect = Exception("Sim failed")
+
+        results = run_acoustic_sim("dummy_mesh.msh")
+
+        assert "cavity_modes" in results
+        assert len(results["cavity_modes"]) == 2
+    finally:
+        os.chdir(orig_dir)
+
 @patch("sim_acoustic.acoustic.cavity_eigenmodes")
 @patch("sim_acoustic.acoustic.os.path.exists")
 def test_run_acoustic_sim_fem(mock_exists, mock_cavity_eigenmodes, tmpdir):

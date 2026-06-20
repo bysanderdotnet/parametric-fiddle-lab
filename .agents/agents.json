@@ -783,6 +783,11 @@
       "id": "F-144",
       "title": "Add unit tests to check simulation",
       "status": "done"
+    },
+    {
+      "id": "F-145",
+      "title": "Add unit tests to check simulation scripts",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1767,6 +1772,15 @@
       "verified": "pass (2026-06-19 22:38 UTC @ b134fa8)",
       "blockers": "none",
       "commit": "b134fa8 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 00:19 UTC",
+      "title": "Added CLI and exception tests for sim wrappers",
+      "done": "Added CLI subprocess tests and elmer/cavity exception handling mock tests to test_structural and test_acoustic",
+      "verified": "pass (2026-06-20 00:19 UTC @ e139e2a)",
+      "next": "None",
+      "blockers": "none",
+      "commit": "e139e2a (+ uncommitted changes)"
     }
   ],
   "rules": [
