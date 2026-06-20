@@ -71,6 +71,10 @@
     "test_sweep_top_block_width": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_top_block_width.py",
       "verify": true
+    },
+    "test_sweep_top_block_length": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_top_block_length.py",
+      "verify": true
     }
   },
   "features": [
@@ -855,6 +859,11 @@
     {
       "id": "F-153",
       "title": "Add a script to sweep top block width and extract mass",
+      "status": "done"
+    },
+    {
+      "id": "F-154",
+      "title": "Add a sweep top block length script and test",
       "status": "done"
     }
   ],
@@ -1917,6 +1926,14 @@
       "verified": "pass (2026-06-20 09:41 UTC @ e3f753d)",
       "blockers": "none",
       "commit": "e3f753d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 10:35 UTC",
+      "title": "Added a script to sweep top block length and extract mass",
+      "done": "Created scripts/sweep_top_block_length.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 10:34 UTC @ 6cc3573)",
+      "blockers": "none",
+      "commit": "6cc3573 (+ uncommitted changes)"
     }
   ],
   "rules": [
