@@ -79,6 +79,10 @@
     "test_sweep_bottom_block_length": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bottom_block_length.py",
       "verify": true
+    },
+    "test_sweep_bottom_block_width": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bottom_block_width.py",
+      "verify": true
     }
   },
   "features": [
@@ -873,6 +877,11 @@
     {
       "id": "F-155",
       "title": "Sweep bottom block length",
+      "status": "done"
+    },
+    {
+      "id": "F-156",
+      "title": "Add a script to sweep bottom block width and extract mass",
       "status": "done"
     }
   ],
@@ -1951,6 +1960,14 @@
       "verified": "pass (2026-06-20 11:33 UTC @ 138aeb7)",
       "blockers": "none",
       "commit": "138aeb7 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 12:12 UTC",
+      "title": "Sweep bottom block width",
+      "done": "Created scripts/sweep_bottom_block_width.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 12:11 UTC @ 22ed835)",
+      "blockers": "none",
+      "commit": "22ed835 (+ uncommitted changes)"
     }
   ],
   "rules": [
