@@ -47,6 +47,10 @@
     "test_sweep_f_hole_size": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_size.py",
       "verify": true
+    },
+    "test_sweep_rib_thickness": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_rib_thickness.py",
+      "verify": true
     }
   },
   "features": [
@@ -801,6 +805,11 @@
     {
       "id": "F-147",
       "title": "Add a script to sweep f-hole size and extract A0 frequency",
+      "status": "done"
+    },
+    {
+      "id": "F-148",
+      "title": "Add a script to sweep rib thickness and extract B1- frequency",
       "status": "done"
     }
   ],
@@ -1813,6 +1822,14 @@
       "blockers": "none",
       "feature": "F-147",
       "commit": "2d326b4 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 04:16 UTC",
+      "title": "Added a script to sweep rib thickness and extract B1- frequency",
+      "done": "Created scripts/sweep_rib_thickness.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 04:15 UTC @ 04bad41)",
+      "blockers": "none",
+      "commit": "04bad41 (+ uncommitted changes)"
     }
   ],
   "rules": [
