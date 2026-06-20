@@ -59,6 +59,10 @@
     "test_sweep_back_thickness": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_back_thickness.py",
       "verify": true
+    },
+    "test_sweep_corner_block_width": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_corner_block_width.py",
+      "verify": true
     }
   },
   "features": [
@@ -828,6 +832,11 @@
     {
       "id": "F-150",
       "title": "Sweep back plate thickness",
+      "status": "done"
+    },
+    {
+      "id": "F-151",
+      "title": "Add a script to sweep corner block width and extract mass",
       "status": "done"
     }
   ],
@@ -1865,6 +1874,15 @@
       "blockers": "none",
       "feature": "F-150",
       "commit": "00b36b9 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 06:43 UTC",
+      "title": "Added a script to sweep corner block width and extract mass",
+      "done": "Created scripts/sweep_corner_block_width.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 06:42 UTC @ e24b0fc)",
+      "blockers": "none",
+      "feature": "F-151",
+      "commit": "e24b0fc (+ uncommitted changes)"
     }
   ],
   "rules": [
