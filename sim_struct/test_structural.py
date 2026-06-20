@@ -30,6 +30,78 @@ def test_run_structural_sim_dummy(tmpdir):
     finally:
         os.chdir(orig_dir)
 
+@patch("sim_struct.structural.run_elmer")
+@patch("sim_struct.structural.shutil.which")
+@patch("sim_struct.structural.os.path.exists")
+def test_run_structural_sim_elmer_exception(mock_exists, mock_which, mock_run_elmer, tmpdir):
+    orig_dir = os.getcwd()
+    os.chdir(tmpdir)
+
+    try:
+        mock_exists.return_value = True
+        mock_which.return_value = True
+
+        mock_run_elmer.side_effect = Exception("Sim failed")
+
+        results = run_structural_sim("dummy_mesh.msh")
+
+        assert "eigenmodes" in results
+        assert len(results["eigenmodes"]) == 3
+        # In this case it falls back to dummy results
+        assert results["max_stress_mpa"] == 15.4
+
+    finally:
+        os.chdir(orig_dir)
+
+@patch("sim_struct.structural.elmer_eigenmodes")
+@patch("sim_struct.structural.shutil.which")
+@patch("sim_struct.structural.os.path.exists")
+def test_run_structural_sim_elmer_none(mock_exists, mock_which, mock_elmer_eigenmodes, tmpdir):
+    orig_dir = os.getcwd()
+    os.chdir(tmpdir)
+
+    try:
+        mock_exists.return_value = True
+        mock_which.return_value = True
+
+        mock_elmer_eigenmodes.return_value = []
+
+        results = run_structural_sim("dummy_mesh.msh")
+
+        assert "eigenmodes" in results
+        assert len(results["eigenmodes"]) == 3
+        # In this case it falls back to dummy results
+        assert results["max_stress_mpa"] == 15.4
+
+    finally:
+        os.chdir(orig_dir)
+
+def test_structural_cli(tmpdir):
+    orig_dir = os.getcwd()
+    os.chdir(tmpdir)
+    try:
+        script_path = os.path.abspath(os.path.join(orig_dir, "sim_struct", "structural.py"))
+        import subprocess
+        import sys
+
+        # Test mass_from_json by creating the violin_body.json
+        import json
+        with open("violin_body.json", "w") as f:
+            json.dump({"dummy": 1.0}, f) # test default branch when mass_g missing
+
+        env = os.environ.copy()
+        env["PYTHONPATH"] = orig_dir
+
+        result = subprocess.run([sys.executable, script_path, "--mesh", "non_existent_mesh.msh"], capture_output=True, text=True, env=env)
+        assert result.returncode == 0
+        assert os.path.exists("structural_results.json")
+
+        with open("structural_results.json", "r") as f:
+            res = json.load(f)
+            assert res["mass_g"] == 380.0
+    finally:
+        os.chdir(orig_dir)
+
 @patch("sim_struct.structural.elmer_eigenmodes")
 @patch("sim_struct.structural.shutil.which")
 @patch("sim_struct.structural.os.path.exists")

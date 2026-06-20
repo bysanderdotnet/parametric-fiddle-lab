@@ -53,6 +53,10 @@ sim_acoustic/*
 !sim_acoustic/*.py
 !sim_acoustic/.gitkeep
 
+# Coverage / Tests
+.coverage
+.pytest_cache/
+
 # IDEs / OS
 .vscode/
 .idea/
