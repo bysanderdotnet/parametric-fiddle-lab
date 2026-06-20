@@ -55,6 +55,10 @@
     "test_sweep_top_thickness": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_top_thickness.py",
       "verify": true
+    },
+    "test_sweep_back_thickness": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_back_thickness.py",
+      "verify": true
     }
   },
   "features": [
@@ -819,6 +823,11 @@
     {
       "id": "F-149",
       "title": "Sweep Top Plate Thickness for A0 Frequency Extraction",
+      "status": "done"
+    },
+    {
+      "id": "F-150",
+      "title": "Sweep back plate thickness",
       "status": "done"
     }
   ],
@@ -1847,6 +1856,15 @@
       "verified": "pass (2026-06-20 04:49 UTC @ 0972ea0)",
       "blockers": "none",
       "commit": "0972ea0 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 05:32 UTC",
+      "title": "Added a script to sweep back plate thickness and extract A0 frequency",
+      "done": "Created scripts/sweep_back_thickness.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 05:31 UTC @ 00b36b9)",
+      "blockers": "none",
+      "feature": "F-150",
+      "commit": "00b36b9 (+ uncommitted changes)"
     }
   ],
   "rules": [
