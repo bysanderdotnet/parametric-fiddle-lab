@@ -51,6 +51,10 @@
     "test_sweep_rib_thickness": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_rib_thickness.py",
       "verify": true
+    },
+    "test_sweep_top_thickness": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_top_thickness.py",
+      "verify": true
     }
   },
   "features": [
@@ -810,6 +814,11 @@
     {
       "id": "F-148",
       "title": "Add a script to sweep rib thickness and extract B1- frequency",
+      "status": "done"
+    },
+    {
+      "id": "F-149",
+      "title": "Sweep Top Plate Thickness for A0 Frequency Extraction",
       "status": "done"
     }
   ],
@@ -1830,6 +1839,14 @@
       "verified": "pass (2026-06-20 04:15 UTC @ 04bad41)",
       "blockers": "none",
       "commit": "04bad41 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 04:51 UTC",
+      "title": "Added a script to sweep top plate thickness and extract A0 frequency",
+      "done": "Created scripts/sweep_top_thickness.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 04:49 UTC @ 0972ea0)",
+      "blockers": "none",
+      "commit": "0972ea0 (+ uncommitted changes)"
     }
   ],
   "rules": [
