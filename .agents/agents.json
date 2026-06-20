@@ -83,6 +83,10 @@
     "test_sweep_bottom_block_width": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bottom_block_width.py",
       "verify": true
+    },
+    "test_sweep_neck_length": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_neck_length.py",
+      "verify": true
     }
   },
   "features": [
@@ -883,6 +887,11 @@
       "id": "F-156",
       "title": "Add a script to sweep bottom block width and extract mass",
       "status": "done"
+    },
+    {
+      "id": "F-157",
+      "title": "Add script to sweep neck length and extract mass",
+      "status": "in_progress"
     }
   ],
   "progress": [
