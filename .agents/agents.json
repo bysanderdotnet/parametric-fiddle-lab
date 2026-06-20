@@ -43,6 +43,10 @@
     "test_sweep_bridge_height": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_height.py",
       "verify": true
+    },
+    "test_sweep_f_hole_size": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_size.py",
+      "verify": true
     }
   },
   "features": [
@@ -787,6 +791,16 @@
     {
       "id": "F-145",
       "title": "Add unit tests to check simulation scripts",
+      "status": "done"
+    },
+    {
+      "id": "F-146",
+      "title": "Extract objective function logic to opt/objective.py",
+      "status": "done"
+    },
+    {
+      "id": "F-147",
+      "title": "Add a script to sweep f-hole size and extract A0 frequency",
       "status": "done"
     }
   ],
@@ -1781,6 +1795,24 @@
       "next": "None",
       "blockers": "none",
       "commit": "e139e2a (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 01:41 UTC",
+      "title": "Closed duplicate feature F-146",
+      "done": "Closed duplicate feature F-146",
+      "verified": "pass (2026-06-20 01:40 UTC @ a1633d6)",
+      "blockers": "none",
+      "feature": "F-146",
+      "commit": "a1633d6 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 01:48 UTC",
+      "title": "Added a script to sweep f-hole size and extract A0 frequency",
+      "done": "Added a script to sweep f-hole size and extract A0 frequency",
+      "verified": "pass (2026-06-20 01:47 UTC @ 2d326b4)",
+      "blockers": "none",
+      "feature": "F-147",
+      "commit": "2d326b4 (+ uncommitted changes)"
     }
   ],
   "rules": [
