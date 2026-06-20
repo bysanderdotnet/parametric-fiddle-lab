@@ -87,6 +87,10 @@
     "test_sweep_neck_length": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_neck_length.py",
       "verify": true
+    },
+    "test_sweep_neck_width_top": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_neck_width_top.py",
+      "verify": true
     }
   },
   "features": [
@@ -891,7 +895,12 @@
     {
       "id": "F-157",
       "title": "Add script to sweep neck length and extract mass",
-      "status": "in_progress"
+      "status": "done"
+    },
+    {
+      "id": "F-158",
+      "title": "Add script to sweep neck width and extract mass",
+      "status": "done"
     }
   ],
   "progress": [
@@ -1977,6 +1986,22 @@
       "verified": "pass (2026-06-20 12:11 UTC @ 22ed835)",
       "blockers": "none",
       "commit": "22ed835 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 22:37 UTC",
+      "title": "Add script to sweep neck length and extract mass",
+      "done": "Created scripts/sweep_neck_length.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 22:36 UTC @ c3451e5)",
+      "blockers": "none",
+      "commit": "c3451e5 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 22:46 UTC",
+      "title": "Add script to sweep neck width and extract mass",
+      "done": "Created scripts/sweep_neck_width_top.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 22:45 UTC @ 25ee156)",
+      "blockers": "none",
+      "commit": "25ee156 (+ uncommitted changes)"
     }
   ],
   "rules": [
