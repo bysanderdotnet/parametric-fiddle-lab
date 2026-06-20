@@ -75,6 +75,10 @@
     "test_sweep_top_block_length": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_top_block_length.py",
       "verify": true
+    },
+    "test_sweep_bottom_block_length": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bottom_block_length.py",
+      "verify": true
     }
   },
   "features": [
@@ -864,6 +868,11 @@
     {
       "id": "F-154",
       "title": "Add a sweep top block length script and test",
+      "status": "done"
+    },
+    {
+      "id": "F-155",
+      "title": "Sweep bottom block length",
       "status": "done"
     }
   ],
@@ -1934,6 +1943,14 @@
       "verified": "pass (2026-06-20 10:34 UTC @ 6cc3573)",
       "blockers": "none",
       "commit": "6cc3573 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-20 11:35 UTC",
+      "title": "Sweep bottom block length",
+      "done": "Created scripts/sweep_bottom_block_length.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-20 11:33 UTC @ 138aeb7)",
+      "blockers": "none",
+      "commit": "138aeb7 (+ uncommitted changes)"
     }
   ],
   "rules": [
