@@ -103,6 +103,10 @@
     "test_sweep_soundpost_thickness": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_soundpost_thickness.py",
       "verify": true
+    },
+    "test_sweep_soundpost_length": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_soundpost_length.py",
+      "verify": true
     }
   },
   "features": [
@@ -937,6 +941,16 @@
     {
       "id": "F-163",
       "title": "Add script to sweep soundpost thickness and extract mass",
+      "status": "done"
+    },
+    {
+      "id": "F-164",
+      "title": "Add unit test for sweeping bridge width",
+      "status": "todo"
+    },
+    {
+      "id": "F-165",
+      "title": "Add a script to sweep soundpost length and extract mass",
       "status": "done"
     }
   ],
@@ -2081,6 +2095,15 @@
       "verified": "pass (2026-06-21 04:19 UTC @ def63b8)",
       "blockers": "none",
       "commit": "def63b8 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 05:14 UTC",
+      "title": "sweep soundpost length script",
+      "done": "sweep_soundpost_length.py and tests",
+      "verified": "pass (2026-06-21 05:13 UTC @ 6eaf8c6)",
+      "blockers": "none",
+      "feature": "F-165",
+      "commit": "6eaf8c6 (+ uncommitted changes)"
     }
   ],
   "rules": [
