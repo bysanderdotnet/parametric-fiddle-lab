@@ -123,6 +123,10 @@
     "test_sweep_bass_bar_length": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_length.py",
       "verify": true
+    },
+    "test_sweep_bass_bar_angle": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_angle.py",
+      "verify": true
     }
   },
   "features": [
@@ -982,6 +986,11 @@
     {
       "id": "F-168",
       "title": "Parameterize bass bar thickness and length",
+      "status": "done"
+    },
+    {
+      "id": "F-169",
+      "title": "Sweep bass bar angle",
       "status": "done"
     }
   ],
@@ -2169,6 +2178,14 @@
       "verified": "pass (2026-06-21 07:55 UTC @ 435259d)",
       "blockers": "none",
       "commit": "435259d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 09:49 UTC",
+      "title": "Sweep bass bar angle",
+      "done": "Created script to sweep bass bar angle and log bass bar mass.",
+      "verified": "pass (2026-06-21 09:48 UTC @ 290adb5)",
+      "blockers": "none",
+      "commit": "290adb5 (+ uncommitted changes)"
     }
   ],
   "rules": [
