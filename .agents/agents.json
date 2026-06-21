@@ -107,6 +107,10 @@
     "test_sweep_soundpost_length": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_soundpost_length.py",
       "verify": true
+    },
+    "test_sweep_bridge_foot_height": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_foot_height.py",
+      "verify": true
     }
   },
   "features": [
@@ -946,11 +950,16 @@
     {
       "id": "F-164",
       "title": "Add unit test for sweeping bridge width",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "F-165",
       "title": "Add a script to sweep soundpost length and extract mass",
+      "status": "done"
+    },
+    {
+      "id": "F-166",
+      "title": "Add a script to test sweeping bridge foot height",
       "status": "done"
     }
   ],
@@ -2104,6 +2113,24 @@
       "blockers": "none",
       "feature": "F-165",
       "commit": "6eaf8c6 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 05:35 UTC",
+      "title": "Add unit test for sweeping bridge width",
+      "done": "Created and registered test_sweep_bridge_width.py",
+      "verified": "pass",
+      "blockers": "none",
+      "feature": "F-164",
+      "commit": "5af070d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 05:41 UTC",
+      "title": "Add a script to test sweeping bridge foot height",
+      "done": "Created and registered test_sweep_bridge_foot_height.py",
+      "verified": "pass",
+      "blockers": "none",
+      "feature": "F-166",
+      "commit": "14f5602 (+ uncommitted changes)"
     }
   ],
   "rules": [
