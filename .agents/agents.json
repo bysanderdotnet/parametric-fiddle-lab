@@ -139,6 +139,14 @@
     "test_sweep_tailpiece_thickness": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_tailpiece_thickness.py",
       "verify": true
+    },
+    "test_sweep_tailpiece_width_top": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_tailpiece_width_top.py",
+      "verify": true
+    },
+    "test_sweep_tailpiece_width_bottom": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_tailpiece_width_bottom.py",
+      "verify": true
     }
   },
   "features": [
@@ -1018,6 +1026,11 @@
     {
       "id": "F-172",
       "title": "Parameterize and sweep tailpiece thickness",
+      "status": "done"
+    },
+    {
+      "id": "F-173",
+      "title": "Add a sweep test for tailpiece top and bottom width",
       "status": "done"
     }
   ],
@@ -2237,6 +2250,14 @@
       "verified": "pass (2026-06-21 12:31 UTC @ fb1ed2d)",
       "blockers": "none",
       "commit": "fb1ed2d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 22:50 UTC",
+      "title": "Sweep tailpiece width top and bottom",
+      "done": "Created sweep scripts and tests for tailpiece width top and bottom.",
+      "verified": "pass (2026-06-21 22:48 UTC @ aeef904)",
+      "blockers": "none",
+      "commit": "aeef904 (+ uncommitted changes)"
     }
   ],
   "rules": [
