@@ -135,6 +135,10 @@
     "test_sweep_tailpiece_length": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_tailpiece_length.py",
       "verify": true
+    },
+    "test_sweep_tailpiece_thickness": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_tailpiece_thickness.py",
+      "verify": true
     }
   },
   "features": [
@@ -1009,7 +1013,12 @@
     {
       "id": "F-171",
       "title": "Parameterize and sweep tailpiece_length",
-      "status": "in_progress"
+      "status": "done"
+    },
+    {
+      "id": "F-172",
+      "title": "Parameterize and sweep tailpiece thickness",
+      "status": "done"
     }
   ],
   "progress": [
@@ -2212,6 +2221,22 @@
       "verified": "pass (2026-06-21 10:39 UTC @ f37483b)",
       "blockers": "none",
       "commit": "f37483b (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 12:21 UTC",
+      "title": "Sweep tailpiece length",
+      "done": "Created sweep scripts and tests for tailpiece length.",
+      "verified": "pass (2026-06-21 12:21 UTC @ 1b0befb)",
+      "blockers": "none",
+      "commit": "1b0befb"
+    },
+    {
+      "date": "2026-06-21 12:32 UTC",
+      "title": "Sweep tailpiece thickness",
+      "done": "Created sweep scripts and tests for tailpiece thickness.",
+      "verified": "pass (2026-06-21 12:31 UTC @ fb1ed2d)",
+      "blockers": "none",
+      "commit": "fb1ed2d (+ uncommitted changes)"
     }
   ],
   "rules": [
