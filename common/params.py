@@ -55,6 +55,7 @@ SPEC = [
     ("bridge_foot_cutout_height", "float", (1.0, 5.0), "Height of the cutout arch under bridge feet"),
     ("bridge_cutouts", "bool", [True, False], "Whether to include bridge cutouts"),
     ("bridge_y_offset", "float", (-20.0, 20.0), "Y offset of the bridge"),
+    ("bridge_angle", "float", (-15.0, 15.0), "Angle of the bridge relative to the vertical axis"),
     ("soundpost_thickness", "float", (4.0, 10.0), "Thickness (diameter) of the soundpost"),
     ("soundpost_length", "float", (30.0, 70.0), "Length of the soundpost"),
     ("soundpost_x_offset", "float", (5.0, 25.0), "X offset of the soundpost"),
