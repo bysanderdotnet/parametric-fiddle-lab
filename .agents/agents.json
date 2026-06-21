@@ -915,6 +915,11 @@
       "id": "F-160",
       "title": "maintenance: cleanup",
       "status": "done"
+    },
+    {
+      "id": "F-161",
+      "title": "Add objective script wrapper",
+      "status": "done"
     }
   ],
   "progress": [
@@ -2033,6 +2038,15 @@
       "verified": "pass (2026-06-21 00:56 UTC @ 4814982)",
       "blockers": "none",
       "commit": "4814982 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 01:45 UTC",
+      "title": "Add objective script wrapper",
+      "done": "Added test_objective.sh script and registered with agent harness.",
+      "verified": "pass (2026-06-21 01:44 UTC @ e221eb8)",
+      "blockers": "none",
+      "feature": "F-161",
+      "commit": "e221eb8 (+ uncommitted changes)"
     }
   ],
   "rules": [
