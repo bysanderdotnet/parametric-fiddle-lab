@@ -91,6 +91,10 @@
     "test_sweep_neck_width_top": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_neck_width_top.py",
       "verify": true
+    },
+    "test_sweep_neck_width_bottom": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_neck_width_bottom.py",
+      "verify": true
     }
   },
   "features": [
@@ -900,6 +904,11 @@
     {
       "id": "F-158",
       "title": "Add script to sweep neck width and extract mass",
+      "status": "done"
+    },
+    {
+      "id": "F-159",
+      "title": "Sweep neck width bottom and extract mass",
       "status": "done"
     }
   ],
@@ -2002,6 +2011,15 @@
       "verified": "pass (2026-06-20 22:45 UTC @ 25ee156)",
       "blockers": "none",
       "commit": "25ee156 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 00:12 UTC",
+      "title": "Add script to sweep neck width bottom and extract mass",
+      "done": "Created scripts/sweep_neck_width_bottom.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-21 00:11 UTC @ 427e7e7)",
+      "next": "Sweep another parameter or start optimization",
+      "blockers": "none",
+      "commit": "427e7e7 (+ uncommitted changes)"
     }
   ],
   "rules": [
