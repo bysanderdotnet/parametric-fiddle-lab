@@ -95,6 +95,10 @@
     "test_sweep_neck_width_bottom": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_neck_width_bottom.py",
       "verify": true
+    },
+    "test_sweep_bridge_width": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_width.py",
+      "verify": true
     }
   },
   "features": [
@@ -919,6 +923,11 @@
     {
       "id": "F-161",
       "title": "Add objective script wrapper",
+      "status": "done"
+    },
+    {
+      "id": "F-162",
+      "title": "Add a script to sweep bridge width",
       "status": "done"
     }
   ],
@@ -2047,6 +2056,14 @@
       "blockers": "none",
       "feature": "F-161",
       "commit": "e221eb8 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 02:59 UTC",
+      "title": "Add script to sweep bridge width and extract mass",
+      "done": "Created scripts/sweep_bridge_width.py, created tests, registered new test to verifier",
+      "verified": "pass (2026-06-21 02:57 UTC @ 501c305)",
+      "blockers": "none",
+      "commit": "501c305 (+ uncommitted changes)"
     }
   ],
   "rules": [
