@@ -910,6 +910,11 @@
       "id": "F-159",
       "title": "Sweep neck width bottom and extract mass",
       "status": "done"
+    },
+    {
+      "id": "F-160",
+      "title": "maintenance: cleanup",
+      "status": "done"
     }
   ],
   "progress": [
@@ -2020,6 +2025,14 @@
       "next": "Sweep another parameter or start optimization",
       "blockers": "none",
       "commit": "427e7e7 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 00:57 UTC",
+      "title": "maintenance: cleanup elmer_log.txt and verify docs consistency",
+      "done": "Removed elmer_log.txt from tracking, added it to gitignore",
+      "verified": "pass (2026-06-21 00:56 UTC @ 4814982)",
+      "blockers": "none",
+      "commit": "4814982 (+ uncommitted changes)"
     }
   ],
   "rules": [
