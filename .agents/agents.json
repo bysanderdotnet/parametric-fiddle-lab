@@ -115,6 +115,14 @@
     "test_sweep_bridge_angle": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_angle.py",
       "verify": true
+    },
+    "test_sweep_bass_bar_width": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_width.py",
+      "verify": true
+    },
+    "test_sweep_bass_bar_length": {
+      "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_length.py",
+      "verify": true
     }
   },
   "features": [
@@ -969,6 +977,11 @@
     {
       "id": "F-167",
       "title": "Add a script to test sweeping bridge angle",
+      "status": "done"
+    },
+    {
+      "id": "F-168",
+      "title": "Parameterize bass bar thickness and length",
       "status": "done"
     }
   ],
@@ -2148,6 +2161,14 @@
       "verified": "pass (2026-06-21 06:48 UTC @ b5f3e56)",
       "blockers": "none",
       "commit": "b5f3e56 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 07:58 UTC",
+      "title": "Parameterize bass bar width and length",
+      "done": "Created sweep scripts and tests for bass bar width and length.",
+      "verified": "pass (2026-06-21 07:55 UTC @ 435259d)",
+      "blockers": "none",
+      "commit": "435259d (+ uncommitted changes)"
     }
   ],
   "rules": [
