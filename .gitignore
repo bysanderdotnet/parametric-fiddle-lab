@@ -76,3 +76,4 @@ profiles/*
 .deps_installed
 *.log
 *.stl
+elmer_log.txt
