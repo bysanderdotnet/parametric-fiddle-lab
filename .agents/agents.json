@@ -131,6 +131,10 @@
     "test_sweep_bass_bar_height": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_height.py",
       "verify": true
+    },
+    "test_sweep_tailpiece_length": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_tailpiece_length.py",
+      "verify": true
     }
   },
   "features": [
@@ -1001,6 +1005,11 @@
       "id": "F-170",
       "title": "Sweep bass bar height",
       "status": "done"
+    },
+    {
+      "id": "F-171",
+      "title": "Parameterize and sweep tailpiece_length",
+      "status": "in_progress"
     }
   ],
   "progress": [
