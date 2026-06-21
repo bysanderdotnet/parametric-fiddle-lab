@@ -111,6 +111,10 @@
     "test_sweep_bridge_foot_height": {
       "run": "python3 -m venv .venv && . .venv/bin/activate && pip install pytest && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_foot_height.py",
       "verify": true
+    },
+    "test_sweep_bridge_angle": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_angle.py",
+      "verify": true
     }
   },
   "features": [
@@ -960,6 +964,11 @@
     {
       "id": "F-166",
       "title": "Add a script to test sweeping bridge foot height",
+      "status": "done"
+    },
+    {
+      "id": "F-167",
+      "title": "Add a script to test sweeping bridge angle",
       "status": "done"
     }
   ],
@@ -2131,6 +2140,14 @@
       "blockers": "none",
       "feature": "F-166",
       "commit": "14f5602 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 06:49 UTC",
+      "title": "Add a script to test sweeping bridge angle",
+      "done": "Added bridge angle to common/params.py, cad/violin.py, created test_sweep_bridge_angle.py and sweep_bridge_angle.py, registered new test to verifier",
+      "verified": "pass (2026-06-21 06:48 UTC @ b5f3e56)",
+      "blockers": "none",
+      "commit": "b5f3e56 (+ uncommitted changes)"
     }
   ],
   "rules": [
