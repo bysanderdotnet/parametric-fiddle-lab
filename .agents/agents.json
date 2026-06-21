@@ -127,6 +127,10 @@
     "test_sweep_bass_bar_angle": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_angle.py",
       "verify": true
+    },
+    "test_sweep_bass_bar_height": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_height.py",
+      "verify": true
     }
   },
   "features": [
@@ -991,6 +995,11 @@
     {
       "id": "F-169",
       "title": "Sweep bass bar angle",
+      "status": "done"
+    },
+    {
+      "id": "F-170",
+      "title": "Sweep bass bar height",
       "status": "done"
     }
   ],
@@ -2186,6 +2195,14 @@
       "verified": "pass (2026-06-21 09:48 UTC @ 290adb5)",
       "blockers": "none",
       "commit": "290adb5 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-21 10:40 UTC",
+      "title": "Sweep bass bar height",
+      "done": "Created sweep scripts and tests for bass bar height.",
+      "verified": "pass (2026-06-21 10:39 UTC @ f37483b)",
+      "blockers": "none",
+      "commit": "f37483b (+ uncommitted changes)"
     }
   ],
   "rules": [
