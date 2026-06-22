@@ -1041,7 +1041,7 @@
     {
       "id": "F-175",
       "title": "maintenance: docs and files",
-      "status": "in_progress"
+      "status": "done"
     }
   ],
   "progress": [
@@ -2277,6 +2277,14 @@
       "next": "review files",
       "blockers": "none",
       "commit": "7c1c00e (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 01:50 UTC",
+      "title": "Sweep scripts for length, lower_bout, upper_bout, c_bout, top_arch_height",
+      "done": "Created sweep scripts and tests for missing geometric parameters.",
+      "verified": "pass (2026-06-22 01:48 UTC @ 573cb91)",
+      "blockers": "none",
+      "commit": "573cb91 (+ uncommitted changes)"
     }
   ],
   "rules": [
