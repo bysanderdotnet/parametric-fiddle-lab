@@ -542,7 +542,7 @@
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_width.py"
     },
     "test_simulations": {
-      "run": "PYTHONPATH=. python3 -m pytest sim_struct/test_structural.py sim_acoustic/test_acoustic.py",
+      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest sim_struct/test_structural.py sim_acoustic/test_acoustic.py",
       "verify": true
     }
   },
