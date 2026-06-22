@@ -275,6 +275,271 @@
     "test_sweep_layer_height": {
       "run": ". .venv/bin/activate && PYTHONPATH=. pytest scripts/test_sweep_layer_height.py",
       "verify": true
+    },
+    "test_sweep_pegbox_angle": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_angle.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_angle.py"
+    },
+    "test_sweep_fine_tuner_height": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fine_tuner_height.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fine_tuner_height.py"
+    },
+    "test_sweep_peg_length": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_length.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_length.py"
+    },
+    "test_sweep_lower_bout": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_lower_bout.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_lower_bout.py"
+    },
+    "test_sweep_fingerboard_thickness": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_thickness.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_thickness.py"
+    },
+    "test_sweep_endpin_length": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_endpin_length.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_endpin_length.py"
+    },
+    "test_sweep_chinrest_x_offset": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_x_offset.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_x_offset.py"
+    },
+    "test_sweep_fine_tuner_y_offset": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fine_tuner_y_offset.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fine_tuner_y_offset.py"
+    },
+    "test_sweep_peg_head_thickness": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_head_thickness.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_head_thickness.py"
+    },
+    "test_sweep_soundpost_y_offset": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_soundpost_y_offset.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_soundpost_y_offset.py"
+    },
+    "test_sweep_purfling_groove_width": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_purfling_groove_width.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_purfling_groove_width.py"
+    },
+    "test_sweep_endpin_radius": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_endpin_radius.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_endpin_radius.py"
+    },
+    "test_sweep_bass_bar_x_offset": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_x_offset.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_x_offset.py"
+    },
+    "test_sweep_purfling_groove_offset": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_purfling_groove_offset.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_purfling_groove_offset.py"
+    },
+    "test_sweep_fingerboard_length": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_length.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_length.py"
+    },
+    "test_sweep_pegbox_depth": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_depth.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_depth.py"
+    },
+    "test_sweep_saddle_height": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_saddle_height.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_saddle_height.py"
+    },
+    "test_sweep_length": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_length.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_length.py"
+    },
+    "test_sweep_chinrest_cutout_depth": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_cutout_depth.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_cutout_depth.py"
+    },
+    "test_sweep_fingerboard_width_top": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_width_top.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_width_top.py"
+    },
+    "test_sweep_purfling_groove_depth": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_purfling_groove_depth.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_purfling_groove_depth.py"
+    },
+    "test_sweep_peg_head_length": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_head_length.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_head_length.py"
+    },
+    "test_sweep_chinrest_y_offset": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_y_offset.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_y_offset.py"
+    },
+    "test_sweep_fingerboard_width_bottom": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_width_bottom.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_width_bottom.py"
+    },
+    "test_sweep_nut_length": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_nut_length.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_nut_length.py"
+    },
+    "test_sweep_fine_tuner_radius": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fine_tuner_radius.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fine_tuner_radius.py"
+    },
+    "test_sweep_saddle_length": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_saddle_length.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_saddle_length.py"
+    },
+    "test_sweep_top_arch_height": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_top_arch_height.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_top_arch_height.py"
+    },
+    "test_sweep_scroll_radius": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_scroll_radius.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_scroll_radius.py"
+    },
+    "test_sweep_f_hole_width": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_width.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_width.py"
+    },
+    "test_sweep_soundpost_x_offset": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_soundpost_x_offset.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_soundpost_x_offset.py"
+    },
+    "test_sweep_f_hole_profile": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_profile.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_profile.py"
+    },
+    "test_sweep_nut_height": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_nut_height.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_nut_height.py"
+    },
+    "test_sweep_fingerboard_end_shape": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_end_shape.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_end_shape.py"
+    },
+    "test_sweep_nut_width": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_nut_width.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_nut_width.py"
+    },
+    "test_sweep_peg_spacing": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_spacing.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_spacing.py"
+    },
+    "test_sweep_peg_hole_radius": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_hole_radius.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_hole_radius.py"
+    },
+    "test_sweep_c_bout_cutout_radius": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_c_bout_cutout_radius.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_c_bout_cutout_radius.py"
+    },
+    "test_sweep_fingerboard_radius": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_radius.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_fingerboard_radius.py"
+    },
+    "test_sweep_chinrest_height": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_height.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_height.py"
+    },
+    "test_sweep_pegbox_length": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_length.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_length.py"
+    },
+    "test_sweep_chinrest_cutout_radius": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_cutout_radius.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_cutout_radius.py"
+    },
+    "test_sweep_upper_bout": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_upper_bout.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_upper_bout.py"
+    },
+    "test_sweep_chinrest_length": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_length.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_length.py"
+    },
+    "test_sweep_bass_bar_y_offset": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_y_offset.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bass_bar_y_offset.py"
+    },
+    "test_sweep_peg_width": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_width.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_peg_width.py"
+    },
+    "test_sweep_saddle_width": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_saddle_width.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_saddle_width.py"
+    },
+    "test_sweep_c_bout_height": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_c_bout_height.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_c_bout_height.py"
+    },
+    "test_sweep_pegbox_thickness": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_thickness.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_thickness.py"
+    },
+    "test_sweep_c_bout": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_c_bout.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_c_bout.py"
+    },
+    "test_sweep_scroll_width": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_scroll_width.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_scroll_width.py"
+    },
+    "test_sweep_pegbox_width": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_width.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_pegbox_width.py"
+    },
+    "test_sweep_chinrest_width": {
+      "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_width.py",
+      "verify": true,
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_width.py"
     }
   },
   "features": [
@@ -1185,6 +1450,11 @@
     {
       "id": "F-178",
       "title": "Add sweep scripts for remaining bridge parameters",
+      "status": "done"
+    },
+    {
+      "id": "F-179",
+      "title": "Add sweep scripts for missing parameters",
       "status": "done"
     }
   ],
@@ -2462,6 +2732,22 @@
       "blockers": "none",
       "feature": "F-177",
       "commit": "7e5751a (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 08:07 UTC",
+      "title": "Added missing sweep scripts",
+      "done": "Generated and registered missing sweep scripts and tests for remaining parameters",
+      "verified": "pass (2026-06-22 08:06 UTC @ 693fc24)",
+      "blockers": "none",
+      "commit": "693fc24 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 08:16 UTC",
+      "title": "Completed verification of all missing sweep tests",
+      "done": "Ran verify tool and verified it was completely green",
+      "verified": "pass (2026-06-22 08:14 UTC @ 693fc24)",
+      "blockers": "none",
+      "commit": "693fc24 (+ uncommitted changes)"
     }
   ],
   "rules": [
