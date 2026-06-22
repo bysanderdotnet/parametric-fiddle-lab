@@ -147,6 +147,38 @@
     "test_sweep_tailpiece_width_bottom": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_tailpiece_width_bottom.py",
       "verify": true
+    },
+    "test_sweep_f_hole_length": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_length.py",
+      "verify": true
+    },
+    "test_sweep_f_hole_spacing": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_spacing.py",
+      "verify": true
+    },
+    "test_sweep_f_hole_thickness": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_thickness.py",
+      "verify": true
+    },
+    "test_sweep_f_hole_top_radius": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_top_radius.py",
+      "verify": true
+    },
+    "test_sweep_f_hole_bottom_radius": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_bottom_radius.py",
+      "verify": true
+    },
+    "test_sweep_f_hole_x_offset": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_x_offset.py",
+      "verify": true
+    },
+    "test_sweep_f_hole_y_offset": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_y_offset.py",
+      "verify": true
+    },
+    "test_sweep_f_hole_angle": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_angle.py",
+      "verify": true
     }
   },
   "features": [
@@ -1041,6 +1073,11 @@
     {
       "id": "F-175",
       "title": "maintenance: docs and files",
+      "status": "done"
+    },
+    {
+      "id": "F-176",
+      "title": "Add a script to sweep f-hole parameters",
       "status": "done"
     }
   ],
@@ -2285,6 +2322,14 @@
       "verified": "pass (2026-06-22 01:48 UTC @ 573cb91)",
       "blockers": "none",
       "commit": "573cb91 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 03:05 UTC",
+      "title": "Add sweep scripts for f_hole parameters",
+      "done": "Created sweep scripts and tests for remaining f_hole parameters.",
+      "verified": "pass (2026-06-22 03:05 UTC @ a946ee4)",
+      "blockers": "none",
+      "commit": "a946ee4 (+ uncommitted changes)"
     }
   ],
   "rules": [
