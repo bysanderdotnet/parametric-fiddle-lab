@@ -1032,6 +1032,16 @@
       "id": "F-173",
       "title": "Add a sweep test for tailpiece top and bottom width",
       "status": "done"
+    },
+    {
+      "id": "F-174",
+      "title": "maintenance: cleanup",
+      "status": "done"
+    },
+    {
+      "id": "F-175",
+      "title": "maintenance: docs and files",
+      "status": "in_progress"
     }
   ],
   "progress": [
@@ -2258,6 +2268,15 @@
       "verified": "pass (2026-06-21 22:48 UTC @ aeef904)",
       "blockers": "none",
       "commit": "aeef904 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 00:30 UTC",
+      "title": "maintenance sweep",
+      "done": "deleted drifted skill file",
+      "verified": "pass (2026-06-22 00:30 UTC @ 7c1c00e)",
+      "next": "review files",
+      "blockers": "none",
+      "commit": "7c1c00e (+ uncommitted changes)"
     }
   ],
   "rules": [
