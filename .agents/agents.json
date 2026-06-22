@@ -1477,6 +1477,11 @@
       "title": "Update README with current repo state",
       "status": "done",
       "notes": "what works / what doesn't; real dir structure"
+    },
+    {
+      "id": "F-183",
+      "title": "Add a script to generate a summary report of the optimization pipeline",
+      "status": "in_progress"
     }
   ],
   "progress": [
