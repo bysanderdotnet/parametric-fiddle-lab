@@ -540,6 +540,10 @@
       "cmd": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_width.py",
       "verify": true,
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_chinrest_width.py"
+    },
+    "test_simulations": {
+      "run": "PYTHONPATH=. python3 -m pytest sim_struct/test_structural.py sim_acoustic/test_acoustic.py",
+      "verify": true
     }
   },
   "features": [
@@ -1455,6 +1459,11 @@
     {
       "id": "F-179",
       "title": "Add sweep scripts for missing parameters",
+      "status": "done"
+    },
+    {
+      "id": "F-180",
+      "title": "Add unit tests to check simulation scripts",
       "status": "done"
     }
   ],
@@ -2748,6 +2757,14 @@
       "verified": "pass (2026-06-22 08:14 UTC @ 693fc24)",
       "blockers": "none",
       "commit": "693fc24 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 10:12 UTC",
+      "title": "Add unit tests to check simulation scripts [F-180]",
+      "done": "Registered a verify test for sim_struct/ and sim_acoustic/ unit tests",
+      "verified": "pass (2026-06-22 10:10 UTC @ e2b899b)",
+      "blockers": "none",
+      "commit": "e2b899b (+ uncommitted changes)"
     }
   ],
   "rules": [
