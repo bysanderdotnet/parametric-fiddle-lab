@@ -179,6 +179,34 @@
     "test_sweep_f_hole_angle": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_f_hole_angle.py",
       "verify": true
+    },
+    "test_sweep_back_arch_height": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_back_arch_height.py",
+      "verify": true
+    },
+    "test_sweep_rib_height": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_rib_height.py",
+      "verify": true
+    },
+    "test_sweep_neck_thickness": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_neck_thickness.py",
+      "verify": true
+    },
+    "test_sweep_neck_angle": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_neck_angle.py",
+      "verify": true
+    },
+    "test_sweep_bridge_width_top": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_width_top.py",
+      "verify": true
+    },
+    "test_sweep_bridge_thickness": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_thickness.py",
+      "verify": true
+    },
+    "test_sweep_tailpiece_y_offset": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_tailpiece_y_offset.py",
+      "verify": true
     }
   },
   "features": [
@@ -2330,6 +2358,14 @@
       "verified": "pass (2026-06-22 03:05 UTC @ a946ee4)",
       "blockers": "none",
       "commit": "a946ee4 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 04:29 UTC",
+      "title": "Add sweep scripts for remaining geometric parameters",
+      "done": "Created sweep scripts and tests for remaining parameters (back_arch_height, rib_height, neck_thickness, neck_angle, bridge_width_top, bridge_thickness, tailpiece_y_offset) and registered them in agents.json.",
+      "verified": "pass (2026-06-22 04:26 UTC @ fa4fe03)",
+      "blockers": "none",
+      "commit": "fa4fe03 (+ uncommitted changes)"
     }
   ],
   "rules": [
