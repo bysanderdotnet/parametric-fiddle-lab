@@ -103,3 +103,6 @@ SPECIMEN_TEST = {
 DENSITY_KG_M3 = 1240.0                  # 1.24 g/cm3
 YOUNGS_MODULUS_PA = 2.58e9              # X-Y, 2580 MPa
 POISSON_RATIO = 0.35                   # NOT in datasheet; typical PLA value
+
+# --- Convenience field for CAD mass estimates (matches cad/violin.py) ---
+DENSITY_G_MM3 = PHYSICAL["density_g_cm3"] / 1000.0   # 1.24 g/cm3 -> 0.00124 g/mm3
