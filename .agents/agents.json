@@ -1471,6 +1471,12 @@
       "title": "Use filaments module for PLA density in cad/violin.py",
       "status": "done",
       "notes": "Replace 22x hardcoded 1.24e-3 with filaments.bambu_pla_basic density"
+    },
+    {
+      "id": "F-182",
+      "title": "Update README with current repo state",
+      "status": "done",
+      "notes": "what works / what doesn't; real dir structure"
     }
   ],
   "progress": [
@@ -2779,6 +2785,14 @@
       "verified": "pass (2026-06-22 11:36 UTC @ f645bec)",
       "blockers": "none",
       "commit": "f645bec (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 11:40 UTC",
+      "title": "Update README with current repo state",
+      "done": "Rewrote README: real dir structure (common/filaments/scripts), what works vs partial/placeholder, getting-started",
+      "verified": "pass (2026-06-22 11:40 UTC @ 3d5e438)",
+      "blockers": "none",
+      "commit": "3d5e438 (+ uncommitted changes)"
     }
   ],
   "rules": [

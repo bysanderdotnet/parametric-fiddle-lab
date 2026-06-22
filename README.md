@@ -5,23 +5,104 @@ Resonant Violin Lab is a platform for building a parametric, simulatable, and op
 ## Overview
 
 The project uses a pipeline architecture:
-1.  **Parametric Generation:** Generating the geometry using code (CadQuery).
-2.  **Slicing as Design:** Treating slicing parameters (infill, perimeters, modifiers) as design variables via Orca Slicer CLI.
-3.  **Simulation:** Using structural and acoustic simulation to evaluate designs (eigenmodes, stress, cavity modes, etc.) using Gmsh, Elmer.
-4.  **Optimization:** Iterating designs using bayesian optimization or evolutionary algorithms (Optuna).
+
+1. **Parametric Generation:** Generate the geometry from code (CadQuery).
+2. **Slicing as Design:** Treat slicing parameters (infill, perimeters, modifiers) as design variables via the Orca Slicer CLI.
+3. **Simulation:** Evaluate designs with structural and acoustic simulation (eigenmodes, cavity modes) using Gmsh and Elmer.
+4. **Optimization:** Iterate designs with Bayesian optimization (Optuna).
+
+Data flows `cad -> slice -> mesh -> sim_struct / sim_acoustic -> opt`, exchanged through intermediate files (`violin_body.step`, `violin_cavity.step`, `violin_body.json`, `*.msh`, `structural_results.json`, `acoustic_results.json`).
 
 ## Directory Structure
 
-*   `cad/` - Parametric violin generator
-*   `profiles/` - Machine, process, and filament profiles
-*   `slice/` - Orca Slicer wrappers and slice data export
-*   `mesh/` - STEP to mesh conversion and quality checks
-*   `sim_struct/` - Simulation of preload, deflection, stresses, and eigenmodes
-*   `sim_acoustic/` - Simulation of cavity modes, radiation, and bridge mobility
-*   `opt/` - Objective functions, optimization trials, and surrogate models
-*   `data/` - Run logs, reference curves, and benchmark results
-*   `docs/` - Literature, design notes, and decision logs
+* `cad/` - Parametric violin generator (CadQuery); exports STEP + a JSON of per-part volumes and masses
+* `common/` - Shared helpers: parameter spec (`params.py`), Elmer SIF/runner (`elmer.py`), acoustic cavity FEM (`cavity_fem.py`)
+* `filaments/` - Material property library (currently `bambu_pla_basic`); single source of truth for density/modulus used by CAD mass estimates and FEM
+* `mesh/` - STEP-to-mesh conversion via Gmsh
+* `slice/` - Orca Slicer CLI wrapper and slice-data export
+* `sim_struct/` - Structural simulation: linear-elasticity eigenmodes (Elmer)
+* `sim_acoustic/` - Acoustic simulation: air-cavity eigenmodes
+* `opt/` - Objective function and Optuna optimization loop
+* `scripts/` - Single-parameter sweep scripts and their tests (113 parameters)
+* `profiles/` - Orca machine / process / filament profiles (placeholder; empty)
+* `data/` - Run logs, reference curves, benchmark results (placeholder; empty)
+* `docs/` - Literature, design notes, decision logs (placeholder; empty)
+
+## Current Status
+
+The Python pipeline runs end-to-end and the full test suite is green
+(`./AGENTS.sh verify` -> 122/122 steps). Simulation stages fall back to
+randomized dummy results when an external tool or input mesh is missing, so the
+pipeline and tests stay green even without the native toolchain installed.
+
+### What works
+
+* **CAD generation** (`cad/violin.py`): generates body, air cavity, bridge,
+  soundpost, bass bar, tailpiece, fingerboard, neck, scroll, pegs, chinrest,
+  nut, saddle, endpin, and corner/top/bottom blocks. Exports `violin_body.step`,
+  `violin_cavity.step`, and `violin_body.json` with per-part volumes and masses.
+  Mass estimates use the filament density from `filaments/` (no hardcoded value).
+* **Meshing** (`mesh/mesher.py`): Gmsh converts the body and cavity STEP files
+  to tetrahedral `.msh` meshes.
+* **Structural simulation** (`sim_struct/structural.py`): linear-elasticity
+  eigenmodes via Elmer, using material properties from `filaments/`; classifies
+  modes as CBR / B1- / B1+ like. Dummy fallback when Elmer or the mesh is absent.
+* **Acoustic simulation** (`sim_acoustic/acoustic.py` + `common/cavity_fem.py`):
+  air-cavity eigenmodes solved with a custom P1 tetrahedral FEM, including an
+  A0-like Helmholtz mode via Dirichlet conditions at the f-holes. Dummy fallback
+  when the cavity mesh is absent.
+* **Optimization** (`opt/optimize.py`): Optuna drives the full pipeline per
+  trial and minimizes the objective in `opt/objective.py`.
+* **Parameter sweeps** (`scripts/`): 113 scripts, one per geometry/slicing
+  parameter, each with a test.
+* **System setup** (`install_sys_deps.sh`): installs Gmsh, Elmer
+  (elmer-csc PPA), and OrcaSlicer (AppImage v2.3.2).
+
+### What is partial or not done yet
+
+* **Slicing is wired but not configured.** `slice/slicer.py` wraps the
+  `orca-slicer` CLI (its unit tests mock the subprocess), but no real Orca
+  profiles are committed — `profiles/` is empty. `opt/optimize.py` and the
+  slicing sweep scripts pass a nonexistent `dummy_profile.json`, so the slice
+  step is skipped with a warning. Add machine/process/filament configs to
+  `profiles/` to slice for real.
+* **Acoustics do not use Elmer.** Elmer's scalar-eigen path does not assemble a
+  mass matrix in steady state (upstream limitation, documented in
+  `common/cavity_fem.py`), so the Python FEM fallback is the real solver.
+* **Structural is eigenanalysis only.** No stress field is computed
+  (`max_stress_mpa` is 0 on the Elmer path, 15.4 in the dummy).
+* **The objective is a placeholder.** Fitness targets A0 ~= 290 Hz and
+  B1- ~= 400 Hz plus mass/volume/component-mass penalties; it is not calibrated
+  against measured instruments.
+* **One filament is characterized** (`filaments/bambu_pla_basic.py`). Its
+  Poisson ratio is a typical-PLA assumption, not a datasheet value, and the
+  referenced datasheet PDF is not committed.
+* **`data/`, `docs/`, `profiles/` are empty placeholders.**
 
 ## Getting Started
 
-Use `./AGENTS.sh help` to see available project commands.
+Install the native toolchain (Gmsh, Elmer, OrcaSlicer):
+
+```sh
+./install_sys_deps.sh
+```
+
+Set up the Python environment:
+
+```sh
+python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
+```
+
+Run the pipeline stages directly:
+
+```sh
+python3 cad/violin.py            # -> violin_body.step, violin_cavity.step, violin_body.json
+python3 mesh/mesher.py           # -> violin_body.msh, violin_cavity.msh
+python3 sim_struct/structural.py # -> structural_results.json
+python3 sim_acoustic/acoustic.py # -> acoustic_results.json
+python3 opt/optimize.py          # full optimization loop
+```
+
+This repository is managed with an agent harness. Use `./AGENTS.sh help` to see
+available project commands, and `./AGENTS.sh verify` to run the full
+definition-of-done test suite.
