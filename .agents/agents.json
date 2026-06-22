@@ -207,6 +207,66 @@
     "test_sweep_tailpiece_y_offset": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_tailpiece_y_offset.py",
       "verify": true
+    },
+    "test_sweep_bridge_width_bottom": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_width_bottom.py",
+      "verify": true
+    },
+    "test_sweep_bridge_radius": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_radius.py",
+      "verify": true
+    },
+    "test_sweep_bridge_inner_curve_radius": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_inner_curve_radius.py",
+      "verify": true
+    },
+    "test_sweep_bridge_side_cutout_radius": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_side_cutout_radius.py",
+      "verify": true
+    },
+    "test_sweep_bridge_cutout_radius": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_cutout_radius.py",
+      "verify": true
+    },
+    "test_sweep_bridge_cutout_y_offset": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_cutout_y_offset.py",
+      "verify": true
+    },
+    "test_sweep_bridge_central_cutout": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_central_cutout.py",
+      "verify": true
+    },
+    "test_sweep_bridge_central_cutout_radius": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_central_cutout_radius.py",
+      "verify": true
+    },
+    "test_sweep_bridge_central_cutout_y_offset": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_central_cutout_y_offset.py",
+      "verify": true
+    },
+    "test_sweep_bridge_foot_length": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_foot_length.py",
+      "verify": true
+    },
+    "test_sweep_bridge_foot_width": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_foot_width.py",
+      "verify": true
+    },
+    "test_sweep_bridge_foot_cutout_width": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_foot_cutout_width.py",
+      "verify": true
+    },
+    "test_sweep_bridge_foot_cutout_height": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_foot_cutout_height.py",
+      "verify": true
+    },
+    "test_sweep_bridge_cutouts": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_cutouts.py",
+      "verify": true
+    },
+    "test_sweep_bridge_y_offset": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_y_offset.py",
+      "verify": true
     }
   },
   "features": [
@@ -1106,6 +1166,17 @@
     {
       "id": "F-176",
       "title": "Add a script to sweep f-hole parameters",
+      "status": "done"
+    },
+    {
+      "id": "F-177",
+      "title": "Add a script to automatically optimize slicing parameters",
+      "status": "blocked",
+      "notes": "Decided to add sweep scripts for remaining bridge parameters first"
+    },
+    {
+      "id": "F-178",
+      "title": "Add sweep scripts for remaining bridge parameters",
       "status": "done"
     }
   ],
@@ -2366,6 +2437,14 @@
       "verified": "pass (2026-06-22 04:26 UTC @ fa4fe03)",
       "blockers": "none",
       "commit": "fa4fe03 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 05:53 UTC",
+      "title": "Add sweep scripts for remaining bridge parameters",
+      "done": "Created sweep scripts and tests for remaining bridge parameters using a generator script and registered them in AGENTS.sh",
+      "verified": "pass (2026-06-22 05:51 UTC @ 321399f)",
+      "blockers": "none",
+      "commit": "321399f (+ uncommitted changes)"
     }
   ],
   "rules": [
