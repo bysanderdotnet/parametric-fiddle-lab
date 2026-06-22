@@ -544,6 +544,14 @@
     "test_simulations": {
       "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest sim_struct/test_structural.py sim_acoustic/test_acoustic.py",
       "verify": true
+    },
+    "test_generate_report": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest scripts/test_generate_report.py",
+      "verify": true
+    },
+    "test_generate_parameter_table": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest scripts/test_generate_parameter_table.py",
+      "verify": true
     }
   },
   "features": [
@@ -1481,7 +1489,12 @@
     {
       "id": "F-183",
       "title": "Add a script to generate a summary report of the optimization pipeline",
-      "status": "in_progress"
+      "status": "done"
+    },
+    {
+      "id": "F-184",
+      "title": "Add a script to generate a single markdown table of all parameter sweeps",
+      "status": "done"
     }
   ],
   "progress": [
@@ -2798,6 +2811,22 @@
       "verified": "pass (2026-06-22 11:40 UTC @ 3d5e438)",
       "blockers": "none",
       "commit": "3d5e438 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 22:44 UTC",
+      "title": "Added a script to generate a summary report",
+      "done": "Created scripts/generate_report.py and its test, and added the test to cmd.",
+      "verified": "pass (2026-06-22 22:44 UTC @ 2655595)",
+      "blockers": "none",
+      "commit": "2655595 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 22:51 UTC",
+      "title": "Added a script to generate a single markdown table of all parameter sweeps",
+      "done": "Created scripts/generate_parameter_table.py and its test, and added the test to cmd.",
+      "verified": "pass (2026-06-22 22:50 UTC @ 687dec6)",
+      "blockers": "none",
+      "commit": "687dec6 (+ uncommitted changes)"
     }
   ],
   "rules": [
