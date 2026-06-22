@@ -494,6 +494,10 @@ import sys
 # module's create_violin_body signature (single source of truth).
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.params import NAMES, add_arguments
+from filaments import bambu_pla_basic as filament
+
+# Mass estimates use the filament library's density (single source of truth).
+PLA_DENSITY_G_MM3 = filament.DENSITY_G_MM3
 
 if __name__ == "__main__":
     defaults = {n: p.default for n, p in inspect.signature(create_violin_body).parameters.items()}
@@ -509,77 +513,77 @@ if __name__ == "__main__":
 
     # Calculate volume and estimated mass
     volume_mm3 = violin.val().Volume()
-    mass_g = volume_mm3 * 1.24e-3 # PLA density ~ 1.24 g/cm^3
+    mass_g = volume_mm3 * PLA_DENSITY_G_MM3  # density from filaments/bambu_pla_basic
     params["volume_mm3"] = volume_mm3
     params["mass_g"] = mass_g
 
     bridge_volume_mm3 = bridge.val().Volume()
-    bridge_mass_g = bridge_volume_mm3 * 1.24e-3
+    bridge_mass_g = bridge_volume_mm3 * PLA_DENSITY_G_MM3
     params["bridge_volume_mm3"] = bridge_volume_mm3
     params["bridge_mass_g"] = bridge_mass_g
 
     soundpost_volume_mm3 = soundpost.val().Volume()
-    soundpost_mass_g = soundpost_volume_mm3 * 1.24e-3
+    soundpost_mass_g = soundpost_volume_mm3 * PLA_DENSITY_G_MM3
     params["soundpost_volume_mm3"] = soundpost_volume_mm3
     params["soundpost_mass_g"] = soundpost_mass_g
 
     bass_bar_volume_mm3 = bass_bar.val().Volume()
-    bass_bar_mass_g = bass_bar_volume_mm3 * 1.24e-3
+    bass_bar_mass_g = bass_bar_volume_mm3 * PLA_DENSITY_G_MM3
     params["bass_bar_volume_mm3"] = bass_bar_volume_mm3
     params["bass_bar_mass_g"] = bass_bar_mass_g
 
     tailpiece_volume_mm3 = tailpiece.val().Volume()
-    tailpiece_mass_g = tailpiece_volume_mm3 * 1.24e-3
+    tailpiece_mass_g = tailpiece_volume_mm3 * PLA_DENSITY_G_MM3
     params["tailpiece_volume_mm3"] = tailpiece_volume_mm3
     params["tailpiece_mass_g"] = tailpiece_mass_g
 
     chinrest_volume_mm3 = chinrest.val().Volume()
-    chinrest_mass_g = chinrest_volume_mm3 * 1.24e-3
+    chinrest_mass_g = chinrest_volume_mm3 * PLA_DENSITY_G_MM3
     params["chinrest_volume_mm3"] = chinrest_volume_mm3
     params["chinrest_mass_g"] = chinrest_mass_g
 
     fine_tuners_volume_mm3 = fine_tuners.val().Volume() if fine_tuners else 0.0
-    fine_tuners_mass_g = fine_tuners_volume_mm3 * 1.24e-3
+    fine_tuners_mass_g = fine_tuners_volume_mm3 * PLA_DENSITY_G_MM3
     params["fine_tuners_volume_mm3"] = fine_tuners_volume_mm3
     params["fine_tuners_mass_g"] = fine_tuners_mass_g
 
     saddle_volume_mm3 = saddle.val().Volume()
-    saddle_mass_g = saddle_volume_mm3 * 1.24e-3
+    saddle_mass_g = saddle_volume_mm3 * PLA_DENSITY_G_MM3
     params["saddle_volume_mm3"] = saddle_volume_mm3
     params["saddle_mass_g"] = saddle_mass_g
 
     strings_volume_mm3 = strings.val().Volume() if strings else 0.0
-    strings_mass_g = strings_volume_mm3 * 1.24e-3
+    strings_mass_g = strings_volume_mm3 * PLA_DENSITY_G_MM3
     params["strings_volume_mm3"] = strings_volume_mm3
     params["strings_mass_g"] = strings_mass_g
 
     nut_volume_mm3 = nut.val().Volume()
-    nut_mass_g = nut_volume_mm3 * 1.24e-3
+    nut_mass_g = nut_volume_mm3 * PLA_DENSITY_G_MM3
     params["nut_volume_mm3"] = nut_volume_mm3
     params["nut_mass_g"] = nut_mass_g
 
     pegs_volume_mm3 = pegs.val().Volume() if pegs else 0.0
-    pegs_mass_g = pegs_volume_mm3 * 1.24e-3
+    pegs_mass_g = pegs_volume_mm3 * PLA_DENSITY_G_MM3
     params["pegs_volume_mm3"] = pegs_volume_mm3
     params["pegs_mass_g"] = pegs_mass_g
 
     fingerboard_volume_mm3 = fingerboard.val().Volume()
-    fingerboard_mass_g = fingerboard_volume_mm3 * 1.24e-3
+    fingerboard_mass_g = fingerboard_volume_mm3 * PLA_DENSITY_G_MM3
     params["fingerboard_volume_mm3"] = fingerboard_volume_mm3
     params["fingerboard_mass_g"] = fingerboard_mass_g
 
     endpin_volume_mm3 = endpin.val().Volume()
-    endpin_mass_g = endpin_volume_mm3 * 1.24e-3
+    endpin_mass_g = endpin_volume_mm3 * PLA_DENSITY_G_MM3
     params["endpin_volume_mm3"] = endpin_volume_mm3
     params["endpin_mass_g"] = endpin_mass_g
 
     neck_volume_mm3 = neck.val().Volume()
-    neck_mass_g = neck_volume_mm3 * 1.24e-3
+    neck_mass_g = neck_volume_mm3 * PLA_DENSITY_G_MM3
     params["neck_volume_mm3"] = neck_volume_mm3
     params["neck_mass_g"] = neck_mass_g
 
     scroll_volume_mm3 = scroll.val().Volume()
-    scroll_mass_g = scroll_volume_mm3 * 1.24e-3
+    scroll_mass_g = scroll_volume_mm3 * PLA_DENSITY_G_MM3
     params["scroll_volume_mm3"] = scroll_volume_mm3
     params["scroll_mass_g"] = scroll_mass_g
 
@@ -587,17 +591,17 @@ if __name__ == "__main__":
     params["cavity_volume_mm3"] = cavity_volume_mm3
 
     top_block_volume_mm3 = top_block_cutter.val().Volume()
-    top_block_mass_g = top_block_volume_mm3 * 1.24e-3
+    top_block_mass_g = top_block_volume_mm3 * PLA_DENSITY_G_MM3
     params["top_block_volume_mm3"] = top_block_volume_mm3
     params["top_block_mass_g"] = top_block_mass_g
 
     bottom_block_volume_mm3 = bottom_block_cutter.val().Volume()
-    bottom_block_mass_g = bottom_block_volume_mm3 * 1.24e-3
+    bottom_block_mass_g = bottom_block_volume_mm3 * PLA_DENSITY_G_MM3
     params["bottom_block_volume_mm3"] = bottom_block_volume_mm3
     params["bottom_block_mass_g"] = bottom_block_mass_g
 
     corner_blocks_volume_mm3 = corner_tr.val().Volume() + corner_tl.val().Volume() + corner_br.val().Volume() + corner_bl.val().Volume()
-    corner_blocks_mass_g = corner_blocks_volume_mm3 * 1.24e-3
+    corner_blocks_mass_g = corner_blocks_volume_mm3 * PLA_DENSITY_G_MM3
     params["corner_blocks_volume_mm3"] = corner_blocks_volume_mm3
     params["corner_blocks_mass_g"] = corner_blocks_mass_g
 
