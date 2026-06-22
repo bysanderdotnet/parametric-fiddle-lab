@@ -267,6 +267,14 @@
     "test_sweep_bridge_y_offset": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_y_offset.py",
       "verify": true
+    },
+    "test_sweep_infill_density": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. pytest scripts/test_sweep_infill_density.py",
+      "verify": true
+    },
+    "test_sweep_layer_height": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. pytest scripts/test_sweep_layer_height.py",
+      "verify": true
     }
   },
   "features": [
@@ -1171,7 +1179,7 @@
     {
       "id": "F-177",
       "title": "Add a script to automatically optimize slicing parameters",
-      "status": "blocked",
+      "status": "done",
       "notes": "Decided to add sweep scripts for remaining bridge parameters first"
     },
     {
@@ -2445,6 +2453,15 @@
       "verified": "pass (2026-06-22 05:51 UTC @ 321399f)",
       "blockers": "none",
       "commit": "321399f (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-22 06:51 UTC",
+      "title": "Add sweep scripts for infill density and layer height [F-177]",
+      "done": "Added sweep scripts for infill density and layer height, created tests, and registered tests to verifier.",
+      "verified": "pass (2026-06-22 06:49 UTC @ 7e5751a)",
+      "blockers": "none",
+      "feature": "F-177",
+      "commit": "7e5751a (+ uncommitted changes)"
     }
   ],
   "rules": [
