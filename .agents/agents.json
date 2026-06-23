@@ -557,8 +557,8 @@
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_generate_dummy_profile.py",
       "verify": true
     },
-    "test_generate_stradivarius": {
-      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest scripts/test_generate_stradivarius.py",
+    "test_generate_historical_profiles": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest scripts/test_generate_historical_profiles.py",
       "verify": true
     }
   },
@@ -1520,7 +1520,7 @@
     {
       "id": "F-187",
       "title": "Add a script to generate geometric profiles and compare against real violins",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "F-188",
@@ -2872,6 +2872,15 @@
       "next": "review files",
       "blockers": "none",
       "commit": "5495015 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-23 07:17 UTC",
+      "title": "Add script to generate historical profiles and comparison",
+      "done": "Created scripts/generate_historical_profiles.py to generate Stradivarius, Guarneri, and Amati profiles and a comparison report. Replaced old stradivarius generator and updated tests.",
+      "verified": "pass (2026-06-23 07:16 UTC @ 487837d)",
+      "blockers": "none",
+      "feature": "F-187",
+      "commit": "487837d (+ uncommitted changes)"
     }
   ],
   "rules": [
