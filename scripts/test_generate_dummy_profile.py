@@ -1,5 +1,5 @@
 import os
-import shutil
+import json
 import pytest
 from generate_dummy_profile import generate_dummy_profiles
 
@@ -10,3 +10,15 @@ def test_generate_dummy_profiles(tmp_path):
     assert os.path.exists(output_dir / "machine.json")
     assert os.path.exists(output_dir / "process.json")
     assert os.path.exists(output_dir / "filament.json")
+
+    with open(output_dir / "machine.json") as f:
+        machine = json.load(f)
+        assert machine["type"] == "machine"
+
+    with open(output_dir / "process.json") as f:
+        process = json.load(f)
+        assert process["type"] == "process"
+
+    with open(output_dir / "filament.json") as f:
+        filament = json.load(f)
+        assert filament["type"] == "filament"

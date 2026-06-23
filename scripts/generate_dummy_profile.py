@@ -8,12 +8,54 @@ def generate_dummy_profiles(output_dir="profiles"):
     """
     os.makedirs(output_dir, exist_ok=True)
 
-    files_to_create = ["machine.json", "process.json", "filament.json"]
+    machine_profile = {
+        "type": "machine",
+        "setting_id": "Default Printer",
+        "name": "Default Printer",
+        "from": "system",
+        "instantiation": "true",
+        "printer_technology": "FFF",
+        "printer_model": "Generic",
+        "printable_area": [
+            "0x0",
+            "600x0",
+            "600x600",
+            "0x600"
+        ],
+        "printable_height": "600",
+        "layer_change_gcode": "G92 E0"
+    }
 
-    for filename in files_to_create:
+    process_profile = {
+        "type": "process",
+        "setting_id": "Default Process",
+        "name": "Default Process",
+        "from": "system",
+        "instantiation": "true",
+        "layer_height": "0.2",
+        "compatible_printers": ["Default Printer"]
+    }
+
+    filament_profile = {
+        "type": "filament",
+        "setting_id": "Default Filament",
+        "name": "Default Filament",
+        "from": "system",
+        "instantiation": "true",
+        "filament_diameter": ["1.75"],
+        "compatible_printers": ["Default Printer"]
+    }
+
+    files_to_create = {
+        "machine.json": machine_profile,
+        "process.json": process_profile,
+        "filament.json": filament_profile
+    }
+
+    for filename, profile in files_to_create.items():
         filepath = os.path.join(output_dir, filename)
         with open(filepath, 'w') as f:
-            json.dump({}, f)
+            json.dump(profile, f, indent=4)
 
     print(f"Dummy profiles generated in '{output_dir}'")
 

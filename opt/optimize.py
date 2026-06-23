@@ -33,7 +33,7 @@ def objective(trial):
             "process": "profiles/process.json",
             "filament": "profiles/filament.json"
         }
-        slice_model("violin_body.step", dummy_profile, "violin_body.gcode", extra_args=extra_args)
+        slice_model("violin_body.stl", dummy_profile, "violin_body.gcode", extra_args=extra_args)
         print("Slice generated for trial.")
     except Exception as e:
         print(f"Warning: Slicing failed or orca-slicer not installed: {e}")
@@ -86,7 +86,7 @@ if __name__ == "__main__":
             "process": "profiles/process.json",
             "filament": "profiles/filament.json"
         }
-        slice_model("violin_body.step", dummy_profile, "violin_body.gcode", extra_args=extra_args)
+        slice_model("violin_body.stl", dummy_profile, "violin_body.gcode", extra_args=extra_args)
         print("Final slice generated.")
     except Exception as e:
         print(f"Warning: Slicing final model failed or orca-slicer not installed: {e}")

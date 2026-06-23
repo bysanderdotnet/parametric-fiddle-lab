@@ -79,3 +79,5 @@ profiles/*
 elmer_log.txt
 docs/*
 !docs/.gitkeep
+output.gcode
+slice_info.config
