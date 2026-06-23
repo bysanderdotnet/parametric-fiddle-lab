@@ -1507,6 +1507,11 @@
       "title": "Add a script to generate a dummy Orca Slicer profile",
       "status": "done",
       "notes": "Since profiles are missing, add a script to create a dummy profile so the tests pass locally without skipping"
+    },
+    {
+      "id": "F-186",
+      "title": "Add real Orca Slicer profiles for machine, process, and filament",
+      "status": "in_progress"
     }
   ],
   "progress": [
