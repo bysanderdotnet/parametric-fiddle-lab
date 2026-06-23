@@ -18,7 +18,7 @@
       "verify": true
     },
     "test_visualize": {
-      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 cad/violin.py && python3 scripts/visualize.py violin_body.step my_test_vis.stl",
+      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest scripts/test_visualize.py",
       "verify": true
     },
     "test_sim_struct": {
@@ -1530,7 +1530,7 @@
     {
       "id": "F-189",
       "title": "Add a visual test renderer using trame and vtk to show a side by side comparison of a generated CAD model and a reference model",
-      "status": "todo"
+      "status": "done"
     }
   ],
   "progress": [
