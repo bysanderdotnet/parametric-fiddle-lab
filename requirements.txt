@@ -3,3 +3,7 @@ optuna
 gmsh
 scipy
 pytest
+trame
+trame-vtk
+trame-vuetify
+vtk
