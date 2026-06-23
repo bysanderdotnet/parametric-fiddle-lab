@@ -1,0 +1,17 @@
+{
+    "type": "machine",
+    "setting_id": "Default Printer",
+    "name": "Default Printer",
+    "from": "system",
+    "instantiation": "true",
+    "printer_technology": "FFF",
+    "printer_model": "Generic",
+    "printable_area": [
+        "0x0",
+        "200x0",
+        "200x200",
+        "0x200"
+    ],
+    "printable_height": "200",
+    "layer_change_gcode": "G92 E0"
+}

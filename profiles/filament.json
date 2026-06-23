@@ -1,0 +1,9 @@
+{
+    "type": "filament",
+    "setting_id": "Default Filament",
+    "name": "Default Filament",
+    "from": "system",
+    "instantiation": "true",
+    "filament_diameter": ["1.75"],
+    "compatible_printers": ["Default Printer"]
+}
