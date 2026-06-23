@@ -556,6 +556,10 @@
     "test_generate_dummy_profile": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_generate_dummy_profile.py",
       "verify": true
+    },
+    "test_generate_stradivarius": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest scripts/test_generate_stradivarius.py",
+      "verify": true
     }
   },
   "features": [
@@ -1511,7 +1515,22 @@
     {
       "id": "F-186",
       "title": "Add real Orca Slicer profiles for machine, process, and filament",
-      "status": "in_progress"
+      "status": "done"
+    },
+    {
+      "id": "F-187",
+      "title": "Add a script to generate geometric profiles and compare against real violins",
+      "status": "todo"
+    },
+    {
+      "id": "F-188",
+      "title": "Add a script to dump the exact dimensions of a Stradivarius or other reference violin",
+      "status": "done"
+    },
+    {
+      "id": "F-189",
+      "title": "Add a visual test renderer using trame and vtk to show a side by side comparison of a generated CAD model and a reference model",
+      "status": "todo"
     }
   ],
   "progress": [
