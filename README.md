@@ -62,9 +62,9 @@ pipeline and tests stay green even without the native toolchain installed.
 
 * **Slicing is wired but not configured.** `slice/slicer.py` wraps the
   `orca-slicer` CLI (its unit tests mock the subprocess), but no real Orca
-  profiles are committed — `profiles/` is empty. `opt/optimize.py` and the
-  slicing sweep scripts pass a nonexistent `dummy_profile.json`, so the slice
-  step is skipped with a warning. Add machine/process/filament configs to
+  profiles are committed — `profiles/` has dummy JSON configs. `opt/optimize.py` and the
+  slicing sweep scripts pass a dictionary pointing to these dummy profiles, so the slice
+  step is skipped with a warning. Add real machine/process/filament configs to
   `profiles/` to slice for real.
 * **Acoustics do not use Elmer.** Elmer's scalar-eigen path does not assemble a
   mass matrix in steady state (upstream limitation, documented in
