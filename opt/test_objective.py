@@ -10,20 +10,20 @@ def test_evaluate_objective_default_fallback(mock_open):
     score, result_str = evaluate_objective()
 
     # Verify score with defaults
-    # a0_freq=300, target_a0=290 -> diff 10
-    # b1_minus_freq=400, target_struct=400 -> diff 0
+    # a0_freq=300, target_a0=275 -> diff 25
+    # b1_minus_freq=400, target_struct=430 -> diff 30
     # mass_g=400 -> 40
     # vol=300000 -> 30
     # components (21) = top+back+bridge+soundpost+bassbar+tailpiece+chinrest+finetuners+saddle+strings+nut+pegs+fingerboard+endpin+neck+scroll+topblock+bottomblock+cornerblocks
     # component values: 4, 4, 2, 1, 5, 10, 15, 0.5, 1, 1.5, 2, 5, 10, 2, 15, 5, 10, 10, 10 = 113.0
     # 113 * 5 = 565
-    # total expected = 10 + 0 + 40 + 30 + 565 = 645
-    expected_score = 645.0
+    # total expected = 25 + 30 + 40 + 30 + 565 = 690
+    expected_score = 690.0
 
     assert abs(score - expected_score) < 1e-6
     assert "A0=300.0Hz" in result_str
     assert "B1-=400.0Hz" in result_str
-    assert "Score=645.00" in result_str
+    assert "Score=690.00" in result_str
 
 @patch('builtins.open')
 def test_evaluate_objective_with_mock_files(mock_open):
@@ -98,14 +98,14 @@ def test_evaluate_objective_with_mock_files(mock_open):
     score, result_str = evaluate_objective()
 
     # Calculate expected score:
-    # a0_freq=285, target_a0=290 -> diff 5
-    # b1_minus_freq=420, target_struct=400 -> diff 20
+    # a0_freq=285, target_a0=275 -> diff 10
+    # b1_minus_freq=420, target_struct=430 -> diff 10
     # mass_g=350 -> 35
     # vol=250000 -> 25
     # comp sums = 3 + 3.5 + 2.5 + 1.2 + 4.5 + 9.0 + 14.0 + 0 + 0.8 + 1.2 + 1.8 + 4.0 + 9.5 + 1.5 + 12.0 + 4.5 + 8.0 + 8.0 + 8.0 = 97.0
     # 97 * 5 = 485
-    # total expected = 5 + 20 + 35 + 25 + 485 = 570
-    expected_score = 570.0
+    # total expected = 10 + 10 + 35 + 25 + 485 = 565
+    expected_score = 565.0
 
     assert abs(score - expected_score) < 1e-6
     assert "A0=285.0Hz" in result_str
@@ -115,7 +115,7 @@ def test_evaluate_objective_with_mock_files(mock_open):
     assert "B1+=520.0Hz" in result_str
     assert "Mass=350.0g" in result_str
     assert "Top=3.0mm" in result_str
-    assert "Score=570.00" in result_str
+    assert "Score=565.00" in result_str
 
 
 @patch('builtins.open')
