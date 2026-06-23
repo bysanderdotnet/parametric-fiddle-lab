@@ -105,9 +105,9 @@ def evaluate_objective():
     except FileNotFoundError:
         print("Warning: acoustic_results.json not found")
 
-    # Simple fitness: error of A0 frequency from 290Hz and B1- from 400Hz, plus a small penalty for mass and volume
-    target_a0 = 290.0
-    target_struct = 400.0
+    # Simple fitness: error of A0 frequency from 275Hz and B1- from 430Hz, plus a small penalty for mass and volume
+    target_a0 = 275.0
+    target_struct = 430.0
 
     score = abs(a0_freq - target_a0) + abs(b1_minus_freq - target_struct) + (mass_g * 0.1) + (volume_mm3 * 1e-4) + (top_thickness_val * 5.0) + (back_thickness_val * 5.0) + (bridge_mass_g * 5.0) + (soundpost_mass_g * 5.0) + (bass_bar_mass_g * 5.0) + (tailpiece_mass_g * 5.0) + (chinrest_mass_g * 5.0) + (fine_tuners_mass_g * 5.0) + (saddle_mass_g * 5.0) + (strings_mass_g * 5.0) + (nut_mass_g * 5.0) + (pegs_mass_g * 5.0) + (fingerboard_mass_g * 5.0) + (endpin_mass_g * 5.0) + (neck_mass_g * 5.0) + (scroll_mass_g * 5.0) + (top_block_mass_g * 5.0) + (bottom_block_mass_g * 5.0) + (corner_blocks_mass_g * 5.0)
     result_str = f"Result: A0={a0_freq:.1f}Hz, A1={a1_freq:.1f}Hz, CBR={cbr_freq:.1f}Hz, B1-={b1_minus_freq:.1f}Hz, B1+={b1_plus_freq:.1f}Hz, Mass={mass_g:.1f}g, BridgeMass={bridge_mass_g:.2f}g, SoundpostMass={soundpost_mass_g:.2f}g, BassBarMass={bass_bar_mass_g:.2f}g, TailpieceMass={tailpiece_mass_g:.2f}g, ChinrestMass={chinrest_mass_g:.2f}g, FineTunersMass={fine_tuners_mass_g:.2f}g, SaddleMass={saddle_mass_g:.2f}g, StringsMass={strings_mass_g:.2f}g, NutMass={nut_mass_g:.2f}g, PegsMass={pegs_mass_g:.2f}g, FingerboardMass={fingerboard_mass_g:.2f}g, EndpinMass={endpin_mass_g:.2f}g, NeckMass={neck_mass_g:.2f}g, ScrollMass={scroll_mass_g:.2f}g, TopBlockMass={top_block_mass_g:.2f}g, BottomBlockMass={bottom_block_mass_g:.2f}g, CornerBlocksMass={corner_blocks_mass_g:.2f}g, Volume={volume_mm3:.1f}mm3, Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm -> Score={score:.2f}"
