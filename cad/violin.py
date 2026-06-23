@@ -484,6 +484,10 @@ def save_step(workplane: cq.Workplane, filepath: str):
     """Export a cadquery Workplane to a STEP file."""
     cq.exporters.export(workplane, filepath)
 
+def save_stl(workplane: cq.Workplane, filepath: str):
+    """Export a cadquery Workplane to an STL file."""
+    cq.exporters.export(workplane, filepath)
+
 import argparse
 import json
 import inspect
@@ -607,6 +611,7 @@ if __name__ == "__main__":
 
     # Export to step
     save_step(violin, "violin_body.step")
+    save_stl(violin, "violin_body.stl")
     # Air cavity solid drives the acoustic cavity-mode sim
     save_step(cavity, "violin_cavity.step")
 
