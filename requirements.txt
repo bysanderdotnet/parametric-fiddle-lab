@@ -7,3 +7,4 @@ trame
 trame-vtk
 trame-vuetify
 vtk
+pyvista>=0.40.0

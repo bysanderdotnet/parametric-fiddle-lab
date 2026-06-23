@@ -3,6 +3,8 @@ import random
 import os
 import shutil
 import sys
+import numpy as np
+import pyvista as pv
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.elmer import run_elmer as elmer_eigenmodes
@@ -12,6 +14,7 @@ SOLVER = """Solver 1
   Equation = Linear elasticity
   Variable = -dofs 3 Displacement
   Procedure = "StressSolve" "StressSolver"
+  Calculate Stresses = True
   Eigen Analysis = True
   Eigen System Values = 10
   Eigen System Select = Smallest magnitude
@@ -60,9 +63,24 @@ def run_elmer(mesh_file):
         else:
             mode["description"] = "B1+ like"
 
+    max_stress_mpa = 0.0
+    vtu_path = os.path.join("elmer_mesh", "case_t0001.vtu")
+    if os.path.exists(vtu_path):
+        try:
+            mesh = pv.read(vtu_path)
+            max_stress_pa = 0.0
+            for key in mesh.point_data.keys():
+                if "vonmises" in key:
+                    val = np.max(mesh.point_data[key])
+                    if val > max_stress_pa:
+                        max_stress_pa = val
+            max_stress_mpa = max_stress_pa / 1e6
+        except Exception as e:
+            print(f"Failed to read stress from VTU: {e}")
+
     return {
         "eigenmodes": modes,
-        "max_stress_mpa": 0.0,  # eigenanalysis only; stress not computed
+        "max_stress_mpa": max_stress_mpa,
         "mass_g": mass_from_json()
     }
 

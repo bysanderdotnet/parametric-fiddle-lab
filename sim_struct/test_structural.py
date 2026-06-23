@@ -102,15 +102,23 @@ def test_structural_cli(tmpdir):
     finally:
         os.chdir(orig_dir)
 
+@patch("sim_struct.structural.pv.read")
 @patch("sim_struct.structural.elmer_eigenmodes")
 @patch("sim_struct.structural.shutil.which")
 @patch("sim_struct.structural.os.path.exists")
-def test_run_structural_sim_elmer(mock_exists, mock_which, mock_elmer_eigenmodes, tmpdir):
+def test_run_structural_sim_elmer(mock_exists, mock_which, mock_elmer_eigenmodes, mock_pv_read, tmpdir):
     orig_dir = os.getcwd()
     os.chdir(tmpdir)
 
     try:
-        mock_exists.return_value = True
+        # We need mock_exists to return True for our dummy mesh AND the vtu path
+        def side_effect_exists(path):
+            if path == "dummy_mesh.msh": return True
+            if path == os.path.join("elmer_mesh", "case_t0001.vtu"): return True
+            if path == "structural_results.json": return True
+            return False
+        mock_exists.side_effect = side_effect_exists
+
         mock_which.return_value = True
 
         mock_elmer_eigenmodes.return_value = [
@@ -118,6 +126,14 @@ def test_run_structural_sim_elmer(mock_exists, mock_which, mock_elmer_eigenmodes
             {"mode": 2, "frequency_hz": 400.0},
             {"mode": 3, "frequency_hz": 500.0}
         ]
+
+        class MockMesh:
+            @property
+            def point_data(self):
+                import numpy as np
+                return {"vonmises": np.array([1000000.0, 2500000.0])}
+
+        mock_pv_read.return_value = MockMesh()
 
         results = run_structural_sim("dummy_mesh.msh")
 
@@ -128,6 +144,7 @@ def test_run_structural_sim_elmer(mock_exists, mock_which, mock_elmer_eigenmodes
         assert results["eigenmodes"][1]["description"] == "B1- like"
         assert results["eigenmodes"][2]["description"] == "B1+ like"
 
+        assert results["max_stress_mpa"] == 2.5
         assert os.path.exists("structural_results.json")
 
     finally:

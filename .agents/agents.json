@@ -1541,6 +1541,11 @@
       "id": "F-191",
       "title": "Calibrate optimization objective weights and targets",
       "status": "done"
+    },
+    {
+      "id": "F-192",
+      "title": "Add stress field computation to structural simulation",
+      "status": "todo"
     }
   ],
   "progress": [
