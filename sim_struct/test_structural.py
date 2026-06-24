@@ -25,7 +25,7 @@ def test_run_structural_sim_dummy(tmpdir):
 
         with open("structural_results.json", "r") as f:
             data = json.load(f)
-            assert data["max_stress_mpa"] == 15.4
+            assert data["max_stress_mpa"] == 1150.0
 
     finally:
         os.chdir(orig_dir)
@@ -48,7 +48,7 @@ def test_run_structural_sim_elmer_exception(mock_exists, mock_which, mock_run_el
         assert "eigenmodes" in results
         assert len(results["eigenmodes"]) == 3
         # In this case it falls back to dummy results
-        assert results["max_stress_mpa"] == 15.4
+        assert results["max_stress_mpa"] == 1150.0
 
     finally:
         os.chdir(orig_dir)
@@ -71,7 +71,7 @@ def test_run_structural_sim_elmer_none(mock_exists, mock_which, mock_elmer_eigen
         assert "eigenmodes" in results
         assert len(results["eigenmodes"]) == 3
         # In this case it falls back to dummy results
-        assert results["max_stress_mpa"] == 15.4
+        assert results["max_stress_mpa"] == 1150.0
 
     finally:
         os.chdir(orig_dir)
@@ -131,7 +131,14 @@ def test_run_structural_sim_elmer(mock_exists, mock_which, mock_elmer_eigenmodes
             @property
             def point_data(self):
                 import numpy as np
-                return {"vonmises": np.array([1000000.0, 2500000.0])}
+                return {
+                    "vonmises EigenMode1": np.array([1000000.0, 2500000.0]),
+                    "displacement EigenMode1": np.array([[0.001, 0.0, 0.0], [0.002, 0.0, 0.0]]), # max disp 0.002 m
+                    "vonmises EigenMode2": np.array([1000000.0, 3000000.0]),
+                    "displacement EigenMode2": np.array([[0.001, 0.0, 0.0], [0.002, 0.0, 0.0]]), # max disp 0.002 m
+                    "vonmises EigenMode3": np.array([1000000.0, 2500000.0]),
+                    "displacement EigenMode3": np.array([[0.001, 0.0, 0.0], [0.002, 0.0, 0.0]]), # max disp 0.002 m
+                }
 
         mock_pv_read.return_value = MockMesh()
 
@@ -144,7 +151,9 @@ def test_run_structural_sim_elmer(mock_exists, mock_which, mock_elmer_eigenmodes
         assert results["eigenmodes"][1]["description"] == "B1- like"
         assert results["eigenmodes"][2]["description"] == "B1+ like"
 
-        assert results["max_stress_mpa"] == 2.5
+        # Max normalized stress: mode 2 has max VM 3e6, disp 0.002.
+        # Ratio = 3e6 / 0.002 = 1.5e9 Pa/m = 1.5 MPa/mm.
+        assert results["max_stress_mpa"] == 1.5
         assert os.path.exists("structural_results.json")
 
     finally:
