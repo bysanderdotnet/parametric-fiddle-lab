@@ -1,0 +1,11 @@
+--- slice/test_slicer.py
++++ slice/test_slicer.py
+@@ -107,7 +107,7 @@
+         slice_model(str(stl_file), {}, str(output_gcode))
+
+ @patch("subprocess.run")
+-@patch("slicer.logger.info")
++@patch("slice.slicer.logger.info")
+ def test_slice_model_pipe_progress(mock_logger_info, mock_run, tmp_path):
+     stl_file = tmp_path / "test.stl"
+     stl_file.touch()
