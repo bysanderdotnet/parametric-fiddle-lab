@@ -1574,6 +1574,11 @@
       "id": "F-196",
       "title": "Add Orca Slicer profiles to profiles/ directory",
       "status": "done"
+    },
+    {
+      "id": "F-197",
+      "title": "Apply fix in patch.diff and improve test_slicer.py",
+      "status": "done"
     }
   ],
   "progress": [
@@ -2980,6 +2985,14 @@
       "verified": "pass (2026-06-24 12:47 UTC @ 704a923)",
       "blockers": "none",
       "commit": "704a923 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-24 22:58 UTC",
+      "title": "Fixed test_slicer.py coverage and applied patches",
+      "done": "Fixed test_slicer.py coverage and applied patches",
+      "verified": "pass (2026-06-24 22:58 UTC @ 9c4b324)",
+      "blockers": "none",
+      "commit": "9c4b324 (+ uncommitted changes)"
     }
   ],
   "rules": [

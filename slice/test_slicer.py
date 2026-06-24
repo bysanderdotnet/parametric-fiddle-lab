@@ -154,3 +154,138 @@ def test_slice_model_pipe_progress(mock_logger_info, mock_run, tmp_path):
 
     assert any("Orca progress: 10.5% - Slicing layer 1" in msg for msg in calls)
     assert any("Orca progress: 100.0% - Done" in msg for msg in calls)
+
+@patch("subprocess.run")
+@patch("slicer.logger.info")
+def test_slice_model_pipe_progress_invalid_json(mock_logger_info, mock_run, tmp_path):
+    stl_file = tmp_path / "test.stl"
+    stl_file.touch()
+    output_gcode = tmp_path / "output.gcode"
+
+    def mock_run_side_effect(*args, **kwargs):
+        cwd = kwargs.get('cwd')
+        if cwd:
+            pipe_path = os.path.join(cwd, "progress.pipe")
+            if os.path.exists(pipe_path):
+                try:
+                    with open(pipe_path, 'w') as f:
+                        f.write('{"total_percent": 10.5, "message": "Slicing layer 1"}\n')
+                        f.write('invalid json data\n')
+                        f.write('{"total_percent": 100.0, "message": "Done"}\n')
+                except OSError:
+                    pass
+            out_3mf = os.path.join(cwd, "output.gcode.3mf")
+            with zipfile.ZipFile(out_3mf, 'w') as z:
+                z.writestr("plate_1.gcode", "G1 X10")
+        return MagicMock(stdout="Success", returncode=0)
+
+    mock_run.side_effect = mock_run_side_effect
+
+    slice_model(str(stl_file), {}, str(output_gcode))
+
+    calls = [call[0][0] for call in mock_logger_info.call_args_list]
+
+    assert any("Orca progress: 10.5% - Slicing layer 1" in msg for msg in calls)
+    assert any("Orca progress: 100.0% - Done" in msg for msg in calls)
+
+@patch("subprocess.run")
+@patch("slicer.logger.warning")
+def test_slice_model_string_profile(mock_logger_warning, mock_run, tmp_path):
+    stl_file = tmp_path / "test.stl"
+    stl_file.touch()
+    output_gcode = tmp_path / "output.gcode"
+
+    def mock_run_side_effect(*args, **kwargs):
+        cwd = kwargs.get('cwd')
+        if cwd:
+            out_3mf = os.path.join(cwd, "output.gcode.3mf")
+            with zipfile.ZipFile(out_3mf, 'w') as z:
+                z.writestr("plate_1.gcode", "G1 X10")
+        return MagicMock(stdout="Success", returncode=0)
+
+    mock_run.side_effect = mock_run_side_effect
+
+    slice_model(str(stl_file), "dummy_profile", str(output_gcode))
+
+    calls = [call[0][0] for call in mock_logger_warning.call_args_list]
+    assert any("Profile (dummy_profile) is a string" in msg for msg in calls)
+
+@patch("subprocess.run")
+@patch("slicer.logger.warning")
+def test_slice_model_no_gcode_in_3mf(mock_logger_warning, mock_run, tmp_path):
+    stl_file = tmp_path / "test.stl"
+    stl_file.touch()
+    output_gcode = tmp_path / "output.gcode"
+
+    def mock_run_side_effect(*args, **kwargs):
+        cwd = kwargs.get('cwd')
+        if cwd:
+            out_3mf = os.path.join(cwd, "output.gcode.3mf")
+            with zipfile.ZipFile(out_3mf, 'w') as z:
+                z.writestr("Metadata/slice_info.config", "{}")
+        return MagicMock(stdout="Success", returncode=0)
+
+    mock_run.side_effect = mock_run_side_effect
+
+    slice_model(str(stl_file), {}, str(output_gcode))
+
+    calls = [call[0][0] for call in mock_logger_warning.call_args_list]
+    assert any("No .gcode file found" in msg for msg in calls)
+
+@patch("subprocess.run")
+@patch("slicer.logger.info")
+def test_slice_model_debug_mode(mock_logger_info, mock_run, tmp_path):
+    stl_file = tmp_path / "test.stl"
+    stl_file.touch()
+    output_gcode = tmp_path / "output.gcode"
+
+    def mock_run_side_effect(*args, **kwargs):
+        cwd = kwargs.get('cwd')
+        if cwd:
+            out_3mf = os.path.join(cwd, "output.gcode.3mf")
+            with zipfile.ZipFile(out_3mf, 'w') as z:
+                z.writestr("plate_1.gcode", "G1 X10")
+        return MagicMock(stdout="Success", returncode=0)
+
+    mock_run.side_effect = mock_run_side_effect
+
+    slice_model(str(stl_file), {}, str(output_gcode), debug=True)
+
+    calls = [call[0][0] for call in mock_logger_info.call_args_list]
+    assert any("Debug mode enabled. Temporary directory left at:" in msg for msg in calls)
+
+@patch("subprocess.run")
+@patch("slicer.logger.info")
+def test_slice_model_pipe_progress_oserror(mock_logger_info, mock_run, tmp_path):
+    stl_file = tmp_path / "test.stl"
+    stl_file.touch()
+    output_gcode = tmp_path / "output.gcode"
+
+    def mock_run_side_effect(*args, **kwargs):
+        cwd = kwargs.get('cwd')
+        if cwd:
+            pipe_path = os.path.join(cwd, "progress.pipe")
+            # Force OSError on writing pipe
+            import builtins
+            original_open = builtins.open
+
+            def mock_open(path, *oargs, **okwargs):
+                if path == pipe_path and 'w' in oargs:
+                    raise OSError("Mocked OSError")
+                return original_open(path, *oargs, **okwargs)
+
+            with patch('builtins.open', mock_open):
+                if os.path.exists(pipe_path):
+                    try:
+                        with builtins.open(pipe_path, 'w') as f:
+                            f.write('{"total_percent": 10.5, "message": "Slicing layer 1"}\n')
+                    except OSError:
+                        pass
+
+            out_3mf = os.path.join(cwd, "output.gcode.3mf")
+            with zipfile.ZipFile(out_3mf, 'w') as z:
+                z.writestr("plate_1.gcode", "G1 X10")
+        return MagicMock(stdout="Success", returncode=0)
+
+    mock_run.side_effect = mock_run_side_effect
+    slice_model(str(stl_file), {}, str(output_gcode))
