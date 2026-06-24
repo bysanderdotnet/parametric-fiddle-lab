@@ -1551,6 +1551,11 @@
       "id": "F-193",
       "title": "Add unit tests for Orca Slicer pipe progress tracking",
       "status": "done"
+    },
+    {
+      "id": "F-194",
+      "title": "Extract structural and acoustic eigenfrequencies ranges to parameters in common/params.py",
+      "status": "done"
     }
   ],
   "progress": [
