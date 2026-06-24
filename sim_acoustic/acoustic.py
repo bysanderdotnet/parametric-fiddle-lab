@@ -6,6 +6,7 @@ import argparse
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.cavity_fem import cavity_eigenmodes
+from common.params import A0_MAX_FREQ, A1_MAX_FREQ
 
 SOUND_SPEED = 343.0  # m/s, air at room temperature
 
@@ -19,9 +20,9 @@ def run_acoustic_sim(mesh_file):
             if modes:
                 for mode in modes:
                     freq = mode.get("frequency_hz", 0.0)
-                    if freq < 350.0:
+                    if freq < A0_MAX_FREQ:
                         mode["description"] = "A0-like (Helmholtz)"
-                    elif 350.0 <= freq <= 550.0:
+                    elif A0_MAX_FREQ <= freq <= A1_MAX_FREQ:
                         mode["description"] = "A1-like"
                     else:
                         mode["description"] = "Higher cavity mode"

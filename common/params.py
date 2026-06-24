@@ -10,6 +10,11 @@ SPEC entry = (name, kind, opt, help)
   opt:  (low, high) for float; [choices] for str/bool; None = not optimized
 """
 
+CBR_MAX_FREQ = 340.0
+B1_MINUS_MAX_FREQ = 465.0
+A0_MAX_FREQ = 350.0
+A1_MAX_FREQ = 550.0
+
 SPEC = [
     ("length", "float", (340.0, 370.0), "Length of the body"),
     ("lower_bout", "float", (200.0, 220.0), "Width of the lower bout"),

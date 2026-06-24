@@ -568,6 +568,10 @@
     "test_generate_slicing_parameter_table": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_generate_slicing_parameter_table.py",
       "verify": true
+    },
+    "test_cad": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest cad/test_violin.py",
+      "verify": true
     }
   },
   "features": [
@@ -1573,6 +1577,21 @@
     {
       "id": "F-196",
       "title": "Add Orca Slicer profiles to profiles/ directory",
+      "status": "done"
+    },
+    {
+      "id": "F-197",
+      "title": "Add unit tests to check simulation scripts",
+      "status": "done"
+    },
+    {
+      "id": "F-198",
+      "title": "Add descriptions to structural eigenmodes in structural.py based on frequency ranges",
+      "status": "done"
+    },
+    {
+      "id": "F-199",
+      "title": "Add unit tests to check cad generation",
       "status": "done"
     }
   ],
@@ -2972,6 +2991,30 @@
       "verified": "pass (2026-06-24 09:08 UTC @ af7c78b)",
       "blockers": "none",
       "commit": "af7c78b (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-24 11:46 UTC",
+      "title": "Add unit tests to check simulation scripts",
+      "done": "Added test scripts for sim_struct and sim_acoustic and registered them in the verifier",
+      "verified": "pass (2026-06-24 11:45 UTC @ 704a923)",
+      "blockers": "none",
+      "commit": "704a923 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-24 11:56 UTC",
+      "title": "Add unit tests to check cad generation",
+      "done": "Registered cad/test_violin.py to the AGENTS.sh verifier as test_cad and verified everything passes.",
+      "verified": "pass (2026-06-24 11:53 UTC @ 16298c1)",
+      "blockers": "none",
+      "commit": "16298c1 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-24 12:55 UTC",
+      "title": "Add descriptions to structural eigenmodes in structural.py based on frequency ranges",
+      "done": "Extracted frequency limits to common/params.py and used them in sim_struct and sim_acoustic.",
+      "verified": "pass (2026-06-24 12:39 UTC @ 2a7a240)",
+      "blockers": "none",
+      "commit": "2a7a240 (+ uncommitted changes)"
     }
   ],
   "rules": [
