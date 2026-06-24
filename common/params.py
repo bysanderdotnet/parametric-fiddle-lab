@@ -121,6 +121,9 @@ SPEC = [
     ("corner_block_length", "float", (10.0, 30.0), "Length of the corner blocks"),
     ("infill_density", "float", (5.0, 100.0), "Sparse infill density percentage"),
     ("layer_height", "float", (0.08, 0.28), "Layer height"),
+    ("target_a0_freq", "float", None, "Target A0 air cavity mode frequency in Hz"),
+    ("target_b1_minus_freq", "float", None, "Target B1- structural mode frequency in Hz"),
+    ("target_b1_plus_freq", "float", None, "Target B1+ structural mode frequency in Hz"),
 ]
 
 NAMES = [name for name, _, _, _ in SPEC]
@@ -133,7 +136,7 @@ def add_arguments(parser, defaults):
         # If the parameter is not present in defaults (e.g., slicing params not in CAD function), skip it or provide a default.
         default_val = defaults.get(name)
         if default_val is None:
-            if kind == "float": default_val = _opt[0]
+            if kind == "float": default_val = _opt[0] if _opt else 0.0
             elif kind == "bool": default_val = False
             else: default_val = _opt[0] if _opt else ""
 
@@ -162,7 +165,7 @@ def cli_args(values):
     """Turn a {name: value} dict into cad/violin.py CLI args (SPEC order), excluding slicing parameters."""
     args = []
     kinds = {name: kind for name, kind, _, _ in SPEC}
-    slicing_params = {"infill_density", "layer_height"}
+    slicing_params = {"infill_density", "layer_height", "target_a0_freq", "target_b1_minus_freq", "target_b1_plus_freq"}
     for name in NAMES:
         if name in slicing_params:
             continue

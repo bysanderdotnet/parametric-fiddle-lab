@@ -56,7 +56,7 @@ def generate_profiles():
     for name, kind, opt, _ in SPEC:
         if name not in default_params:
             if kind == 'float':
-                default_params[name] = sum(opt) / 2.0
+                default_params[name] = sum(opt) / 2.0 if opt else 0.0
             elif kind == 'str':
                 default_params[name] = opt[0]
             elif kind == 'bool':
