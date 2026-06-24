@@ -1,13 +1,34 @@
 {
     "type": "filament",
-    "setting_id": "Default Filament",
-    "name": "Default Filament",
+    "setting_id": "Bambu PLA Basic @BBL X1C",
+    "name": "Bambu PLA Basic @BBL X1C",
     "from": "system",
     "instantiation": "true",
+    "filament_type": [
+        "PLA"
+    ],
     "filament_diameter": [
         "1.75"
     ],
+    "filament_density": [
+        "1.24"
+    ],
+    "filament_cost": [
+        "24.99"
+    ],
+    "nozzle_temperature": [
+        "220"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "220"
+    ],
+    "hot_plate_temp": [
+        "55"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "55"
+    ],
     "compatible_printers": [
-        "Default Printer"
+        "Bambu Lab X1 Carbon 0.4 nozzle"
     ]
 }

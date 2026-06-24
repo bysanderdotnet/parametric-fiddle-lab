@@ -1,11 +1,14 @@
 {
     "type": "machine",
-    "setting_id": "Default Printer",
-    "name": "Default Printer",
+    "setting_id": "Bambu Lab X1 Carbon 0.4 nozzle",
+    "name": "Bambu Lab X1 Carbon 0.4 nozzle",
     "from": "system",
     "instantiation": "true",
     "printer_technology": "FFF",
-    "printer_model": "Generic",
+    "printer_model": "Bambu Lab X1 Carbon",
+    "nozzle_diameter": [
+        "0.4"
+    ],
     "printable_area": [
         "0x0",
         "600x0",
@@ -13,5 +16,5 @@
         "0x600"
     ],
     "printable_height": "600",
-    "layer_change_gcode": "G92 E0"
+    "layer_change_gcode": "; layer change\nG92 E0"
 }
