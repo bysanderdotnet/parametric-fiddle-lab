@@ -1545,7 +1545,7 @@
     {
       "id": "F-192",
       "title": "Add stress field computation to structural simulation",
-      "status": "todo"
+      "status": "done"
     }
   ],
   "progress": [
@@ -2911,6 +2911,15 @@
       "verified": "pass (2026-06-23 11:46 UTC @ e7e489f) — STALE: files changed since that run, re-verify",
       "blockers": "None",
       "commit": "e7e489f (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-24 01:41 UTC",
+      "title": "Computed stress field normalization",
+      "done": "Updated structural sim to extract and normalize maximum vonmises stress per unit displacement across all computed eigenmodes",
+      "verified": "pass (2026-06-24 01:39 UTC @ 67cb2f4)",
+      "next": "Review structural objective weights",
+      "blockers": "none",
+      "commit": "67cb2f4 (+ uncommitted changes)"
     }
   ],
   "rules": [

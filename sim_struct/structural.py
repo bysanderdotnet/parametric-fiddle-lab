@@ -63,24 +63,34 @@ def run_elmer(mesh_file):
         else:
             mode["description"] = "B1+ like"
 
-    max_stress_mpa = 0.0
+    max_stress_mpa_per_mm = 0.0
     vtu_path = os.path.join("elmer_mesh", "case_t0001.vtu")
     if os.path.exists(vtu_path):
         try:
             mesh = pv.read(vtu_path)
-            max_stress_pa = 0.0
-            for key in mesh.point_data.keys():
-                if "vonmises" in key:
-                    val = np.max(mesh.point_data[key])
-                    if val > max_stress_pa:
-                        max_stress_pa = val
-            max_stress_mpa = max_stress_pa / 1e6
+            # Find the maximum stress per unit displacement across all modes
+            max_normalized_stress_pa_per_m = 0.0
+            for i in range(1, len(modes) + 1):
+                vm_key = f"vonmises EigenMode{i}"
+                disp_key = f"displacement EigenMode{i}"
+                if vm_key in mesh.point_data and disp_key in mesh.point_data:
+                    max_vm = np.max(mesh.point_data[vm_key])
+                    max_disp = np.max(np.linalg.norm(mesh.point_data[disp_key], axis=1))
+                    if max_disp > 0:
+                        normalized = max_vm / max_disp
+                        if normalized > max_normalized_stress_pa_per_m:
+                            max_normalized_stress_pa_per_m = normalized
+
+            # Since Elmer scales mesh with 0.001, displacement is in meters.
+            # Stress is in Pascals. We want MPa per mm of displacement.
+            # 1 Pa/m = 1e-6 MPa / 1000 mm = 1e-9 MPa/mm.
+            max_stress_mpa_per_mm = max_normalized_stress_pa_per_m * 1e-9
         except Exception as e:
             print(f"Failed to read stress from VTU: {e}")
 
     return {
         "eigenmodes": modes,
-        "max_stress_mpa": max_stress_mpa,
+        "max_stress_mpa": max_stress_mpa_per_mm,
         "mass_g": mass_from_json()
     }
 
@@ -111,7 +121,7 @@ def run_structural_sim(mesh_file):
             {"mode": 2, "frequency_hz": 400.0 + random.uniform(-15, 15), "description": "B1- like"},
             {"mode": 3, "frequency_hz": 530.0 + random.uniform(-20, 20), "description": "B1+ like"}
         ],
-        "max_stress_mpa": 15.4,
+        "max_stress_mpa": 1150.0,
         "mass_g": mass_g
     }
 
