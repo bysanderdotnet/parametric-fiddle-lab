@@ -8,6 +8,7 @@ import pyvista as pv
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.elmer import run_elmer as elmer_eigenmodes
+from common.params import FREQ_CBR_MAX, FREQ_B1_MINUS_MAX
 from filaments import bambu_pla_basic as filament
 
 SOLVER = """Solver 1
@@ -56,9 +57,9 @@ def run_elmer(mesh_file):
 
     for mode in modes:
         freq = mode.get("frequency_hz", 0.0)
-        if freq < 340.0:
+        if freq < FREQ_CBR_MAX:
             mode["description"] = "CBR-like"
-        elif 340.0 <= freq <= 465.0:
+        elif FREQ_CBR_MAX <= freq <= FREQ_B1_MINUS_MAX:
             mode["description"] = "B1- like"
         else:
             mode["description"] = "B1+ like"

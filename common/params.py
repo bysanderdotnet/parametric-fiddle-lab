@@ -10,6 +10,12 @@ SPEC entry = (name, kind, opt, help)
   opt:  (low, high) for float; [choices] for str/bool; None = not optimized
 """
 
+# Frequency thresholds for structural and acoustic mode classification
+FREQ_CBR_MAX = 340.0
+FREQ_B1_MINUS_MAX = 465.0
+FREQ_A0_MAX = 350.0
+FREQ_A1_MAX = 550.0
+
 SPEC = [
     ("length", "float", (340.0, 370.0), "Length of the body"),
     ("lower_bout", "float", (200.0, 220.0), "Width of the lower bout"),
