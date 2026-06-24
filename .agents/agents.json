@@ -2972,6 +2972,14 @@
       "verified": "pass (2026-06-24 09:08 UTC @ af7c78b)",
       "blockers": "none",
       "commit": "af7c78b (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-24 12:49 UTC",
+      "title": "Extract structural and acoustic eigenfrequencies ranges to parameters in common/params.py",
+      "done": "Updated common/params.py with maximum frequencies constants and updated structural.py and acoustic.py",
+      "verified": "pass (2026-06-24 12:47 UTC @ 704a923)",
+      "blockers": "none",
+      "commit": "704a923 (+ uncommitted changes)"
     }
   ],
   "rules": [
