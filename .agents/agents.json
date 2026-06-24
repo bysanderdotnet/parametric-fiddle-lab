@@ -560,6 +560,10 @@
     "test_generate_geometric_profiles": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_generate_geometric_profiles.py",
       "verify": true
+    },
+    "test_generate_slicing_table": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_generate_slicing_table.py",
+      "verify": true
     }
   },
   "features": [
@@ -930,13 +934,13 @@
     {
       "id": "F-071",
       "title": "Extract slicing pipeline to support orca-slicer configuration overrides and proper working directories",
-      "status": "blocked",
+      "status": "done",
       "notes": "Already done"
     },
     {
       "id": "F-072",
       "title": "Add progress tracking to Orca Slicer wrapper using named pipes",
-      "status": "blocked",
+      "status": "done",
       "notes": "Already done in slice/slicer.py"
     },
     {
@@ -1556,6 +1560,11 @@
       "id": "F-194",
       "title": "Extract structural and acoustic eigenfrequencies ranges to parameters in common/params.py",
       "status": "done"
+    },
+    {
+      "id": "F-195",
+      "title": "Add a script to generate slicing parameter tables",
+      "status": "in_progress"
     }
   ],
   "progress": [
