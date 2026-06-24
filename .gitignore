@@ -81,3 +81,6 @@ docs/*
 !docs/.gitkeep
 output.gcode
 slice_info.config
+*.gcode
+opt_output.log
+test.gcode

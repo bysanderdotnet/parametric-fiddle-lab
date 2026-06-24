@@ -1569,6 +1569,11 @@
       "id": "F-195",
       "title": "Add a script to generate slicing parameter tables",
       "status": "done"
+    },
+    {
+      "id": "F-196",
+      "title": "Add Orca Slicer profiles to profiles/ directory",
+      "status": "done"
     }
   ],
   "progress": [
@@ -2959,6 +2964,14 @@
       "verified": "pass (2026-06-24 05:43 UTC @ 746598d)",
       "blockers": "none",
       "commit": "746598d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-24 09:13 UTC",
+      "title": "Add Orca Slicer profiles to profiles/ directory [F-196]",
+      "done": "Added realistic Bambu Lab X1C configurations to profiles and scripts/generate_dummy_profile.py to fix slicing.",
+      "verified": "pass (2026-06-24 09:08 UTC @ af7c78b)",
+      "blockers": "none",
+      "commit": "af7c78b (+ uncommitted changes)"
     }
   ],
   "rules": [
