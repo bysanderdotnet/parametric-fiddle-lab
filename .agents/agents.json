@@ -1546,6 +1546,11 @@
       "id": "F-192",
       "title": "Add stress field computation to structural simulation",
       "status": "done"
+    },
+    {
+      "id": "F-193",
+      "title": "Add unit tests for Orca Slicer pipe progress tracking",
+      "status": "done"
     }
   ],
   "progress": [
@@ -2920,6 +2925,14 @@
       "next": "Review structural objective weights",
       "blockers": "none",
       "commit": "67cb2f4 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-24 02:49 UTC",
+      "title": "Add test for slice_model_pipe_progress in Orca Slicer wrapper",
+      "done": "Added test_slice_model_pipe_progress to slice/test_slicer.py",
+      "verified": "pass (2026-06-24 02:46 UTC @ 9f2d6d7)",
+      "blockers": "none",
+      "commit": "9f2d6d7 (+ uncommitted changes)"
     }
   ],
   "rules": [
