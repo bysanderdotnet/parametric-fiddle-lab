@@ -1,6 +1,6 @@
 import json
 
-def evaluate_objective(target_a0=280.0, target_struct=450.0, target_b1_plus=540.0):
+def evaluate_objective(target_a0=290.0, target_struct=400.0, target_b1_plus=540.0):
     mass_g = 400.0 # Default if fail
     volume_mm3 = 300000.0 # Default if fail
     a0_freq = 300.0
