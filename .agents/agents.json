@@ -564,6 +564,10 @@
     "test_generate_slicing_table": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_generate_slicing_table.py",
       "verify": true
+    },
+    "test_generate_slicing_parameter_table": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_generate_slicing_parameter_table.py",
+      "verify": true
     }
   },
   "features": [
@@ -1564,7 +1568,7 @@
     {
       "id": "F-195",
       "title": "Add a script to generate slicing parameter tables",
-      "status": "in_progress"
+      "status": "done"
     }
   ],
   "progress": [
@@ -2947,6 +2951,14 @@
       "verified": "pass (2026-06-24 02:46 UTC @ 9f2d6d7)",
       "blockers": "none",
       "commit": "9f2d6d7 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-24 05:44 UTC",
+      "title": "Add script to generate slicing parameter tables [F-195]",
+      "done": "Added scripts/generate_slicing_parameter_table.py and its test, and registered the test.",
+      "verified": "pass (2026-06-24 05:43 UTC @ 746598d)",
+      "blockers": "none",
+      "commit": "746598d (+ uncommitted changes)"
     }
   ],
   "rules": [
