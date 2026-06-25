@@ -1,6 +1,6 @@
-# Resonant Violin Lab
+# Parametric Fiddle Lab
 
-Resonant Violin Lab is a platform for building a parametric, simulatable, and optimizable design chain for 3D-printed violins. It aims to optimize the acoustic and structural properties of 3D-printed violins by treating geometry, slicing parameters, materials, and internal structure as tunable design variables.
+Parametric Fiddle Lab is a platform for building a parametric, simulatable, and optimizable design chain for 3D-printed violins. It aims to optimize the acoustic and structural properties of 3D-printed violins by treating geometry, slicing parameters, materials, and internal structure as tunable design variables.
 
 ## Overview
 
