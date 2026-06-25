@@ -572,6 +572,10 @@
     "test_params": {
       "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest common/test_params.py",
       "verify": true
+    },
+    "test_sweep_bridge_central_cutout_inner_radius": {
+      "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_central_cutout_inner_radius.py",
+      "verify": true
     }
   },
   "features": [
@@ -1592,6 +1596,11 @@
     {
       "id": "F-199",
       "title": "Fix Optuna optimization bug in optimize.py",
+      "status": "done"
+    },
+    {
+      "id": "F-200",
+      "title": "Add bridge central cutout inner radius parameter",
       "status": "done"
     }
   ],
@@ -3024,6 +3033,14 @@
       "verified": "pass (2026-06-25 01:49 UTC @ a8dd8f6)",
       "blockers": "none",
       "commit": "a8dd8f6 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 04:26 UTC",
+      "title": "Add bridge central cutout inner radius parameter",
+      "done": "Added parameter, updated cad, added sweep script",
+      "verified": "pass (2026-06-25 04:25 UTC @ 0b53f3f)",
+      "blockers": "none",
+      "commit": "0b53f3f (+ uncommitted changes)"
     }
   ],
   "rules": [

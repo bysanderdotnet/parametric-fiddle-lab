@@ -53,6 +53,7 @@ SPEC = [
     ("bridge_cutout_y_offset", "float", (5.0, 20.0), "Vertical offset of the bridge cutouts"),
     ("bridge_central_cutout", "bool", [True, False], "Whether to include the central bridge cutout"),
     ("bridge_central_cutout_radius", "float", (2.0, 8.0), "Radius of the central bridge cutout"),
+    ("bridge_central_cutout_inner_radius", "float", (1.0, 5.0), "Inner radius of the central bridge cutout"),
     ("bridge_central_cutout_y_offset", "float", (10.0, 25.0), "Vertical offset of the central bridge cutout"),
     ("bridge_foot_length", "float", (5.0, 15.0), "Length of the bridge feet"),
     ("bridge_foot_width", "float", (3.0, 10.0), "Width (thickness) of the bridge feet"),
