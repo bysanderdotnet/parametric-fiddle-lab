@@ -31,7 +31,7 @@ Data flows `cad -> slice -> mesh -> sim_struct / sim_acoustic -> opt`, exchanged
 ## Current Status
 
 The Python pipeline runs end-to-end and the full test suite is green
-(`./AGENTS.sh verify` -> 122/122 steps). Simulation stages fall back to
+(`./AGENTS.sh verify` -> 131/131 steps). Simulation stages fall back to
 randomized dummy results when an external tool or input mesh is missing, so the
 pipeline and tests stay green even without the native toolchain installed.
 
@@ -71,9 +71,33 @@ pipeline and tests stay green even without the native toolchain installed.
   `common/cavity_fem.py`), so the Python FEM fallback is the real solver.
 * **Structural is eigenanalysis only.** No stress field is computed
   (`max_stress_mpa` is 0 on the Elmer path, 15.4 in the dummy).
-* **The objective is a placeholder.** Fitness targets A0 ~= 290 Hz and
-  B1- ~= 400 Hz plus mass/volume/component-mass penalties; it is not calibrated
-  against measured instruments.
+* **Geometry is a simplified approximation.** Plate arching is the
+  intersection of two circular cylinders (`get_cylinders` in `cad/violin.py`),
+  not true graduated violin arching, and there is no recurve, no edge purfling
+  channel beyond a single groove, and no plate thickness graduation map — top
+  and back are uniform-thickness shells. The body outline is an 8-point
+  straight-segment polyline rather than a smooth spline. These are deliberate
+  simplifications for a tractable parametric model, not luthier-accurate forms.
+* **Strings, pegs, and fine tuners are non-functional.** They are printed
+  solid plastic (e.g. 0.5 mm solid "string" cylinders) fused into the body for
+  visual completeness — a playable instrument needs real strings, geared or
+  friction pegs, and metal fine tuners as hardware, plus a clamp-on chinrest.
+  `cad/violin.py` now classifies every part in `violin_body.json`
+  (`part_classification`, `non_functional_parts`, and `structural_mass_g` /
+  `cosmetic_mass_g`) so the decorative parts are explicit. The printed object is
+  a violin-shaped resonating body, not yet a stringable instrument.
+* **Structural eigenfrequencies are not yet physical.** The current
+  `structural_results.json` contains near-zero rigid-body modes (~0 Hz) and
+  spurious high-frequency modes (order 10^4-10^5 Hz), so the B1- / B1+ targets
+  in the objective are not meaningful until `sim_struct/structural.py` is
+  reviewed for boundary constraints and unit scaling. Acoustic cavity modes are
+  in a plausible range; structural modes are not.
+* **The objective targets acoustics but is uncalibrated.** `opt/objective.py`
+  now makes the A0 / B1- / B1+ frequency errors the dominant term, with mass as
+  a single mild regularizer and an explicit penalty for missing simulation
+  output (it no longer sums ~20 component masses, which used to swamp the
+  acoustic terms). Targets (A0 ~= 290 Hz, B1- ~= 400 Hz, B1+ ~= 540 Hz) are
+  still not calibrated against measured instruments.
 * **One filament is characterized** (`filaments/bambu_pla_basic.py`). Its
   Poisson ratio is a typical-PLA assumption, not a datasheet value, and the
   referenced datasheet PDF is not committed.
@@ -100,7 +124,7 @@ python3 cad/violin.py            # -> violin_body.step, violin_cavity.step, viol
 python3 mesh/mesher.py           # -> violin_body.msh, violin_cavity.msh
 python3 sim_struct/structural.py # -> structural_results.json
 python3 sim_acoustic/acoustic.py # -> acoustic_results.json
-python3 opt/optimize.py          # full optimization loop
+python3 opt/optimize.py --trials 20  # full optimization loop (--trials/--startup-trials/--seed)
 ```
 
 This repository is managed with an agent harness. Use `./AGENTS.sh help` to see

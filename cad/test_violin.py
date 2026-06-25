@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import subprocess
 import pytest
 import cadquery as cq
@@ -57,6 +58,14 @@ def test_violin_cli():
     assert os.path.exists("violin_body.step")
     assert os.path.exists("violin_cavity.step")
     assert os.path.exists("violin_body.json")
+
+    # Parts are classified structural vs cosmetic (non-functional as printed).
+    with open("violin_body.json") as f:
+        body = json.load(f)
+    assert set(body["non_functional_parts"]) == {"strings", "pegs", "fine_tuners", "chinrest"}
+    assert body["part_classification"]["strings"] == "cosmetic"
+    assert body["part_classification"]["bridge"] == "structural"
+    assert "structural_mass_g" in body and "cosmetic_mass_g" in body
 
     # Clean up
     for file in ["violin_body.step", "violin_cavity.step", "violin_body.json"]:

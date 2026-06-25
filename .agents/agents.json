@@ -3126,6 +3126,12 @@
       "category": "conventions",
       "text": "Python ecosystem: use CadQuery, Optuna, Orca Slicer CLI.",
       "added": "2026-06-14"
+    },
+    {
+      "id": "R-005",
+      "category": "architecture",
+      "text": "Geometry simplified: arching=2-cylinder intersection, uniform-thickness shells, polyline outline. Not luthier-accurate.",
+      "added": "2026-06-25"
     }
   ]
 }
