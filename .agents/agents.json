@@ -1630,6 +1630,11 @@
       "id": "F-204",
       "title": "Add unit tests to common/cavity_fem.py",
       "status": "done"
+    },
+    {
+      "id": "F-205",
+      "title": "Fix Orca Slicer gcode unprintable area error",
+      "status": "done"
     }
   ],
   "progress": [
@@ -3093,6 +3098,14 @@
       "verified": "pass (2026-06-25 11:31 UTC @ 7c000cd)",
       "blockers": "none",
       "commit": "7c000cd (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 12:19 UTC",
+      "title": "Fixed Orca Slicer unprintable area error",
+      "done": "Updated profiles/machine.json printable_area to center around 0,0 (-300 to 300)",
+      "verified": "pass (2026-06-25 12:19 UTC @ 43938ce)",
+      "blockers": "none",
+      "commit": "43938ce (+ uncommitted changes)"
     }
   ],
   "rules": [
