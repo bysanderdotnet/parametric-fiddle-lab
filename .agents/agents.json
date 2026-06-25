@@ -576,6 +576,10 @@
     "test_sweep_bridge_central_cutout_inner_radius": {
       "run": ". .venv/bin/activate && PYTHONPATH=scripts python3 -m pytest scripts/test_sweep_bridge_central_cutout_inner_radius.py",
       "verify": true
+    },
+    "test_optimize": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest opt/test_optimize.py",
+      "verify": true
     }
   },
   "features": [
@@ -1611,6 +1615,11 @@
     {
       "id": "F-202",
       "title": "Fix optuna trial crash on mesh generation failure",
+      "status": "done"
+    },
+    {
+      "id": "F-203",
+      "title": "Add unit tests to opt/optimize.py",
       "status": "done"
     }
   ],
@@ -3059,6 +3068,14 @@
       "verified": "pass (2026-06-25 09:50 UTC @ 86f1ad2)",
       "blockers": "none",
       "commit": "86f1ad2 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 10:52 UTC",
+      "title": "Add unit tests to opt/optimize.py [F-203]",
+      "done": "Added test suite in opt/test_optimize.py and registered it.",
+      "verified": "pass (2026-06-25 10:50 UTC @ 2a94a24)",
+      "blockers": "none",
+      "commit": "2a94a24 (+ uncommitted changes)"
     }
   ],
   "rules": [
