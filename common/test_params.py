@@ -1,61 +1,75 @@
-import unittest
-from unittest.mock import MagicMock
-from common.params import add_arguments, suggest, cli_args, SPEC
+import argparse
+import pytest
+from unittest.mock import Mock
 
-class TestParams(unittest.TestCase):
-    def test_add_arguments(self):
-        parser = MagicMock()
-        defaults = {"length": 355.0}
+from common.params import add_arguments, suggest, cli_args, SPEC, NAMES
 
-        add_arguments(parser, defaults)
+def test_add_arguments():
+    parser = argparse.ArgumentParser()
+    defaults = {"top_thickness": 5.0, "bridge_cutouts": True}
+    add_arguments(parser, defaults)
 
-        # Verify parser.add_argument was called for each spec item
-        self.assertEqual(parser.add_argument.call_count, len(SPEC))
+    # Check that arguments were added
+    args = parser.parse_args([])
 
-        # Test defaults were picked up properly
-        # Since MagicMock tracks calls, we can check a few
-        # Length float arg
-        parser.add_argument.assert_any_call("--length", type=float, default=355.0, help="Length of the body")
+    # Check defaults provided
+    assert args.top_thickness == 5.0
+    assert args.bridge_cutouts is True
 
-    def test_suggest(self):
-        trial = MagicMock()
-        trial.suggest_float.return_value = 100.0
-        trial.suggest_categorical.return_value = "slot"
+    # Check defaults fallback from SPEC
+    # Find the fallback for back_thickness in SPEC
+    back_thickness_spec = next(item for item in SPEC if item[0] == "back_thickness")
+    assert args.back_thickness == back_thickness_spec[2][0]
 
-        vals = suggest(trial)
+    # Check slicing parameters (no fallback provided in defaults, so they get 0.0 or from opt)
+    infill_spec = next(item for item in SPEC if item[0] == "infill_density")
+    assert args.infill_density == infill_spec[2][0]
 
-        self.assertIn("length", vals)
-        self.assertEqual(vals["length"], 100.0)
+def test_suggest():
+    # Mock optuna trial
+    trial = Mock()
+    trial.suggest_float.side_effect = lambda name, low, high: (low + high) / 2.0
+    trial.suggest_categorical.side_effect = lambda name, choices: choices[0]
 
-        self.assertIn("f_hole_profile", vals)
-        self.assertEqual(vals["f_hole_profile"], "slot")
+    vals = suggest(trial)
 
-    def test_cli_args(self):
-        values = {
-            "length": 350.0,
-            "f_hole_profile": "slot",
-            "bridge_central_cutout": True,
-            "bridge_cutouts": False,
-            "infill_density": 15.0,
-            "layer_height": 0.2
-        }
+    # Check that expected keys are in the dictionary
+    for name, kind, opt, _ in SPEC:
+        if opt is not None:
+            assert name in vals
+            if kind == "float":
+                assert vals[name] == (opt[0] + opt[1]) / 2.0
+            else:
+                assert vals[name] == opt[0]
 
-        args = cli_args(values)
+    # Target A0 is in SPEC but opt is None, so it should not be in vals
+    target_a0_spec = next(item for item in SPEC if item[0] == "target_a0_freq")
+    if target_a0_spec[2] is None:
+        assert "target_a0_freq" not in vals
 
-        self.assertIn("--length", args)
-        self.assertIn("350.0", args)
-        self.assertIn("--f_hole_profile", args)
-        self.assertIn("slot", args)
+def test_cli_args():
+    # Construct input values
+    values = {
+        "top_thickness": 4.5,
+        "bridge_cutouts": True,
+        "bridge_central_cutout": False,
+        "infill_density": 15.0, # should be excluded
+        "layer_height": 0.2, # should be excluded
+        "fingerboard_end_shape": "flat"
+    }
 
-        # bool args
-        self.assertIn("--bridge_central_cutout", args)
-        self.assertIn("--no-bridge_cutouts", args)
+    args = cli_args(values)
 
-        # Ensure slicing params are excluded
-        self.assertNotIn("--infill_density", args)
-        self.assertNotIn("15.0", args)
-        self.assertNotIn("--layer_height", args)
-        self.assertNotIn("0.2", args)
+    # Check inclusions
+    assert "--top_thickness" in args
+    assert "4.5" in args
+    assert "--bridge_cutouts" in args # True
+    assert "--no-bridge_central_cutout" in args # False
+    assert "--fingerboard_end_shape" in args
+    assert "flat" in args
 
-if __name__ == '__main__':
-    unittest.main()
+    # Check exclusions (slicing params)
+    assert "--infill_density" not in args
+    assert "15.0" not in args
+    assert "--layer_height" not in args
+    assert "0.2" not in args
