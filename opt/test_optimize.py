@@ -9,12 +9,15 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from opt.optimize import objective
 
+@unittest.mock.patch('opt.optimize.shutil.which', return_value='/usr/bin/orca-slicer')
+@unittest.mock.patch('opt.optimize.os.path.exists', return_value=True)
+@unittest.mock.patch('opt.optimize.os.remove')
 @unittest.mock.patch('opt.optimize.suggest')
 @unittest.mock.patch('opt.optimize.cli_args')
 @unittest.mock.patch('opt.optimize.subprocess.run')
 @unittest.mock.patch('opt.optimize.slice_model')
 @unittest.mock.patch('opt.optimize.evaluate_objective')
-def test_objective_success(mock_evaluate_objective, mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest):
+def test_objective_success(mock_evaluate_objective, mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_remove, mock_exists, mock_which):
     # Setup mocks
     mock_suggest.return_value = {"infill_density": 15, "layer_height": 0.2}
     mock_cli_args.return_value = ["--infill-density", "15", "--layer-height", "0.2"]
@@ -76,6 +79,67 @@ def test_objective_exception(mock_subprocess_run, mock_suggest):
 
     # Verify subprocess.run was called at least once before failing
     mock_subprocess_run.assert_called_once()
+
+
+@unittest.mock.patch('opt.optimize.shutil.which', return_value='/usr/bin/orca-slicer')
+@unittest.mock.patch('opt.optimize.os.path.exists', return_value=False)
+@unittest.mock.patch('opt.optimize.suggest')
+@unittest.mock.patch('opt.optimize.cli_args')
+@unittest.mock.patch('opt.optimize.subprocess.run')
+@unittest.mock.patch('opt.optimize.slice_model')
+def test_objective_slice_failure_prunes(mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_exists, mock_which):
+    # A genuine slicing failure means the geometry is not printable -> prune.
+    mock_suggest.return_value = {}
+    mock_cli_args.return_value = []
+    mock_slice_model.side_effect = RuntimeError("Orca Slicer CLI error: boom")
+
+    trial = unittest.mock.MagicMock(spec=optuna.Trial)
+    trial.number = 3
+
+    with pytest.raises(optuna.TrialPruned):
+        objective(trial)
+
+    mock_slice_model.assert_called_once()
+
+
+@unittest.mock.patch('opt.optimize.shutil.which', return_value='/usr/bin/orca-slicer')
+@unittest.mock.patch('opt.optimize.os.path.exists', return_value=False)
+@unittest.mock.patch('opt.optimize.suggest')
+@unittest.mock.patch('opt.optimize.cli_args')
+@unittest.mock.patch('opt.optimize.subprocess.run')
+@unittest.mock.patch('opt.optimize.slice_model')
+def test_objective_no_gcode_prunes(mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_exists, mock_which):
+    # Orca can exit 0 yet produce no G-code; absent gcode must prune, not pass.
+    mock_suggest.return_value = {}
+    mock_cli_args.return_value = []
+    # slice_model is a no-op; os.path.exists is forced False -> no gcode produced.
+
+    trial = unittest.mock.MagicMock(spec=optuna.Trial)
+    trial.number = 4
+
+    with pytest.raises(optuna.TrialPruned):
+        objective(trial)
+
+
+@unittest.mock.patch('opt.optimize.shutil.which', return_value=None)
+@unittest.mock.patch('opt.optimize.os.path.exists', return_value=False)
+@unittest.mock.patch('opt.optimize.suggest')
+@unittest.mock.patch('opt.optimize.cli_args')
+@unittest.mock.patch('opt.optimize.subprocess.run')
+@unittest.mock.patch('opt.optimize.slice_model')
+@unittest.mock.patch('opt.optimize.evaluate_objective')
+def test_objective_missing_slicer_tolerated(mock_evaluate_objective, mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_exists, mock_which):
+    # When orca-slicer is not installed, the trial still completes (env limit,
+    # not a design defect) and slice_model is never called.
+    mock_suggest.return_value = {}
+    mock_cli_args.return_value = []
+    mock_evaluate_objective.return_value = (42.0, "ok")
+
+    trial = unittest.mock.MagicMock(spec=optuna.Trial)
+    trial.number = 5
+
+    assert objective(trial) == 42.0
+    mock_slice_model.assert_not_called()
 
 
 

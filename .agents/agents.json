@@ -1631,7 +1631,7 @@
     {
       "id": "F-205",
       "title": "fail trial on slice failure",
-      "status": "todo",
+      "status": "done",
       "notes": "#4: opt loop swallows slice errors as warning; trial can 'succeed' with no gcode. Treat missing gcode as TrialPruned"
     },
     {
@@ -3116,6 +3116,16 @@
       "blockers": "none",
       "feature": "F-204",
       "commit": "7c000cd (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 12:15 UTC",
+      "title": "fail trial on slice failure",
+      "done": "opt/optimize.py: removed swallow of slice errors; genuine slice failure or silent no-gcode now raises -> TrialPruned. orca-not-installed still tolerated via shutil.which guard. +3 tests",
+      "verified": "pass (2026-06-25 12:15 UTC @ 0fb2f5d)",
+      "next": "F-206 rework objective weighting",
+      "blockers": "none",
+      "feature": "F-205",
+      "commit": "0fb2f5d (+ uncommitted changes)"
     }
   ],
   "rules": [

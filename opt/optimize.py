@@ -3,6 +3,7 @@ import optuna
 import subprocess
 import json
 import os
+import shutil
 import sys
 
 # Ensure the root directory is in sys.path so we can import from slice/common
@@ -22,8 +23,17 @@ def objective(trial):
         # 2. Generate CAD (STEP)
         subprocess.run(["python3", "cad/violin.py", *cli_args(params)], check=True)
 
-        # 3. Slice Model
-        try:
+        # 3. Slice Model. A design that cannot be sliced is not printable, so a
+        # genuine slicing failure (or a silent no-G-code result) must prune the
+        # trial — let it propagate to the handler below. Only a missing
+        # orca-slicer install is tolerated, so envs without it still optimize.
+        gcode_path = "violin_body.gcode"
+        if os.path.exists(gcode_path):
+            os.remove(gcode_path)  # drop stale gcode so the check below is meaningful
+
+        if shutil.which("orca-slicer") is None:
+            print("Warning: orca-slicer not installed; skipping slice for this trial.")
+        else:
             extra_args = []
             if "infill_density" in params:
                 extra_args.extend(["--sparse-infill-density", f"{params['infill_density']}%"])
@@ -35,10 +45,10 @@ def objective(trial):
                 "process": "profiles/process.json",
                 "filament": "profiles/filament.json"
             }
-            slice_model("violin_body.stl", dummy_profile, "violin_body.gcode", extra_args=extra_args)
+            slice_model("violin_body.stl", dummy_profile, gcode_path, extra_args=extra_args)
+            if not os.path.exists(gcode_path):
+                raise RuntimeError("Slicing produced no G-code; geometry not printable")
             print("Slice generated for trial.")
-        except Exception as e:
-            print(f"Warning: Slicing failed or orca-slicer not installed: {e}")
 
         # 4. Generate Mesh
         mesh_file = "violin_body.msh"
