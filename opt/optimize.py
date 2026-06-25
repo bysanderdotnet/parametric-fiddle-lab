@@ -17,44 +17,48 @@ def objective(trial):
     print(f"\n--- Starting Trial {trial.number} ---")
     print("Params: " + ", ".join(f"{k}={v}" for k, v in params.items()))
 
-    # 2. Generate CAD (STEP)
-    subprocess.run(["python3", "cad/violin.py", *cli_args(params)], check=True)
-
-    # 3. Slice Model
     try:
-        extra_args = []
-        if "infill_density" in params:
-            extra_args.extend(["--sparse-infill-density", f"{params['infill_density']}%"])
-        if "layer_height" in params:
-            extra_args.extend(["--layer-height", str(params['layer_height'])])
+        # 2. Generate CAD (STEP)
+        subprocess.run(["python3", "cad/violin.py", *cli_args(params)], check=True)
 
-        dummy_profile = {
-            "machine": "profiles/machine.json",
-            "process": "profiles/process.json",
-            "filament": "profiles/filament.json"
-        }
-        slice_model("violin_body.stl", dummy_profile, "violin_body.gcode", extra_args=extra_args)
-        print("Slice generated for trial.")
-    except Exception as e:
-        print(f"Warning: Slicing failed or orca-slicer not installed: {e}")
+        # 3. Slice Model
+        try:
+            extra_args = []
+            if "infill_density" in params:
+                extra_args.extend(["--sparse-infill-density", f"{params['infill_density']}%"])
+            if "layer_height" in params:
+                extra_args.extend(["--layer-height", str(params['layer_height'])])
 
-    # 4. Generate Mesh
-    mesh_file = "violin_body.msh"
-    cavity_mesh = "violin_cavity.msh"
-    # mesher meshes both violin_body.step and violin_cavity.step when run directly
-    subprocess.run(["python3", "mesh/mesher.py"], check=True)
+            dummy_profile = {
+                "machine": "profiles/machine.json",
+                "process": "profiles/process.json",
+                "filament": "profiles/filament.json"
+            }
+            slice_model("violin_body.stl", dummy_profile, "violin_body.gcode", extra_args=extra_args)
+            print("Slice generated for trial.")
+        except Exception as e:
+            print(f"Warning: Slicing failed or orca-slicer not installed: {e}")
 
-    # 5. Run Structural Sim (solid body mesh)
-    subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
+        # 4. Generate Mesh
+        mesh_file = "violin_body.msh"
+        cavity_mesh = "violin_cavity.msh"
+        # mesher meshes both violin_body.step and violin_cavity.step when run directly
+        subprocess.run(["python3", "mesh/mesher.py"], check=True)
 
-    # 6. Run Acoustic Sim (air cavity mesh)
-    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
+        # 5. Run Structural Sim (solid body mesh)
+        subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
 
-    # 7. Evaluate Objective
-    score, result_str = evaluate_objective()
-    print(result_str)
+        # 6. Run Acoustic Sim (air cavity mesh)
+        subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
 
-    return score
+        # 7. Evaluate Objective
+        score, result_str = evaluate_objective()
+        print(result_str)
+
+        return score
+    except subprocess.CalledProcessError as e:
+        print(f"Trial failed due to a subprocess error: {e}")
+        raise optuna.TrialPruned()
 
 if __name__ == "__main__":
     # Create study and run optimization
@@ -70,32 +74,35 @@ if __name__ == "__main__":
         print(f"    {key}: {value}")
 
     print("\nGenerating final geometry and sliced file for best trial...")
-    # Generate final CAD
-    subprocess.run(["python3", "cad/violin.py", *cli_args(trial.params)], check=True)
-
-    # Slice Model
     try:
-        extra_args = []
-        if "infill_density" in trial.params:
-            extra_args.extend(["--sparse-infill-density", f"{trial.params['infill_density']}%"])
-        if "layer_height" in trial.params:
-            extra_args.extend(["--layer-height", str(trial.params['layer_height'])])
+        # Generate final CAD
+        subprocess.run(["python3", "cad/violin.py", *cli_args(trial.params)], check=True)
 
-        dummy_profile = {
-            "machine": "profiles/machine.json",
-            "process": "profiles/process.json",
-            "filament": "profiles/filament.json"
-        }
-        slice_model("violin_body.stl", dummy_profile, "violin_body.gcode", extra_args=extra_args)
-        print("Final slice generated.")
-    except Exception as e:
-        print(f"Warning: Slicing final model failed or orca-slicer not installed: {e}")
+        # Slice Model
+        try:
+            extra_args = []
+            if "infill_density" in trial.params:
+                extra_args.extend(["--sparse-infill-density", f"{trial.params['infill_density']}%"])
+            if "layer_height" in trial.params:
+                extra_args.extend(["--layer-height", str(trial.params['layer_height'])])
 
-    # Final Meshing and Simulation
-    print("\nRunning final meshing and simulation...")
-    mesh_file = "violin_body.msh"
-    cavity_mesh = "violin_cavity.msh"
-    subprocess.run(["python3", "mesh/mesher.py"], check=True)
-    subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
-    subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
-    print("End-to-End Pipeline Completed Successfully.")
+            dummy_profile = {
+                "machine": "profiles/machine.json",
+                "process": "profiles/process.json",
+                "filament": "profiles/filament.json"
+            }
+            slice_model("violin_body.stl", dummy_profile, "violin_body.gcode", extra_args=extra_args)
+            print("Final slice generated.")
+        except Exception as e:
+            print(f"Warning: Slicing final model failed or orca-slicer not installed: {e}")
+
+        # Final Meshing and Simulation
+        print("\nRunning final meshing and simulation...")
+        mesh_file = "violin_body.msh"
+        cavity_mesh = "violin_cavity.msh"
+        subprocess.run(["python3", "mesh/mesher.py"], check=True)
+        subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
+        subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
+        print("End-to-End Pipeline Completed Successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Final trial failed due to a subprocess error: {e}")
