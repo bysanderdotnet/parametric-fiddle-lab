@@ -60,7 +60,7 @@ def objective(trial):
         print(f"Trial failed due to an error: {e}")
         raise optuna.TrialPruned()
 
-if __name__ == "__main__":
+def main():
     # Create study and run optimization
     study = optuna.create_study(direction="minimize")
     study.optimize(objective, n_trials=3)
@@ -109,3 +109,6 @@ if __name__ == "__main__":
             print(f"Final trial failed due to an error: {e}")
     except ValueError:
         print("No trials completed successfully.")
+
+if __name__ == "__main__":
+    main()
