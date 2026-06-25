@@ -1607,6 +1607,11 @@
       "id": "F-201",
       "title": "Handle failing optuna trials during meshing by raising TrialPruned",
       "status": "done"
+    },
+    {
+      "id": "F-202",
+      "title": "Fix optuna trial crash on mesh generation failure",
+      "status": "done"
     }
   ],
   "progress": [
@@ -3046,6 +3051,14 @@
       "verified": "pass (2026-06-25 04:25 UTC @ 0b53f3f)",
       "blockers": "none",
       "commit": "0b53f3f (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 09:51 UTC",
+      "title": "Fix Optuna trial crash on mesh generation failure",
+      "done": "Wrapped mesh/structural/acoustic execution in try/except block to catch invalid boundary mesh errors and return optuna.TrialPruned() so study does not crash.",
+      "verified": "pass (2026-06-25 09:50 UTC @ 86f1ad2)",
+      "blockers": "none",
+      "commit": "86f1ad2 (+ uncommitted changes)"
     }
   ],
   "rules": [
