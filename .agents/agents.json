@@ -1643,7 +1643,7 @@
     {
       "id": "F-207",
       "title": "geometry fidelity pass",
-      "status": "todo",
+      "status": "done",
       "notes": "#5: arching via cylinder-intersection is crude; document/improve, separate non-printable decorative solids"
     },
     {
@@ -3137,6 +3137,17 @@
       "blockers": "none",
       "feature": "F-206",
       "commit": "82472e3 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 12:27 UTC",
+      "title": "geometry fidelity documented",
+      "done": "README: documented geometry simplifications (2-cylinder arching, uniform shells, polyline outline), non-physical structural eigenfreqs, refreshed objective+step-count text. docs R-005 added",
+      "verified": "pass (2026-06-25 12:27 UTC @ 6b64dc6)",
+      "issues": "Geometry code improvement (graduation/recurve/spline) + structural sim freq fix remain future work",
+      "next": "F-208 mark cosmetic vs structural parts",
+      "blockers": "none",
+      "feature": "F-207",
+      "commit": "6b64dc6 (+ uncommitted changes)"
     }
   ],
   "rules": [
@@ -3157,6 +3168,12 @@
       "category": "conventions",
       "text": "Python ecosystem: use CadQuery, Optuna, Orca Slicer CLI.",
       "added": "2026-06-14"
+    },
+    {
+      "id": "R-005",
+      "category": "architecture",
+      "text": "Geometry simplified: arching=2-cylinder intersection, uniform-thickness shells, polyline outline. Not luthier-accurate.",
+      "added": "2026-06-25"
     }
   ]
 }
