@@ -609,6 +609,27 @@ if __name__ == "__main__":
     params["corner_blocks_volume_mm3"] = corner_blocks_volume_mm3
     params["corner_blocks_mass_g"] = corner_blocks_mass_g
 
+    # Classify parts. "cosmetic" parts are non-functional as printed solids — a
+    # playable instrument replaces them with real hardware (actual strings,
+    # geared/friction pegs, metal fine tuners, a clamp-on chinrest). Everything
+    # else carries load or resonates. This makes the fused body honest about
+    # what is decorative and lets analysis weigh structural mass separately.
+    COSMETIC_PARTS = ("strings", "pegs", "fine_tuners", "chinrest")
+    part_masses = {
+        "bridge": bridge_mass_g, "soundpost": soundpost_mass_g, "bass_bar": bass_bar_mass_g,
+        "tailpiece": tailpiece_mass_g, "chinrest": chinrest_mass_g, "fine_tuners": fine_tuners_mass_g,
+        "saddle": saddle_mass_g, "strings": strings_mass_g, "nut": nut_mass_g, "pegs": pegs_mass_g,
+        "fingerboard": fingerboard_mass_g, "endpin": endpin_mass_g, "neck": neck_mass_g,
+        "scroll": scroll_mass_g, "top_block": top_block_mass_g, "bottom_block": bottom_block_mass_g,
+        "corner_blocks": corner_blocks_mass_g,
+    }
+    params["part_classification"] = {
+        name: ("cosmetic" if name in COSMETIC_PARTS else "structural") for name in part_masses
+    }
+    params["non_functional_parts"] = list(COSMETIC_PARTS)
+    params["cosmetic_mass_g"] = sum(m for n, m in part_masses.items() if n in COSMETIC_PARTS)
+    params["structural_mass_g"] = sum(m for n, m in part_masses.items() if n not in COSMETIC_PARTS)
+
     # Export to step
     save_step(violin, "violin_body.step")
     save_stl(violin, "violin_body.stl")

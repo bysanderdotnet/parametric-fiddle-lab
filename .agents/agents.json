@@ -1649,7 +1649,7 @@
     {
       "id": "F-208",
       "title": "playable-instrument realism",
-      "status": "todo",
+      "status": "done",
       "notes": "#2: strings/pegs/tuners are decorative fused solids; split printable structural body from cosmetic parts, mark non-functional"
     }
   ],
@@ -3148,6 +3148,16 @@
       "blockers": "none",
       "feature": "F-207",
       "commit": "6b64dc6 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 12:31 UTC",
+      "title": "mark cosmetic vs structural parts",
+      "done": "cad/violin.py writes part_classification + non_functional_parts + structural_mass_g/cosmetic_mass_g to violin_body.json. cosmetic={strings,pegs,fine_tuners,chinrest}. README note + test_violin assertion",
+      "verified": "pass (2026-06-25 12:30 UTC @ d1c33fa)",
+      "issues": "Classification is metadata only; sim still meshes the fully-fused body incl cosmetic solids. True split-export/playable hardware remains future work",
+      "blockers": "none",
+      "feature": "F-208",
+      "commit": "d1c33fa (+ uncommitted changes)"
     }
   ],
   "rules": [

@@ -78,6 +78,14 @@ pipeline and tests stay green even without the native toolchain installed.
   and back are uniform-thickness shells. The body outline is an 8-point
   straight-segment polyline rather than a smooth spline. These are deliberate
   simplifications for a tractable parametric model, not luthier-accurate forms.
+* **Strings, pegs, and fine tuners are non-functional.** They are printed
+  solid plastic (e.g. 0.5 mm solid "string" cylinders) fused into the body for
+  visual completeness — a playable instrument needs real strings, geared or
+  friction pegs, and metal fine tuners as hardware, plus a clamp-on chinrest.
+  `cad/violin.py` now classifies every part in `violin_body.json`
+  (`part_classification`, `non_functional_parts`, and `structural_mass_g` /
+  `cosmetic_mass_g`) so the decorative parts are explicit. The printed object is
+  a violin-shaped resonating body, not yet a stringable instrument.
 * **Structural eigenfrequencies are not yet physical.** The current
   `structural_results.json` contains near-zero rigid-body modes (~0 Hz) and
   spurious high-frequency modes (order 10^4-10^5 Hz), so the B1- / B1+ targets
