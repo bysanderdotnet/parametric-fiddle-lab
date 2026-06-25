@@ -1637,7 +1637,7 @@
     {
       "id": "F-206",
       "title": "rework objective weighting",
-      "status": "todo",
+      "status": "done",
       "notes": "#3: objective.py flat x5.0 mass penalty on ~20 parts biases to shrink-everything; make acoustic targets dominate, fix fallback-default masking"
     },
     {
@@ -3126,6 +3126,17 @@
       "blockers": "none",
       "feature": "F-205",
       "commit": "0fb2f5d (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 12:21 UTC",
+      "title": "rework objective weighting",
+      "done": "opt/objective.py rewritten: freq-error dominant, single MASS_WEIGHT regularizer (was ~20 parts x5.0 + double-counted mass/vol/thickness), MISSING_DATA_PENALTY for absent/empty sim sources. Tunable module consts. tests updated",
+      "verified": "pass (2026-06-25 12:21 UTC @ 82472e3)",
+      "issues": "Reweight exposes structural sim emits unphysical eigenfreqs (~0Hz rigid-body + ~77kHz modes); sim-fidelity, not weighting",
+      "next": "F-207 geometry/sim fidelity",
+      "blockers": "none",
+      "feature": "F-206",
+      "commit": "82472e3 (+ uncommitted changes)"
     }
   ],
   "rules": [

@@ -9,22 +9,18 @@ def test_evaluate_objective_default_fallback(mock_open):
     # Test fallback to defaults when no files exist
     score, result_str = evaluate_objective()
 
-    # Verify score with defaults
-    # a0_freq=300, target_a0=290 -> diff 10
-    # b1_minus_freq=400, target_struct=400 -> diff 0
-    # b1_plus_freq=500, target_b1_plus=540 -> diff 40
-    # mass_g=400 -> 40
-    # vol=300000 -> 30
-    # components (21) = top+back+bridge+soundpost+bassbar+tailpiece+chinrest+finetuners+saddle+strings+nut+pegs+fingerboard+endpin+neck+scroll+topblock+bottomblock+cornerblocks
-    # component values: 4, 4, 2, 1, 5, 10, 15, 0.5, 1, 1.5, 2, 5, 10, 2, 15, 5, 10, 10, 10 = 113.0
-    # 113 * 5 = 565
-    # total expected = 10 + 0 + 40 + 40 + 30 + 565 = 685
-    expected_score = 685.0
+    # All three result files missing -> neutral default frequencies, but the
+    # trial is charged the missing-data penalty so a total failure cannot score
+    # well by hiding behind rosy defaults.
+    # freq_error = |300-290| + |400-400| + |500-540| = 10 + 0 + 40 = 50
+    # mass_penalty = 0.05 * 400 = 20
+    # data_penalty = 1000 * 3 (body + struct + acoustic all missing) = 3000
+    expected_score = 3070.0
 
     assert abs(score - expected_score) < 1e-6
     assert "A0=300.0Hz" in result_str
     assert "B1-=400.0Hz" in result_str
-    assert "Score=685.00" in result_str
+    assert "Score=3070.00" in result_str
 
 @patch('builtins.open')
 def test_evaluate_objective_with_mock_files(mock_open):
@@ -98,16 +94,12 @@ def test_evaluate_objective_with_mock_files(mock_open):
 
     score, result_str = evaluate_objective()
 
-    # Calculate expected score:
-    # a0_freq=285, target_a0=290 -> diff 5
-    # b1_minus_freq=420, target_struct=400 -> diff 20
-    # b1_plus_freq=520, target_b1_plus=540 -> diff 20
-    # mass_g=350 -> 35
-    # vol=250000 -> 25
-    # comp sums = 3 + 3.5 + 2.5 + 1.2 + 4.5 + 9.0 + 14.0 + 0 + 0.8 + 1.2 + 1.8 + 4.0 + 9.5 + 1.5 + 12.0 + 4.5 + 8.0 + 8.0 + 8.0 = 97.0
-    # 97 * 5 = 485
-    # total expected = 5 + 20 + 20 + 35 + 25 + 485 = 590
-    expected_score = 590.0
+    # Calculate expected score (frequency matching dominates; mass is a mild
+    # regularizer; all three result sources present so no data penalty):
+    # freq_error = |285-290| + |420-400| + |520-540| = 5 + 20 + 20 = 45
+    # mass_penalty = 0.05 * 350 = 17.5
+    # data_penalty = 0
+    expected_score = 62.5
 
     assert abs(score - expected_score) < 1e-6
     assert "A0=285.0Hz" in result_str
@@ -117,7 +109,7 @@ def test_evaluate_objective_with_mock_files(mock_open):
     assert "B1+=520.0Hz" in result_str
     assert "Mass=350.0g" in result_str
     assert "Top=3.0mm" in result_str
-    assert "Score=590.00" in result_str
+    assert "Score=62.50" in result_str
 
 
 @patch('builtins.open')
