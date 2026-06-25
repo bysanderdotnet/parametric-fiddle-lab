@@ -100,7 +100,7 @@ python3 cad/violin.py            # -> violin_body.step, violin_cavity.step, viol
 python3 mesh/mesher.py           # -> violin_body.msh, violin_cavity.msh
 python3 sim_struct/structural.py # -> structural_results.json
 python3 sim_acoustic/acoustic.py # -> acoustic_results.json
-python3 opt/optimize.py          # full optimization loop
+python3 opt/optimize.py --trials 20  # full optimization loop (--trials/--startup-trials/--seed)
 ```
 
 This repository is managed with an agent harness. Use `./AGENTS.sh help` to see

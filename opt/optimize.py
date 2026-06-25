@@ -1,3 +1,4 @@
+import argparse
 import optuna
 import subprocess
 import json
@@ -60,10 +61,13 @@ def objective(trial):
         print(f"Trial failed due to an error: {e}")
         raise optuna.TrialPruned()
 
-def main():
-    # Create study and run optimization
-    study = optuna.create_study(direction="minimize")
-    study.optimize(objective, n_trials=3)
+def main(n_trials=20, n_startup_trials=5, seed=None):
+    # TPE explores randomly for the first n_startup_trials, then models the
+    # search space. Each trial runs the full CAD -> slice -> mesh -> FEA chain,
+    # so trials are expensive; n_trials is the main run-length knob.
+    sampler = optuna.samplers.TPESampler(n_startup_trials=n_startup_trials, seed=seed)
+    study = optuna.create_study(direction="minimize", sampler=sampler)
+    study.optimize(objective, n_trials=n_trials)
 
     print("\nOptimization finished.")
     try:
@@ -111,4 +115,12 @@ def main():
         print("No trials completed successfully.")
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Optimize violin parameters via Optuna.")
+    parser.add_argument("--trials", type=int, default=20,
+                        help="Number of optimization trials; each runs full CAD+slice+mesh+FEA (default 20).")
+    parser.add_argument("--startup-trials", type=int, default=5,
+                        help="Random-sampled trials before the TPE model engages (default 5).")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Sampler seed for reproducible runs (default: random).")
+    args = parser.parse_args()
+    main(n_trials=args.trials, n_startup_trials=args.startup_trials, seed=args.seed)

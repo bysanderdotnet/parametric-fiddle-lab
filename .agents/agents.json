@@ -1621,6 +1621,36 @@
       "id": "F-203",
       "title": "Add unit tests to opt/optimize.py",
       "status": "done"
+    },
+    {
+      "id": "F-204",
+      "title": "configurable optimizer trial count",
+      "status": "done",
+      "notes": "#1: opt/optimize.py n_trials hardcoded=3; add --trials CLI arg + n_startup_trials, keep default sane"
+    },
+    {
+      "id": "F-205",
+      "title": "fail trial on slice failure",
+      "status": "todo",
+      "notes": "#4: opt loop swallows slice errors as warning; trial can 'succeed' with no gcode. Treat missing gcode as TrialPruned"
+    },
+    {
+      "id": "F-206",
+      "title": "rework objective weighting",
+      "status": "todo",
+      "notes": "#3: objective.py flat x5.0 mass penalty on ~20 parts biases to shrink-everything; make acoustic targets dominate, fix fallback-default masking"
+    },
+    {
+      "id": "F-207",
+      "title": "geometry fidelity pass",
+      "status": "todo",
+      "notes": "#5: arching via cylinder-intersection is crude; document/improve, separate non-printable decorative solids"
+    },
+    {
+      "id": "F-208",
+      "title": "playable-instrument realism",
+      "status": "todo",
+      "notes": "#2: strings/pegs/tuners are decorative fused solids; split printable structural body from cosmetic parts, mark non-functional"
     }
   ],
   "progress": [
@@ -3076,6 +3106,16 @@
       "verified": "pass (2026-06-25 10:50 UTC @ 2a94a24)",
       "blockers": "none",
       "commit": "2a94a24 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 12:10 UTC",
+      "title": "configurable optimizer trials",
+      "done": "opt/optimize.py: --trials/--startup-trials/--seed CLI args; main(n_trials,n_startup_trials,seed) w/ TPESampler; was hardcoded n_trials=3. README + test_optimize.py updated",
+      "verified": "pass (2026-06-25 12:10 UTC @ 7c000cd)",
+      "next": "F-205 fail trial on slice failure",
+      "blockers": "none",
+      "feature": "F-204",
+      "commit": "7c000cd (+ uncommitted changes)"
     }
   ],
   "rules": [

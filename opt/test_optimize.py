@@ -101,9 +101,10 @@ def test_main_block(mock_cli_args, mock_slice_model, mock_subprocess_run, mock_c
     # Call main function
     main()
 
-    # Assert study was created and optimize was called
-    mock_create_study.assert_called_once_with(direction="minimize")
-    mock_study.optimize.assert_called_once()
+    # Assert study was created (with a sampler) and optimize was called with
+    # the default trial count.
+    mock_create_study.assert_called_once_with(direction="minimize", sampler=unittest.mock.ANY)
+    mock_study.optimize.assert_called_once_with(unittest.mock.ANY, n_trials=20)
 
     # Assert final pipeline was run with best_trial.params
     mock_cli_args.assert_called_once_with(mock_trial.params)
@@ -126,3 +127,21 @@ def test_main_block(mock_cli_args, mock_slice_model, mock_subprocess_run, mock_c
         "violin_body.gcode",
         extra_args=["--sparse-infill-density", "20%", "--layer-height", "0.16"]
     )
+
+
+@unittest.mock.patch('opt.optimize.optuna.create_study')
+@unittest.mock.patch('opt.optimize.subprocess.run')
+@unittest.mock.patch('opt.optimize.slice_model')
+@unittest.mock.patch('opt.optimize.cli_args')
+def test_main_trials_configurable(mock_cli_args, mock_slice_model, mock_subprocess_run, mock_create_study):
+    # n_trials must propagate to study.optimize so runs aren't a fixed smoke test.
+    from opt.optimize import main
+
+    mock_study = unittest.mock.MagicMock()
+    mock_study.best_trial.params = {}
+    mock_create_study.return_value = mock_study
+    mock_cli_args.return_value = []
+
+    main(n_trials=7, n_startup_trials=2, seed=42)
+
+    mock_study.optimize.assert_called_once_with(unittest.mock.ANY, n_trials=7)
