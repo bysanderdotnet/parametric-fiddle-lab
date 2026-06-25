@@ -580,6 +580,10 @@
     "test_optimize": {
       "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest opt/test_optimize.py",
       "verify": true
+    },
+    "test_cavity_fem": {
+      "run": ". .venv/bin/activate && PYTHONPATH=. python3 -m pytest common/test_cavity_fem.py",
+      "verify": true
     }
   },
   "features": [
@@ -1620,6 +1624,11 @@
     {
       "id": "F-203",
       "title": "Add unit tests to opt/optimize.py",
+      "status": "done"
+    },
+    {
+      "id": "F-204",
+      "title": "Add unit tests to common/cavity_fem.py",
       "status": "done"
     }
   ],
@@ -3076,6 +3085,14 @@
       "verified": "pass (2026-06-25 10:50 UTC @ 2a94a24)",
       "blockers": "none",
       "commit": "2a94a24 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 11:31 UTC",
+      "title": "Added unit tests to common/cavity_fem.py [F-204]",
+      "done": "Created comprehensive unit test file common/test_cavity_fem.py, registered the test to cmd verify list, and achieved 100% test coverage.",
+      "verified": "pass (2026-06-25 11:31 UTC @ 7c000cd)",
+      "blockers": "none",
+      "commit": "7c000cd (+ uncommitted changes)"
     }
   ],
   "rules": [
