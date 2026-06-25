@@ -58,7 +58,7 @@ def objective(trial):
         return score
     except Exception as e:
         print(f"Trial failed due to an error: {e}")
-        return 999999.0
+        raise optuna.TrialPruned()
 
 if __name__ == "__main__":
     # Create study and run optimization
