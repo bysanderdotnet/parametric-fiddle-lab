@@ -10,10 +10,10 @@
         "0.4"
     ],
     "printable_area": [
-        "0x0",
-        "600x0",
-        "600x600",
-        "0x600"
+        "-300x-300",
+        "300x-300",
+        "300x300",
+        "-300x300"
     ],
     "printable_height": "600",
     "layer_change_gcode": "; layer change\nG92 E0"
