@@ -56,9 +56,9 @@ def objective(trial):
         print(result_str)
 
         return score
-    except subprocess.CalledProcessError as e:
-        print(f"Trial failed due to a subprocess error: {e}")
-        raise optuna.TrialPruned()
+    except Exception as e:
+        print(f"Trial failed due to an error: {e}")
+        return 999999.0
 
 if __name__ == "__main__":
     # Create study and run optimization
@@ -105,7 +105,7 @@ if __name__ == "__main__":
             subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
             subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
             print("End-to-End Pipeline Completed Successfully.")
-        except subprocess.CalledProcessError as e:
-            print(f"Final trial failed due to a subprocess error: {e}")
+        except Exception as e:
+            print(f"Final trial failed due to an error: {e}")
     except ValueError:
         print("No trials completed successfully.")
