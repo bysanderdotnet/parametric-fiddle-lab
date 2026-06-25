@@ -1588,6 +1588,11 @@
       "id": "F-198",
       "title": "Add unit tests to check common/params.py",
       "status": "done"
+    },
+    {
+      "id": "F-199",
+      "title": "Fix Optuna optimization bug in optimize.py",
+      "status": "done"
     }
   ],
   "progress": [
@@ -3011,6 +3016,14 @@
       "next": "Submit feature F-198",
       "blockers": "none",
       "commit": "7e2e427 (+ uncommitted changes)"
+    },
+    {
+      "date": "2026-06-25 01:51 UTC",
+      "title": "Fix Optuna optimization bug in optimize.py",
+      "done": "Wrapped mesh/structural/acoustic execution in try/except subprocess.CalledProcessError to prevent study crashes due to invalid geometry",
+      "verified": "pass (2026-06-25 01:49 UTC @ a8dd8f6)",
+      "blockers": "none",
+      "commit": "a8dd8f6 (+ uncommitted changes)"
     }
   ],
   "rules": [
