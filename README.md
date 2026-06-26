@@ -24,9 +24,9 @@ Data flows `cad -> slice -> mesh -> sim_struct / sim_acoustic -> opt`, exchanged
 * `sim_acoustic/` - Acoustic simulation: air-cavity eigenmodes
 * `opt/` - Objective function and Optuna optimization loop
 * `scripts/` - Single-parameter sweep scripts and their tests (113 parameters)
-* `profiles/` - Orca machine / process / filament profiles (placeholder; empty)
-* `data/` - Run logs, reference curves, benchmark results (placeholder; empty)
-* `docs/` - Literature, design notes, decision logs (placeholder; empty)
+* `profiles/` - Orca machine / process / filament profiles (Bambu X1 Carbon 0.4 nozzle)
+* `data/` - Run logs, reference curves, benchmark results
+* `docs/` - Literature, design notes, parameter reference, decision logs
 
 ## Current Status
 
@@ -101,7 +101,7 @@ pipeline and tests stay green even without the native toolchain installed.
 * **One filament is characterized** (`filaments/bambu_pla_basic.py`). Its
   Poisson ratio is a typical-PLA assumption, not a datasheet value, and the
   referenced datasheet PDF is not committed.
-* **`data/`, `docs/`, `profiles/` are empty placeholders.**
+* **`profiles/` contains real Orca profiles** for Bambu X1 Carbon (0.4 nozzle, PLA Basic filament, 0.20mm Standard process). `data/` has literature-based reference measurements for objective calibration (5 violin corpus variants, 143 lines). `docs/` has a complete parameter reference (109 geometry + 2 slicing parameters, mode thresholds, ergonomic constraints).
 
 ## Getting Started
 

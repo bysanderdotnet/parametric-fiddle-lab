@@ -75,12 +75,16 @@ case_acoustic.sif
 elmer_mesh_acoustic/
 profiles/*
 !profiles/.gitkeep
+!profiles/filament.json
+!profiles/machine.json
+!profiles/process.json
 .deps_installed
 *.log
 *.stl
 elmer_log.txt
 docs/*
 !docs/.gitkeep
+!docs/parameter-reference.md
 output.gcode
 slice_info.config
 *.gcode
