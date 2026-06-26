@@ -98,7 +98,7 @@ def test_structural_cli(tmpdir):
 
         with open("structural_results.json", "r") as f:
             res = json.load(f)
-            assert res["mass_g"] == 380.0
+            assert res["mass_g"] == 310.0
     finally:
         os.chdir(orig_dir)
 

@@ -39,16 +39,25 @@ def objective(trial):
                 extra_args.extend(["--sparse-infill-density", f"{params['infill_density']}%"])
             if "layer_height" in params:
                 extra_args.extend(["--layer-height", str(params['layer_height'])])
+            if "infill_pattern" in params:
+                extra_args.extend(["--sparse-infill-pattern", params['infill_pattern']])
+            if "wall_loops" in params:
+                extra_args.extend(["--wall-loops", str(params['wall_loops'])])
 
             dummy_profile = {
                 "machine": "profiles/machine.json",
                 "process": "profiles/process.json",
                 "filament": "profiles/filament.json"
             }
-            slice_model("violin_body.stl", dummy_profile, gcode_path, extra_args=extra_args)
+            _, slice_meta = slice_model("violin_body.stl", gcode_path, dummy_profile, extra_args=extra_args)
             if not os.path.exists(gcode_path):
                 raise RuntimeError("Slicing produced no G-code; geometry not printable")
             print("Slice generated for trial.")
+            # Write slice metadata alongside the other result files so the
+            # objective function can read it.
+            if slice_meta:
+                with open("slice_metadata.json", "w") as f:
+                    json.dump(slice_meta, f)
 
         # 4. Generate Mesh
         mesh_file = "violin_body.msh"
@@ -56,8 +65,17 @@ def objective(trial):
         # mesher meshes both violin_body.step and violin_cavity.step when run directly
         subprocess.run(["python3", "mesh/mesher.py"], check=True)
 
-        # 5. Run Structural Sim (solid body mesh)
-        subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
+        # 5. Run Structural Sim (solid body mesh) with slicing-aware material
+        struct_args = ["python3", "sim_struct/structural.py", "--mesh", mesh_file]
+        if "infill_density" in params:
+            struct_args += ["--infill-density", str(params["infill_density"])]
+        if "infill_pattern" in params:
+            struct_args += ["--infill-pattern", params["infill_pattern"]]
+        if "layer_height" in params:
+            struct_args += ["--layer-height", str(params["layer_height"])]
+        if "wall_loops" in params:
+            struct_args += ["--wall-loops", str(params["wall_loops"])]
+        subprocess.run(struct_args, check=True)
 
         # 6. Run Acoustic Sim (air cavity mesh)
         subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
@@ -100,13 +118,20 @@ def main(n_trials=20, n_startup_trials=5, seed=None):
                     extra_args.extend(["--sparse-infill-density", f"{trial.params['infill_density']}%"])
                 if "layer_height" in trial.params:
                     extra_args.extend(["--layer-height", str(trial.params['layer_height'])])
+                if "infill_pattern" in trial.params:
+                    extra_args.extend(["--sparse-infill-pattern", trial.params['infill_pattern']])
+                if "wall_loops" in trial.params:
+                    extra_args.extend(["--wall-loops", str(trial.params['wall_loops'])])
 
                 dummy_profile = {
                     "machine": "profiles/machine.json",
                     "process": "profiles/process.json",
                     "filament": "profiles/filament.json"
                 }
-                slice_model("violin_body.stl", dummy_profile, "violin_body.gcode", extra_args=extra_args)
+                _, slice_meta = slice_model("violin_body.stl", "violin_body.gcode", dummy_profile, extra_args=extra_args)
+                if slice_meta:
+                    with open("slice_metadata.json", "w") as f:
+                        json.dump(slice_meta, f)
                 print("Final slice generated.")
             except Exception as e:
                 print(f"Warning: Slicing final model failed or orca-slicer not installed: {e}")
@@ -116,7 +141,11 @@ def main(n_trials=20, n_startup_trials=5, seed=None):
             mesh_file = "violin_body.msh"
             cavity_mesh = "violin_cavity.msh"
             subprocess.run(["python3", "mesh/mesher.py"], check=True)
-            subprocess.run(["python3", "sim_struct/structural.py", "--mesh", mesh_file], check=True)
+            struct_args = ["python3", "sim_struct/structural.py", "--mesh", mesh_file]
+            for key, flag in [("infill_density", "--infill-density"), ("infill_pattern", "--infill-pattern"), ("layer_height", "--layer-height"), ("wall_loops", "--wall-loops")]:
+                if key in trial.params:
+                    struct_args += [flag, str(trial.params[key])]
+            subprocess.run(struct_args, check=True)
             subprocess.run(["python3", "sim_acoustic/acoustic.py", "--mesh", cavity_mesh], check=True)
             print("End-to-End Pipeline Completed Successfully.")
         except Exception as e:

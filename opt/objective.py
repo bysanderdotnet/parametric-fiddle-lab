@@ -86,22 +86,27 @@ def evaluate_objective(target_a0=None, target_struct=None, target_b1_plus=None, 
     a0_freq, a1_freq = 300.0, 450.0
     cbr_freq, b1_minus_freq, b1_plus_freq = 300.0, 400.0, 500.0
     top_thickness_val = back_thickness_val = 4.0
+    slicer_used_g = 0.0
     missing_sources = 0
 
     body = _load_json("violin_body.json")
     if body is None:
         missing_sources += 1
     else:
-        mass_g = body.get("mass_g", mass_g)
+        cad_mass = body.get("mass_g", mass_g)
         top_thickness_val = body.get("top_thickness", top_thickness_val)
         back_thickness_val = body.get("back_thickness", back_thickness_val)
+
+    slice_meta = _load_json("slice_metadata.json")
+    if slice_meta:
+        slicer_used_g = slice_meta.get("filament_used_g", slice_meta.get("weight", 0.0))
 
     struct = _load_json("structural_results.json")
     struct_modes = struct.get("eigenmodes", []) if struct else []
     if not struct_modes:
         missing_sources += 1
     else:
-        mass_g = struct.get("mass_g", mass_g)
+        mass_g = struct.get("mass_g", cad_mass if body else mass_g)
 
         b1_found = False
         for mode in struct_modes:
@@ -148,6 +153,7 @@ def evaluate_objective(target_a0=None, target_struct=None, target_b1_plus=None, 
     result_str = (
         f"Result: A0={a0_freq:.1f}Hz, A1={a1_freq:.1f}Hz, CBR={cbr_freq:.1f}Hz, "
         f"B1-={b1_minus_freq:.1f}Hz, B1+={b1_plus_freq:.1f}Hz, Mass={mass_g:.1f}g, "
+        f"SliceFilament={slicer_used_g:.1f}g, "
         f"Top={top_thickness_val:.1f}mm, Back={back_thickness_val:.1f}mm, "
         f"FreqErr={freq_error:.1f}, MassPen={mass_penalty:.1f}, "
         f"DataPen={data_penalty:.1f} -> Score={score:.2f}"
