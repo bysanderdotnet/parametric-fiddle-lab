@@ -16,16 +16,32 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     """
     Generate a simplified parametric violin body.
     """
-    pts = [
-        (0, -length / 2.0),
-        (lower_bout / 2.0, -length * 0.25),
-        (c_bout / 2.0, 0),
-        (upper_bout / 2.0, length * 0.25),
-        (0, length / 2.0),
-        (-upper_bout / 2.0, length * 0.25),
-        (-c_bout / 2.0, 0),
-        (-lower_bout / 2.0, -length * 0.25)
-    ]
+    def _body_outline_points(inset=0):
+        l = length - inset * 2
+        lb = lower_bout / 2.0 - inset
+        ub = upper_bout / 2.0 - inset
+        cb = c_bout / 2.0 - inset
+        cbh = c_bout_height - inset * 0.5
+        cw = max(corner_block_width * 1.2 - inset, 2)
+        ly = -l * 0.28
+        uy = l * 0.28
+        right = [
+            (0, -l / 2.0),
+            (lb * 0.70, -l * 0.40),
+            (lb + cw, ly),
+            (cb + cw, -cbh * 0.35),
+            (cb, -cbh * 0.10),
+            (cb, cbh * 0.10),
+            (cb + cw, cbh * 0.35),
+            (ub + cw, uy),
+            (ub * 0.70, l * 0.40),
+            (0, l / 2.0),
+        ]
+        left = [(-x, y) for x, y in right[-2:0:-1]]
+        return right + left
+
+    pts = _body_outline_points(inset=0)
+    pts_inner = _body_outline_points(inset=rib_thickness)
 
     # Helper to create an arched cylinder intersection
     def get_cylinders(arch_height, z_offset, mirror=False):
@@ -43,7 +59,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     out_back_cyl_x, out_back_cyl_y = get_cylinders(back_arch_height, 0, mirror=True)
 
     # Total volume bounding box
-    total_volume = cq.Workplane("XY").polyline(pts).close().extrude(rib_height + top_arch_height + back_arch_height).translate((0, 0, -back_arch_height))
+    total_volume = cq.Workplane("XY").spline(pts).close().extrude(rib_height + top_arch_height + back_arch_height).translate((0, 0, -back_arch_height))
     total_volume = total_volume.intersect(out_top_cyl_x).intersect(out_top_cyl_y).intersect(out_back_cyl_x).intersect(out_back_cyl_y)
 
     # Inner cavity domes
@@ -63,7 +79,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     in_back_cyl_x, in_back_cyl_y = get_cylinders(back_arch_height, -back_thickness, mirror=True)
 
     # Cavity volume
-    cavity_volume = cq.Workplane("XY").polyline(pts).close().offset2D(-rib_thickness).extrude(rib_height + top_arch_height + back_arch_height).translate((0, 0, -back_arch_height))
+    cavity_volume = cq.Workplane("XY").spline(pts_inner).close().extrude(rib_height + top_arch_height + back_arch_height).translate((0, 0, -back_arch_height))
     cavity_volume = cavity_volume.intersect(in_top_cyl_x).intersect(in_top_cyl_y).intersect(in_back_cyl_x).intersect(in_back_cyl_y)
 
     c_bout_cutter_out = cq.Workplane("XY").pushPoints([
@@ -399,8 +415,10 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     if purfling_groove_depth > 0:
         # A simple purfling groove around the perimeter of the top plate.
-        purfling_cutter = cq.Workplane("XY").polyline(pts).close().offset2D(-purfling_groove_offset).extrude(1000).translate((0, 0, -500))
-        inner_cutter = cq.Workplane("XY").polyline(pts).close().offset2D(-(purfling_groove_offset + purfling_groove_width)).extrude(1000).translate((0, 0, -500))
+        pts_purfling_outer = _body_outline_points(inset=purfling_groove_offset)
+        pts_purfling_inner = _body_outline_points(inset=purfling_groove_offset + purfling_groove_width)
+        purfling_cutter = cq.Workplane("XY").spline(pts_purfling_outer).close().extrude(1000).translate((0, 0, -500))
+        inner_cutter = cq.Workplane("XY").spline(pts_purfling_inner).close().extrude(1000).translate((0, 0, -500))
         purfling_wall = purfling_cutter.cut(inner_cutter)
 
         # Now bound it to only cut the top plate by purfling_groove_depth.
@@ -512,7 +530,7 @@ if __name__ == "__main__":
     params = {name: getattr(args, name) for name in NAMES}
 
     # Filter out slicing parameters before calling CAD generation
-    cad_params = {k: v for k, v in params.items() if k not in ("infill_density", "layer_height", "target_a0_freq", "target_b1_minus_freq", "target_b1_plus_freq")}
+    cad_params = {k: v for k, v in params.items() if k not in ("infill_density", "layer_height", "infill_pattern", "wall_loops", "target_a0_freq", "target_b1_minus_freq", "target_b1_plus_freq")}
     violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll = create_violin_body(**cad_params)
 
     # Calculate volume and estimated mass

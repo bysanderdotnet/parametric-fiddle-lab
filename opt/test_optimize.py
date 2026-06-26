@@ -18,37 +18,30 @@ from opt.optimize import objective
 @unittest.mock.patch('opt.optimize.slice_model')
 @unittest.mock.patch('opt.optimize.evaluate_objective')
 def test_objective_success(mock_evaluate_objective, mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_remove, mock_exists, mock_which):
-    # Setup mocks
-    mock_suggest.return_value = {"infill_density": 15, "layer_height": 0.2}
+    mock_suggest.return_value = {"infill_density": 15, "layer_height": 0.2, "infill_pattern": "gyroid", "wall_loops": 3}
     mock_cli_args.return_value = ["--infill-density", "15", "--layer-height", "0.2"]
     mock_evaluate_objective.return_value = (100.0, "Result string")
+    mock_slice_model.return_value = ("Success", {"weight": 42.0})
 
-    # Create a dummy trial
     trial = unittest.mock.MagicMock(spec=optuna.Trial)
     trial.number = 1
 
-    # Call the objective function
     score = objective(trial)
 
-    # Assertions
     assert score == 100.0
 
     mock_suggest.assert_called_once_with(trial)
-    mock_cli_args.assert_called_once_with({"infill_density": 15, "layer_height": 0.2})
+    mock_cli_args.assert_called_once_with({"infill_density": 15, "layer_height": 0.2, "infill_pattern": "gyroid", "wall_loops": 3})
 
-    # Verify subprocess.run calls
     assert mock_subprocess_run.call_count == 4
 
-    # 1. CAD
     mock_subprocess_run.assert_any_call(["python3", "cad/violin.py", "--infill-density", "15", "--layer-height", "0.2"], check=True)
-    # 2. Mesher
     mock_subprocess_run.assert_any_call(["python3", "mesh/mesher.py"], check=True)
-    # 3. Struct Sim
-    mock_subprocess_run.assert_any_call(["python3", "sim_struct/structural.py", "--mesh", "violin_body.msh"], check=True)
-    # 4. Acoustic Sim
+    mock_subprocess_run.assert_any_call(["python3", "sim_struct/structural.py", "--mesh", "violin_body.msh",
+                                          "--infill-density", "15", "--infill-pattern", "gyroid",
+                                          "--layer-height", "0.2", "--wall-loops", "3"], check=True)
     mock_subprocess_run.assert_any_call(["python3", "sim_acoustic/acoustic.py", "--mesh", "violin_cavity.msh"], check=True)
 
-    # Verify slice_model call
     dummy_profile = {
         "machine": "profiles/machine.json",
         "process": "profiles/process.json",
@@ -56,9 +49,10 @@ def test_objective_success(mock_evaluate_objective, mock_slice_model, mock_subpr
     }
     mock_slice_model.assert_called_once_with(
         "violin_body.stl",
-        dummy_profile,
         "violin_body.gcode",
-        extra_args=["--sparse-infill-density", "15%", "--layer-height", "0.2"]
+        dummy_profile,
+        extra_args=["--sparse-infill-density", "15%", "--layer-height", "0.2",
+                     "--sparse-infill-pattern", "gyroid", "--wall-loops", "3"]
     )
 
     mock_evaluate_objective.assert_called_once()
@@ -66,8 +60,7 @@ def test_objective_success(mock_evaluate_objective, mock_slice_model, mock_subpr
 @unittest.mock.patch('opt.optimize.suggest')
 @unittest.mock.patch('opt.optimize.subprocess.run')
 def test_objective_exception(mock_subprocess_run, mock_suggest):
-    # Setup mock to raise an exception
-    mock_suggest.return_value = {"infill_density": 15, "layer_height": 0.2}
+    mock_suggest.return_value = {"infill_density": 15, "layer_height": 0.2, "infill_pattern": "grid", "wall_loops": 2}
     mock_subprocess_run.side_effect = Exception("Simulated subprocess failure")
 
     trial = unittest.mock.MagicMock(spec=optuna.Trial)
@@ -82,13 +75,13 @@ def test_objective_exception(mock_subprocess_run, mock_suggest):
 
 
 @unittest.mock.patch('opt.optimize.shutil.which', return_value='/usr/bin/orca-slicer')
-@unittest.mock.patch('opt.optimize.os.path.exists', return_value=False)
+@unittest.mock.patch('opt.optimize.os.path.exists', return_value=True)
+@unittest.mock.patch('opt.optimize.os.remove')
 @unittest.mock.patch('opt.optimize.suggest')
 @unittest.mock.patch('opt.optimize.cli_args')
 @unittest.mock.patch('opt.optimize.subprocess.run')
 @unittest.mock.patch('opt.optimize.slice_model')
-def test_objective_slice_failure_prunes(mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_exists, mock_which):
-    # A genuine slicing failure means the geometry is not printable -> prune.
+def test_objective_slice_failure_prunes(mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_remove, mock_exists, mock_which):
     mock_suggest.return_value = {}
     mock_cli_args.return_value = []
     mock_slice_model.side_effect = RuntimeError("Orca Slicer CLI error: boom")
@@ -103,19 +96,25 @@ def test_objective_slice_failure_prunes(mock_slice_model, mock_subprocess_run, m
 
 
 @unittest.mock.patch('opt.optimize.shutil.which', return_value='/usr/bin/orca-slicer')
-@unittest.mock.patch('opt.optimize.os.path.exists', return_value=False)
+@unittest.mock.patch('opt.optimize.os.path.exists', return_value=True)
+@unittest.mock.patch('opt.optimize.os.remove')
 @unittest.mock.patch('opt.optimize.suggest')
 @unittest.mock.patch('opt.optimize.cli_args')
 @unittest.mock.patch('opt.optimize.subprocess.run')
 @unittest.mock.patch('opt.optimize.slice_model')
-def test_objective_no_gcode_prunes(mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_exists, mock_which):
+def test_objective_no_gcode_prunes(mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_remove, mock_exists, mock_which):
     # Orca can exit 0 yet produce no G-code; absent gcode must prune, not pass.
     mock_suggest.return_value = {}
     mock_cli_args.return_value = []
-    # slice_model is a no-op; os.path.exists is forced False -> no gcode produced.
+    mock_slice_model.return_value = ("Success", {})
 
     trial = unittest.mock.MagicMock(spec=optuna.Trial)
     trial.number = 4
+
+    # os.path.exists returns True for gcode check after slice_model
+    def exists_side_effect(path):
+        return path != "violin_body.gcode"
+    mock_exists.side_effect = exists_side_effect
 
     with pytest.raises(optuna.TrialPruned):
         objective(trial)
@@ -129,8 +128,6 @@ def test_objective_no_gcode_prunes(mock_slice_model, mock_subprocess_run, mock_c
 @unittest.mock.patch('opt.optimize.slice_model')
 @unittest.mock.patch('opt.optimize.evaluate_objective')
 def test_objective_missing_slicer_tolerated(mock_evaluate_objective, mock_slice_model, mock_subprocess_run, mock_cli_args, mock_suggest, mock_exists, mock_which):
-    # When orca-slicer is not installed, the trial still completes (env limit,
-    # not a design defect) and slice_model is never called.
     mock_suggest.return_value = {}
     mock_cli_args.return_value = []
     mock_evaluate_objective.return_value = (42.0, "ok")
@@ -153,31 +150,28 @@ def test_objective_missing_slicer_tolerated(mock_evaluate_objective, mock_slice_
 def test_main_block(mock_cli_args, mock_slice_model, mock_subprocess_run, mock_create_study):
     from opt.optimize import main
 
-    # Setup mocks
     mock_study = unittest.mock.MagicMock()
     mock_trial = unittest.mock.MagicMock()
     mock_trial.value = 50.0
-    mock_trial.params = {"infill_density": 20, "layer_height": 0.16}
+    mock_trial.params = {"infill_density": 20, "layer_height": 0.16, "infill_pattern": "honeycomb", "wall_loops": 4}
     mock_study.best_trial = mock_trial
     mock_create_study.return_value = mock_study
     mock_cli_args.return_value = ["--infill-density", "20", "--layer-height", "0.16"]
+    mock_slice_model.return_value = ("Success", {})
 
-    # Call main function
     main()
 
-    # Assert study was created (with a sampler) and optimize was called with
-    # the default trial count.
     mock_create_study.assert_called_once_with(direction="minimize", sampler=unittest.mock.ANY)
     mock_study.optimize.assert_called_once_with(unittest.mock.ANY, n_trials=20)
 
-    # Assert final pipeline was run with best_trial.params
     mock_cli_args.assert_called_once_with(mock_trial.params)
 
-    # subprocess.run should be called for CAD, Mesh, Struct Sim, Acoustic Sim
     assert mock_subprocess_run.call_count == 4
     mock_subprocess_run.assert_any_call(["python3", "cad/violin.py", "--infill-density", "20", "--layer-height", "0.16"], check=True)
     mock_subprocess_run.assert_any_call(["python3", "mesh/mesher.py"], check=True)
-    mock_subprocess_run.assert_any_call(["python3", "sim_struct/structural.py", "--mesh", "violin_body.msh"], check=True)
+    mock_subprocess_run.assert_any_call(["python3", "sim_struct/structural.py", "--mesh", "violin_body.msh",
+                                          "--infill-density", "20", "--infill-pattern", "honeycomb",
+                                          "--layer-height", "0.16", "--wall-loops", "4"], check=True)
     mock_subprocess_run.assert_any_call(["python3", "sim_acoustic/acoustic.py", "--mesh", "violin_cavity.msh"], check=True)
 
     dummy_profile = {
@@ -187,9 +181,10 @@ def test_main_block(mock_cli_args, mock_slice_model, mock_subprocess_run, mock_c
     }
     mock_slice_model.assert_called_once_with(
         "violin_body.stl",
-        dummy_profile,
         "violin_body.gcode",
-        extra_args=["--sparse-infill-density", "20%", "--layer-height", "0.16"]
+        dummy_profile,
+        extra_args=["--sparse-infill-density", "20%", "--layer-height", "0.16",
+                     "--sparse-infill-pattern", "honeycomb", "--wall-loops", "4"]
     )
 
 

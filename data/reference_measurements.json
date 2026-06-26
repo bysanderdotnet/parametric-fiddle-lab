@@ -1,0 +1,143 @@
+{
+  "$schema": "v1",
+  "description": "Reference measurement data for objective calibration. Each entry is one physical print: measured mass (g), tap-tone frequencies (Hz), and frequency response modes. Replace with real measurements as prints become available.",
+  "calibration_targets": {
+    "a0_hz": 285.0,
+    "a1_hz": 460.0,
+    "b1_minus_hz": 410.0,
+    "b1_plus_hz": 535.0
+  },
+  "correlation_target": 0.8,
+  "entries": [
+    {
+      "id": "ref-strobel-baseline",
+      "label": "Strobel baseline — typical violin corpus, medium arching, 4mm plates",
+      "source": "literature",
+      "notes": "Consolidated from Strobel 'Useful Measurements for Violin Makers' and Rossing 'Acoustics of the Violin' for a ~355mm violin.",
+      "mass_g": 380.0,
+      "modes": {
+        "a0_hz": 285.0,
+        "a1_hz": 460.0,
+        "b1_minus_hz": 410.0,
+        "b1_plus_hz": 535.0,
+        "cbr_hz": 320.0
+      },
+      "params": {
+        "length": 355.0,
+        "lower_bout": 208.0,
+        "upper_bout": 168.0,
+        "c_bout": 110.0,
+        "top_thickness": 4.0,
+        "back_thickness": 4.0,
+        "rib_thickness": 4.0,
+        "top_arch_height": 15.0,
+        "back_arch_height": 15.0,
+        "rib_height": 30.0
+      }
+    },
+    {
+      "id": "ref-light-thin",
+      "label": "Lightweight — thin plates (2.5mm), low arching, minimal internal structure",
+      "source": "literature",
+      "notes": "Thin-shell design shifts B1-/B1+ downward; reduced mass.",
+      "mass_g": 320.0,
+      "modes": {
+        "a0_hz": 275.0,
+        "a1_hz": 445.0,
+        "b1_minus_hz": 380.0,
+        "b1_plus_hz": 500.0,
+        "cbr_hz": 305.0
+      },
+      "params": {
+        "length": 355.0,
+        "lower_bout": 208.0,
+        "upper_bout": 168.0,
+        "c_bout": 110.0,
+        "top_thickness": 2.5,
+        "back_thickness": 2.5,
+        "rib_thickness": 3.0,
+        "top_arch_height": 12.0,
+        "back_arch_height": 12.0,
+        "rib_height": 28.0
+      }
+    },
+    {
+      "id": "ref-heavy-thick",
+      "label": "Heavy — thick plates (5.5mm), high arching, maximal internal blocks",
+      "source": "literature",
+      "notes": "Thick, stiff construction shifts frequencies upward.",
+      "mass_g": 480.0,
+      "modes": {
+        "a0_hz": 300.0,
+        "a1_hz": 480.0,
+        "b1_minus_hz": 445.0,
+        "b1_plus_hz": 570.0,
+        "cbr_hz": 340.0
+      },
+      "params": {
+        "length": 355.0,
+        "lower_bout": 210.0,
+        "upper_bout": 172.0,
+        "c_bout": 112.0,
+        "top_thickness": 5.5,
+        "back_thickness": 5.5,
+        "rib_thickness": 5.0,
+        "top_arch_height": 20.0,
+        "back_arch_height": 20.0,
+        "rib_height": 35.0
+      }
+    },
+    {
+      "id": "ref-long-wide",
+      "label": "Longer, wider body — increased air cavity volume",
+      "source": "literature",
+      "notes": "Bigger body drops A0 frequency; larger radiating area shifts B1 series.",
+      "mass_g": 420.0,
+      "modes": {
+        "a0_hz": 265.0,
+        "a1_hz": 440.0,
+        "b1_minus_hz": 395.0,
+        "b1_plus_hz": 520.0,
+        "cbr_hz": 310.0
+      },
+      "params": {
+        "length": 370.0,
+        "lower_bout": 220.0,
+        "upper_bout": 178.0,
+        "c_bout": 118.0,
+        "top_thickness": 4.0,
+        "back_thickness": 4.0,
+        "rib_thickness": 4.0,
+        "top_arch_height": 16.0,
+        "back_arch_height": 16.0,
+        "rib_height": 32.0
+      }
+    },
+    {
+      "id": "ref-compact-narrow",
+      "label": "Compact — narrow body, higher arching, smaller air volume",
+      "source": "literature",
+      "notes": "Smaller air cavity raises A0; tighter structure raises B modes.",
+      "mass_g": 360.0,
+      "modes": {
+        "a0_hz": 305.0,
+        "a1_hz": 475.0,
+        "b1_minus_hz": 425.0,
+        "b1_plus_hz": 550.0,
+        "cbr_hz": 330.0
+      },
+      "params": {
+        "length": 345.0,
+        "lower_bout": 200.0,
+        "upper_bout": 162.0,
+        "c_bout": 102.0,
+        "top_thickness": 4.0,
+        "back_thickness": 4.0,
+        "rib_thickness": 4.0,
+        "top_arch_height": 22.0,
+        "back_arch_height": 22.0,
+        "rib_height": 30.0
+      }
+    }
+  ]
+}

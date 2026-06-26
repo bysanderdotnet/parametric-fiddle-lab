@@ -4,31 +4,37 @@
     "name": "Bambu PLA Basic @BBL X1C",
     "from": "system",
     "instantiation": "true",
-    "filament_type": [
-        "PLA"
-    ],
-    "filament_diameter": [
-        "1.75"
-    ],
-    "filament_density": [
-        "1.24"
-    ],
-    "filament_cost": [
-        "24.99"
-    ],
-    "nozzle_temperature": [
-        "220"
-    ],
-    "nozzle_temperature_initial_layer": [
-        "220"
-    ],
-    "hot_plate_temp": [
-        "55"
-    ],
-    "hot_plate_temp_initial_layer": [
-        "55"
-    ],
-    "compatible_printers": [
-        "Bambu Lab X1 Carbon 0.4 nozzle"
-    ]
+    "filament_type": ["PLA"],
+    "filament_diameter": ["1.75"],
+    "filament_density": ["1.24"],
+    "filament_cost": ["24.99"],
+    "filament_max_volumetric_speed": ["21"],
+    "filament_flow_ratio": ["0.98"],
+    "nozzle_temperature": ["220"],
+    "nozzle_temperature_initial_layer": ["220"],
+    "nozzle_temperature_range_high": ["230"],
+    "nozzle_temperature_range_low": ["190"],
+    "hot_plate_temp": ["55"],
+    "hot_plate_temp_initial_layer": ["55"],
+    "fan_max_speed": ["100"],
+    "fan_min_speed": ["0"],
+    "fan_speedup_overhangs": ["1"],
+    "fan_speedup_bridges": ["1"],
+    "slow_down_min_speed": ["15"],
+    "slow_down_layer_time": ["8"],
+    "cool_plate_temp": ["35"],
+    "eng_plate_temp": ["55"],
+    "textured_plate_temp": ["55"],
+    "start_temperature": ["220"],
+    "end_temperature": ["200"],
+    "temperature_vitrification": ["60"],
+    "overhang_fan_speed": ["100"],
+    "compatible_printers": ["Bambu Lab X1 Carbon 0.4 nozzle"],
+    "compatible_printers_condition": "printer_model==\"Bambu Lab X1 Carbon\" and nozzle_diameter[0]==\"0.4\"",
+    "compatible_prints": ["0.20mm Standard @BBL X1C"],
+    "compatible_prints_condition": "default_print_profile",
+    "enable_pressure_advance": "1",
+    "pressure_advance": "0.02",
+    "required_nozzle_HRC": "2",
+    "inherits": "Bambu PLA Basic @BBL X1C"
 }

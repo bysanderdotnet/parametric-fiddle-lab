@@ -9,17 +9,15 @@ import threading
 
 logger = logging.getLogger(__name__)
 
-def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_args: list = None, debug: bool = False):
-    """
-    Wrapper for Orca Slicer CLI.
+_PROFILES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "profiles")
 
-    Args:
-        stl_file: Path to the input 3D model (e.g., STL, 3MF).
-        profile: Path to the configuration profile, or a dict containing 'machine', 'process', and 'filament' paths.
-        output_gcode: Path where the resulting sliced file (e.g., gcode) should be saved.
-        extra_args: A list of additional command-line arguments to pass to orca-slicer.
-        debug: If True, the temporary working directory will not be deleted.
-    """
+DEFAULT_PROFILES = {
+    "machine": os.path.join(_PROFILES_DIR, "machine.json"),
+    "process": os.path.join(_PROFILES_DIR, "process.json"),
+    "filament": os.path.join(_PROFILES_DIR, "filament.json"),
+}
+
+def slice_model(stl_file: str, output_gcode: str, profile: str | dict | None = None, extra_args: list = None, debug: bool = False):
     if extra_args is None:
         extra_args = []
 
@@ -53,9 +51,11 @@ def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_arg
     pipe_thread.start()
 
     try:
-        # Build the generic command line array
         cmd = ["orca-slicer", "--slice", "1", "--export-3mf", "output.gcode.3mf"]
         cmd.extend(["--pipe", pipe_path])
+
+        if profile is None:
+            profile = DEFAULT_PROFILES
 
         if isinstance(profile, dict):
             settings_paths = []
@@ -74,12 +74,8 @@ def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_arg
 
         cmd = cmd + extra_args + [stl_file_abs]
 
-        logger.info(f"Using input file: {stl_file_abs}")
-
-        logger.info(f"Running command: {' '.join(cmd)}")
         result = subprocess.run(cmd, cwd=tmpdir, check=True, capture_output=True, text=True)
 
-        # Unblock the pipe thread safely
         try:
             fd = os.open(pipe_path, os.O_WRONLY | os.O_NONBLOCK)
             os.write(fd, b'\n')
@@ -88,44 +84,32 @@ def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_arg
             pass
         pipe_thread.join()
 
-        logger.info(f"Slicing completed successfully.")
-
-        # Extract gcode and metadata from the resulting 3mf
         out_3mf = os.path.join(tmpdir, "output.gcode.3mf")
         if os.path.exists(out_3mf):
             with zipfile.ZipFile(out_3mf, 'r') as z:
-                # Extract gcode
                 gcode_files = [f for f in z.namelist() if f.endswith('.gcode')]
                 if gcode_files:
-                    # Just take the first one
                     with z.open(gcode_files[0]) as zf, open(output_gcode_abs, 'wb') as f:
                         shutil.copyfileobj(zf, f)
-                    logger.info(f"Extracted {gcode_files[0]} to {output_gcode_abs}")
                 else:
                     logger.warning("No .gcode file found inside the generated .3mf archive.")
 
-                # Extract slice_info.config
                 if "Metadata/slice_info.config" in z.namelist():
                     slice_info_path = os.path.join(os.path.dirname(output_gcode_abs), "slice_info.config")
                     with z.open("Metadata/slice_info.config") as zf, open(slice_info_path, 'wb') as f:
                         shutil.copyfileobj(zf, f)
-                    logger.info(f"Extracted Metadata/slice_info.config to {slice_info_path}")
                 else:
                     logger.warning("No Metadata/slice_info.config found inside the generated .3mf archive.")
         else:
             logger.warning("output.gcode.3mf was not generated.")
 
-        return result.stdout
+        slice_meta = _read_slice_info(os.path.join(os.path.dirname(output_gcode_abs), "slice_info.config"))
+        return result.stdout, slice_meta
     except subprocess.CalledProcessError as e:
-        logger.error(f"Slicing failed with return code {e.returncode}.")
-        logger.error(f"Stdout: {e.stdout}")
-        logger.error(f"Stderr: {e.stderr}")
         raise RuntimeError(f"Orca Slicer CLI error: {e.stderr}") from e
     except FileNotFoundError as e:
-        logger.error("orca-slicer command not found. Is it installed and in PATH?")
         raise RuntimeError("orca-slicer executable not found") from e
     finally:
-        # Ensure thread is joined even on exceptions
         try:
             fd = os.open(pipe_path, os.O_WRONLY | os.O_NONBLOCK)
             os.write(fd, b'\n')
@@ -137,6 +121,33 @@ def slice_model(stl_file: str, profile: str | dict, output_gcode: str, extra_arg
 
         if not debug:
             shutil.rmtree(tmpdir, ignore_errors=True)
-            logger.info(f"Cleaned up temporary directory {tmpdir}")
+
+
+def _read_slice_info(path):
+    """Parse slice_info.config into a dict of standardised keys."""
+    meta = {}
+    if not os.path.exists(path):
+        return meta
+    try:
+        with open(path, "r") as f:
+            raw = f.read()
+        raw = raw.strip()
+        if raw.startswith("{"):
+            data = json.loads(raw)
         else:
-            logger.info(f"Debug mode enabled. Temporary directory left at: {tmpdir}")
+            return meta
+        for key in ("weight", "volume", "filament_mm", "filament_g", "total_time_s", "total_cost"):
+            val = data.get(key)
+            if val is not None:
+                meta[key] = float(val)
+        meta["filament_used_g"] = data.get("filament_used_g") or data.get("filament_g", 0.0)
+    except (json.JSONDecodeError, OSError):
+        pass
+    return meta
+
+
+def read_slice_metadata(gcode_path):
+    """Read the slice_info.config that was written alongside *gcode_path*."""
+    base = os.path.dirname(gcode_path) if os.path.dirname(gcode_path) else "."
+    slice_info_path = os.path.join(base, "slice_info.config")
+    return _read_slice_info(slice_info_path)

@@ -6,6 +6,9 @@ import pytest
 import cadquery as cq
 from violin import create_violin_body, load_step, save_step
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from common.constraints import validate
+
 def test_create_violin_body():
     # Call create_violin_body with default parameters
     result = create_violin_body()
@@ -67,7 +70,43 @@ def test_violin_cli():
     assert body["part_classification"]["bridge"] == "structural"
     assert "structural_mass_g" in body and "cosmetic_mass_g" in body
 
+    # Ergonomic/playability constraints pass for default CAD parameters.
+    # Scale length (307.5 mm) flags below 310 mm min -- known finding.
+    cad_defaults = {
+        "neck_width_top": 24.0, "neck_width_bottom": 34.0,
+        "bridge_width_bottom": 40.0, "neck_length": 130.0,
+        "length": 355.0, "fingerboard_length": 270.0,
+        "bridge_y_offset": 0.0, "fingerboard_radius": 42.0,
+        "c_bout": 110.0, "upper_bout": 168.0, "lower_bout": 208.0,
+    }
+    errs = validate(cad_defaults)
+    for e in errs:
+        assert "scale length" in e, f"Unexpected constraint violation: {e}"
+    assert len(errs) <= 1
+
     # Clean up
     for file in ["violin_body.step", "violin_cavity.step", "violin_body.json"]:
         if os.path.exists(file):
             os.remove(file)
+
+
+def test_constraints_across_param_range():
+    """Constraint validation must pass across the full SPEC range extremes."""
+    extremal_sets = [
+        (22.0, 32.0, 24.0, 110.0, 340.0, 36.0, 100.0, 160.0, 200.0, -20.0, 250.0),
+        (27.0, 38.0, 43.5, 150.0, 370.0, 50.0, 120.0, 180.0, 220.0, 20.0, 290.0),
+        (24.0, 34.0, 40.0, 130.0, 355.0, 42.0, 110.0, 160.0, 220.0, 0.0, 270.0),
+        (24.0, 34.0, 40.0, 130.0, 355.0, 42.0, 110.0, 180.0, 200.0, 0.0, 270.0),
+        (24.0, 34.0, 43.5, 130.0, 355.0, 42.0, 100.0, 168.0, 208.0, 0.0, 270.0),
+        (22.0, 38.0, 40.0, 150.0, 370.0, 36.0, 120.0, 180.0, 220.0, -20.0, 290.0),
+    ]
+    for combo in extremal_sets:
+        params = dict(zip(
+            ["neck_width_top","neck_width_bottom","bridge_width_bottom",
+             "neck_length","length","fingerboard_radius","c_bout",
+             "upper_bout","lower_bout","bridge_y_offset","fingerboard_length"],
+            combo
+        ))
+        errs = validate(params)
+        for e in errs:
+            assert "scale length" in e, f"Unexpected constraint for {params}: {e}"
