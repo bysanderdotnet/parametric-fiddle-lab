@@ -78,6 +78,11 @@ def run_elmer(mesh_file, slicing_params=None):
     if not modes:
         return None
 
+    modes = [m for m in modes if m["frequency_hz"] >= 1.0]
+    if not modes:
+        print("Warning: all eigenmodes were rigid-body modes (< 1 Hz). No elastic modes found.")
+        return None
+
     for mode in modes:
         freq = mode.get("frequency_hz", 0.0)
         if freq < FREQ_CBR_MAX:
