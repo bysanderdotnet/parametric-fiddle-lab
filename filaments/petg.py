@@ -1,0 +1,97 @@
+"""Bambu PETG HF filament properties.
+
+Source: Bambu Lab PETG HF Technical Data Sheet (V1.0).
+Values are manufacturer typical values.
+Poisson ratio not in datasheet; typical PETG value (0.38) used.
+"""
+
+NAME = "Bambu PETG HF"
+DATASHEET = "Technical Data Sheet V1.0"
+
+SPECIFICATIONS = {
+    "diameter_mm": 1.75,
+    "net_filament_weight_kg": 1.0,
+    "spool_material": "PETG",
+    "spool_temp_resistance_c": 70,
+    "spool_diameter_mm": 200,
+    "spool_height_mm": 67,
+}
+
+PRINTING = {
+    "dry_oven_temp_c": None,
+    "dry_oven_hours": None,
+    "dry_heatbed_temp_c": (70, 80),
+    "dry_heatbed_hours": None,
+    "storage_humidity_pct_rh_max": 20,
+    "nozzle_sizes_mm": [0.2, 0.4, 0.6, 0.8],
+    "nozzle_temp_c": (220, 270),
+    "bed_types": ["High Temperature Plate", "Textured PEI Plate"],
+    "bed_surface_prep": "Glue",
+    "bed_temp_c": (70, 80),
+    "cooling_fan": True,
+    "printing_speed_mm_s_max": 200,
+    "retraction_length_mm": (0.6, 1.0),
+    "retraction_speed_mm_s": (20, 40),
+    "chamber_temp_c": (25, 60),
+    "max_overhang_angle_deg": 50,
+    "max_bridging_length_mm": 20,
+    "support_material": "Support for PETG",
+    "anneal_temp_c": None,
+    "anneal_hours": None,
+}
+
+PHYSICAL = {
+    "density_g_cm3": 1.27,
+    "melt_index_g_10min": (15.1, 3.2),
+    "melting_temp_c": 230,
+    "glass_transition_temp_c": 80,
+    "crystallization_temp_c": None,
+    "vicat_softening_temp_c": 72,
+    "heat_deflection_temp_c_1_8mpa": 65,
+    "heat_deflection_temp_c_0_45mpa": 70,
+    "saturated_water_absorption_pct": 0.14,
+}
+
+MECHANICAL = {
+    "youngs_modulus_mpa_xy": (2150, 180),
+    "youngs_modulus_mpa_z": (1900, 160),
+    "tensile_strength_mpa_xy": (48, 5),
+    "tensile_strength_mpa_z": (40, 4),
+    "breaking_elongation_pct_xy": (15.0, 2.0),
+    "breaking_elongation_pct_z": (8.0, 1.5),
+    "bending_modulus_mpa_xy": (2300, 150),
+    "bending_modulus_mpa_z": (2000, 140),
+    "bending_strength_mpa_xy": (70, 5),
+    "bending_strength_mpa_z": (55, 6),
+    "impact_strength_kj_m2_xy": (30.0, 3.0),
+    "impact_strength_kj_m2_xy_notched": (6.0, 1.0),
+    "impact_strength_kj_m2_z": (15.0, 1.5),
+}
+
+CHEMICAL = {
+    "odor": "Odorless",
+    "composition": "PETG",
+    "skin_hazards": "No hazard",
+    "chemical_stability": "Stable under normal storage and handling conditions",
+    "solubility": "Insoluble in water",
+    "resistance_acid": True,
+    "resistance_alkali": False,
+    "resistance_organic_solvent": False,
+    "resistance_oil_grease": True,
+    "flammable": True,
+    "combustion_products": "Water, carbon oxides",
+}
+
+SPECIMEN_TEST = {
+    "nozzle_temp_c": 250,
+    "bed_temp_c": 75,
+    "printing_speed_mm_s": 150,
+    "infill_density_pct": 100,
+    "note": "Specimens dried at 70 C for 12 h before testing.",
+}
+
+DENSITY_KG_M3 = 1270.0
+YOUNGS_MODULUS_PA = 2.15e9
+POISSON_RATIO = 0.38
+
+DENSITY_G_MM3 = PHYSICAL["density_g_cm3"] / 1000.0

@@ -492,7 +492,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
                 fused_result = cq.Solid(fuse_op.Shape())
         final_body = cq.Workplane("XY").add(fused_result)
 
-    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll
+    return final_body, bridge, cavity_volume, soundpost, bass_bar_full, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll, bridge_interface_area_mm2, soundpost_actual_length
 
 def load_step(filepath: str) -> cq.Workplane:
     """Load a STEP file into a cadquery Workplane."""
@@ -531,7 +531,7 @@ if __name__ == "__main__":
 
     # Filter out slicing parameters before calling CAD generation
     cad_params = {k: v for k, v in params.items() if k not in ("infill_density", "layer_height", "infill_pattern", "wall_loops", "target_a0_freq", "target_b1_minus_freq", "target_b1_plus_freq")}
-    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll = create_violin_body(**cad_params)
+    violin, bridge, cavity, soundpost, bass_bar, tailpiece, chinrest, fine_tuners, saddle, strings, nut, pegs, fingerboard, endpin, top_block_cutter, bottom_block_cutter, corner_tr, corner_tl, corner_br, corner_bl, neck, scroll, bridge_interface_area_mm2, soundpost_actual_length = create_violin_body(**cad_params)
 
     # Calculate volume and estimated mass
     volume_mm3 = violin.val().Volume()

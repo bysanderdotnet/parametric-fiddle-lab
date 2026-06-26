@@ -1,0 +1,97 @@
+"""Bambu ASA filament properties.
+
+Source: Bambu Lab ASA Technical Data Sheet (V1.1).
+Values are manufacturer typical values.
+Poisson ratio not in datasheet; typical ASA/ABS value (0.35) used.
+"""
+
+NAME = "Bambu ASA"
+DATASHEET = "Technical Data Sheet V1.1"
+
+SPECIFICATIONS = {
+    "diameter_mm": 1.75,
+    "net_filament_weight_kg": 1.0,
+    "spool_material": "ASA",
+    "spool_temp_resistance_c": 80,
+    "spool_diameter_mm": 200,
+    "spool_height_mm": 67,
+}
+
+PRINTING = {
+    "dry_oven_temp_c": 80,
+    "dry_oven_hours": 8,
+    "dry_heatbed_temp_c": (90, 100),
+    "dry_heatbed_hours": 12,
+    "storage_humidity_pct_rh_max": 15,
+    "nozzle_sizes_mm": [0.4, 0.6, 0.8],
+    "nozzle_temp_c": (240, 270),
+    "bed_types": ["High Temperature Plate", "Textured PEI Plate"],
+    "bed_surface_prep": "Glue",
+    "bed_temp_c": (90, 100),
+    "cooling_fan": True,
+    "printing_speed_mm_s_max": 200,
+    "retraction_length_mm": (0.6, 1.2),
+    "retraction_speed_mm_s": (30, 50),
+    "chamber_temp_c": (40, 60),
+    "max_overhang_angle_deg": 45,
+    "max_bridging_length_mm": 20,
+    "support_material": "Support for ASA",
+    "anneal_temp_c": (85, 95),
+    "anneal_hours": (2, 4),
+}
+
+PHYSICAL = {
+    "density_g_cm3": 1.07,
+    "melt_index_g_10min": (8.5, 2.0),
+    "melting_temp_c": None,
+    "glass_transition_temp_c": 95,
+    "crystallization_temp_c": None,
+    "vicat_softening_temp_c": 90,
+    "heat_deflection_temp_c_1_8mpa": 85,
+    "heat_deflection_temp_c_0_45mpa": 92,
+    "saturated_water_absorption_pct": 0.30,
+}
+
+MECHANICAL = {
+    "youngs_modulus_mpa_xy": (2350, 200),
+    "youngs_modulus_mpa_z": (1950, 170),
+    "tensile_strength_mpa_xy": (45, 5),
+    "tensile_strength_mpa_z": (36, 4),
+    "breaking_elongation_pct_xy": (12.0, 2.0),
+    "breaking_elongation_pct_z": (6.0, 1.0),
+    "bending_modulus_mpa_xy": (2400, 180),
+    "bending_modulus_mpa_z": (2100, 160),
+    "bending_strength_mpa_xy": (72, 6),
+    "bending_strength_mpa_z": (56, 5),
+    "impact_strength_kj_m2_xy": (22.0, 2.5),
+    "impact_strength_kj_m2_xy_notched": (5.0, 1.0),
+    "impact_strength_kj_m2_z": (12.0, 1.5),
+}
+
+CHEMICAL = {
+    "odor": "Mild styrene-like",
+    "composition": "ASA (Acrylonitrile Styrene Acrylate)",
+    "skin_hazards": "No hazard",
+    "chemical_stability": "Stable under normal storage and handling conditions",
+    "solubility": "Insoluble in water",
+    "resistance_acid": True,
+    "resistance_alkali": True,
+    "resistance_organic_solvent": False,
+    "resistance_oil_grease": True,
+    "flammable": True,
+    "combustion_products": "Water, carbon oxides, nitrogen oxides",
+}
+
+SPECIMEN_TEST = {
+    "nozzle_temp_c": 260,
+    "bed_temp_c": 95,
+    "printing_speed_mm_s": 150,
+    "infill_density_pct": 100,
+    "note": "Specimens dried at 80 C for 8 h before testing.",
+}
+
+DENSITY_KG_M3 = 1070.0
+YOUNGS_MODULUS_PA = 2.35e9
+POISSON_RATIO = 0.35
+
+DENSITY_G_MM3 = PHYSICAL["density_g_cm3"] / 1000.0

@@ -18,7 +18,7 @@ SOLVER = """Solver 1
   Procedure = "StressSolve" "StressSolver"
   Calculate Stresses = True
   Eigen Analysis = True
-  Eigen System Values = 10
+  Eigen System Values = 16
   Eigen System Select = Smallest magnitude
 
   Linear System Solver = Direct
@@ -27,6 +27,21 @@ SOLVER = """Solver 1
   Linear System Convergence Tolerance = 1.0e-8
   Linear System Residual Output = 10
   Linear System Abort Not Converged = False
+End"""
+
+# Boundary condition that eliminates rigid-body modes.
+# A single clamped face at the scroll tip (all three displacement DOFs = 0)
+# is sufficient to prevent translation and rotation in every direction,
+# without over-constraining the body.
+#
+# Physical group tag 1 is assigned by mesh/mesher.py to the face at the
+# extreme +Y end of the geometry (the scroll tip / pegbox end).
+BOUNDARIES = """Boundary Condition 1
+  Target Boundaries(1) = 1
+  Name = "scroll_tip"
+  Displacement 1 = 0
+  Displacement 2 = 0
+  Displacement 3 = 0
 End"""
 
 _DEFAULT_SLICING_PARAMS = {
@@ -61,7 +76,6 @@ End""".format(
 
 
 def mass_from_json(default=380.0):
-    """Mass is a geometric quantity already computed by the CAD step."""
     try:
         with open("violin_body.json", "r") as f:
             return json.load(f).get("mass_g", default)
@@ -74,7 +88,7 @@ def run_elmer(mesh_file, slicing_params=None):
         slicing_params = _DEFAULT_SLICING_PARAMS
     material = _build_material_block(slicing_params)
     print(f"Running Elmer simulation on {mesh_file} with slicing-aware material...")
-    modes = elmer_eigenmodes(mesh_file, "elmer_mesh", "case.sif", SOLVER, material)
+    modes = elmer_eigenmodes(mesh_file, "elmer_mesh", "case.sif", SOLVER, material, boundaries=BOUNDARIES)
     if not modes:
         return None
 
@@ -92,7 +106,6 @@ def run_elmer(mesh_file, slicing_params=None):
     if os.path.exists(vtu_path):
         try:
             mesh = pv.read(vtu_path)
-            # Find the maximum stress per unit displacement across all modes
             max_normalized_stress_pa_per_m = 0.0
             for i in range(1, len(modes) + 1):
                 vm_key = f"vonmises EigenMode{i}"
@@ -105,9 +118,6 @@ def run_elmer(mesh_file, slicing_params=None):
                         if normalized > max_normalized_stress_pa_per_m:
                             max_normalized_stress_pa_per_m = normalized
 
-            # Since Elmer scales mesh with 0.001, displacement is in meters.
-            # Stress is in Pascals. We want MPa per mm of displacement.
-            # 1 Pa/m = 1e-6 MPa / 1000 mm = 1e-9 MPa/mm.
             max_stress_mpa_per_mm = max_normalized_stress_pa_per_m * 1e-9
         except Exception as e:
             print(f"Failed to read stress from VTU: {e}")
@@ -179,7 +189,6 @@ def run_structural_sim(mesh_file, slicing_params=None):
     result_file = "structural_results.json"
     with open(result_file, "w") as f:
         json.dump(dummy_results, f, indent=4)
-
     print(f"Simulation complete. Results saved to {result_file}")
     return dummy_results
 

@@ -7,7 +7,9 @@ output. This module owns that common machinery.
 import math
 import subprocess
 
-# Everything but the Solver and Material blocks is identical across sims.
+# Everything but the Solver, Material and Boundary Condition blocks
+# is identical across sims.  {boundaries} is a newline-separated list
+# of Boundary Condition definitions (empty string = no BCs).
 SIF_TEMPLATE = """Header
   CHECK KEYWORDS Warn
   Mesh DB "." "{mesh_dir}"
@@ -51,12 +53,27 @@ Equation 1
 End
 
 {material}
+
+{boundaries}
 """
 
 
-def write_sif(sif_path, mesh_dir, solver, material):
-    """Write a SIF file from the shared template + sim-specific blocks."""
-    content = SIF_TEMPLATE.format(mesh_dir=mesh_dir, solver=solver.strip(), material=material.strip())
+def write_sif(sif_path, mesh_dir, solver, material, boundaries=""):
+    """Write a SIF file from the shared template + sim-specific blocks.
+
+    Parameters
+    ----------
+    boundaries: str
+        Newline-separated Boundary Condition definitions.  Pass an
+        empty string (default) when the simulation does not need BCs
+        (e.g. the acoustic cavity solver uses rigid-wall natural BCs).
+    """
+    content = SIF_TEMPLATE.format(
+        mesh_dir=mesh_dir,
+        solver=solver.strip(),
+        material=material.strip(),
+        boundaries=boundaries.strip(),
+    )
     with open(sif_path, "w") as f:
         f.write(content)
 
@@ -75,10 +92,10 @@ def parse_eigenmodes(stdout):
     return modes
 
 
-def run_elmer(mesh_file, mesh_dir, sif_path, solver, material):
+def run_elmer(mesh_file, mesh_dir, sif_path, solver, material, boundaries=""):
     """Run ElmerGrid + ElmerSolver, return parsed eigenmodes (or None)."""
     subprocess.run(["ElmerGrid", "14", "2", mesh_file, "-out", mesh_dir], check=True)
-    write_sif(sif_path, mesh_dir, solver, material)
+    write_sif(sif_path, mesh_dir, solver, material, boundaries)
     result = subprocess.run(["ElmerSolver", sif_path], capture_output=True, text=True, check=True)
     modes = parse_eigenmodes(result.stdout)
     return modes or None
