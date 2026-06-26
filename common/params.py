@@ -128,6 +128,8 @@ SPEC = [
     ("corner_block_length", "float", (10.0, 30.0), "Length of the corner blocks"),
     ("infill_density", "float", (5.0, 100.0), "Sparse infill density percentage"),
     ("layer_height", "float", (0.08, 0.28), "Layer height"),
+    ("infill_pattern", "str", ["grid", "gyroid", "honeycomb", "rectilinear"], "Sparse infill pattern"),
+    ("wall_loops", "int", (1, 5), "Number of wall loops (perimeters)"),
     ("target_a0_freq", "float", None, "Target A0 air cavity mode frequency in Hz"),
     ("target_b1_minus_freq", "float", None, "Target B1- structural mode frequency in Hz"),
     ("target_b1_plus_freq", "float", None, "Target B1+ structural mode frequency in Hz"),
@@ -144,6 +146,7 @@ def add_arguments(parser, defaults):
         default_val = defaults.get(name)
         if default_val is None:
             if kind == "float": default_val = _opt[0] if _opt else 0.0
+            elif kind == "int": default_val = _opt[0] if _opt else 0
             elif kind == "bool": default_val = False
             else: default_val = _opt[0] if _opt else ""
 
@@ -151,7 +154,8 @@ def add_arguments(parser, defaults):
             parser.add_argument(f"--{name}", action=argparse.BooleanOptionalAction,
                                 default=default_val, help=help_)
         else:
-            parser.add_argument(f"--{name}", type=(float if kind == "float" else str),
+            arg_type = {"float": float, "int": int}.get(kind, str)
+            parser.add_argument(f"--{name}", type=arg_type,
                                 default=default_val, help=help_)
 
 
@@ -163,6 +167,8 @@ def suggest(trial):
             continue
         if kind == "float":
             vals[name] = trial.suggest_float(name, opt[0], opt[1])
+        elif kind == "int":
+            vals[name] = trial.suggest_int(name, opt[0], opt[1])
         else:  # str/bool categorical
             vals[name] = trial.suggest_categorical(name, opt)
     return vals
@@ -172,7 +178,7 @@ def cli_args(values):
     """Turn a {name: value} dict into cad/violin.py CLI args (SPEC order), excluding slicing parameters."""
     args = []
     kinds = {name: kind for name, kind, _, _ in SPEC}
-    slicing_params = {"infill_density", "layer_height", "target_a0_freq", "target_b1_minus_freq", "target_b1_plus_freq"}
+    slicing_params = {"infill_density", "layer_height", "infill_pattern", "wall_loops", "target_a0_freq", "target_b1_minus_freq", "target_b1_plus_freq"}
     for name in NAMES:
         if name in slicing_params:
             continue

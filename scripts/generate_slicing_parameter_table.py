@@ -19,7 +19,7 @@ def generate_slicing_parameter_table(output_file="docs/slicing_parameters.md"):
         "|---|---|---|---|"
     ]
 
-    slicing_params = {"infill_density", "layer_height"}
+    slicing_params = {"infill_density", "layer_height", "infill_pattern", "wall_loops"}
 
     for name, kind, opt, help_text in SPEC:
         if name not in slicing_params:
@@ -27,7 +27,7 @@ def generate_slicing_parameter_table(output_file="docs/slicing_parameters.md"):
 
         range_str = "None"
         if opt:
-            if kind == "float":
+            if kind in ("float", "int"):
                 range_str = f"[{opt[0]}, {opt[1]}]"
             elif kind == "bool" or kind == "str":
                 range_str = ", ".join(map(str, opt))

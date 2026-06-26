@@ -103,7 +103,8 @@ def slice_model(stl_file: str, output_gcode: str, profile: str | dict | None = N
         else:
             logger.warning("output.gcode.3mf was not generated.")
 
-        return result.stdout
+        slice_meta = _read_slice_info(os.path.join(os.path.dirname(output_gcode_abs), "slice_info.config"))
+        return result.stdout, slice_meta
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Orca Slicer CLI error: {e.stderr}") from e
     except FileNotFoundError as e:
@@ -120,3 +121,33 @@ def slice_model(stl_file: str, output_gcode: str, profile: str | dict | None = N
 
         if not debug:
             shutil.rmtree(tmpdir, ignore_errors=True)
+
+
+def _read_slice_info(path):
+    """Parse slice_info.config into a dict of standardised keys."""
+    meta = {}
+    if not os.path.exists(path):
+        return meta
+    try:
+        with open(path, "r") as f:
+            raw = f.read()
+        raw = raw.strip()
+        if raw.startswith("{"):
+            data = json.loads(raw)
+        else:
+            return meta
+        for key in ("weight", "volume", "filament_mm", "filament_g", "total_time_s", "total_cost"):
+            val = data.get(key)
+            if val is not None:
+                meta[key] = float(val)
+        meta["filament_used_g"] = data.get("filament_used_g") or data.get("filament_g", 0.0)
+    except (json.JSONDecodeError, OSError):
+        pass
+    return meta
+
+
+def read_slice_metadata(gcode_path):
+    """Read the slice_info.config that was written alongside *gcode_path*."""
+    base = os.path.dirname(gcode_path) if os.path.dirname(gcode_path) else "."
+    slice_info_path = os.path.join(base, "slice_info.config")
+    return _read_slice_info(slice_info_path)

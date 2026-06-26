@@ -26,19 +26,20 @@ def test_add_arguments():
     assert args.infill_density == infill_spec[2][0]
 
 def test_suggest():
-    # Mock optuna trial
     trial = Mock()
     trial.suggest_float.side_effect = lambda name, low, high: (low + high) / 2.0
+    trial.suggest_int.side_effect = lambda name, low, high: (low + high) // 2
     trial.suggest_categorical.side_effect = lambda name, choices: choices[0]
 
     vals = suggest(trial)
 
-    # Check that expected keys are in the dictionary
     for name, kind, opt, _ in SPEC:
         if opt is not None:
             assert name in vals
             if kind == "float":
                 assert vals[name] == (opt[0] + opt[1]) / 2.0
+            elif kind == "int":
+                assert vals[name] == (opt[0] + opt[1]) // 2
             else:
                 assert vals[name] == opt[0]
 
