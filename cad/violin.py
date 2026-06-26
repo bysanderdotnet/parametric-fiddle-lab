@@ -12,7 +12,7 @@ class BottomBlock:
     def create(cls, length, bottom_block_width, bottom_block_length, rib_height, top_arch_height, back_arch_height):
         return cq.Workplane("XY").center(0, -length / 2.0).box(bottom_block_width, bottom_block_length * 2, rib_height + top_arch_height + back_arch_height).translate((0, 0, -back_arch_height + (rib_height + top_arch_height + back_arch_height)/2))
 
-def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, f_hole_thickness=2.0, f_hole_profile="slot", f_hole_top_radius=4.0, f_hole_bottom_radius=5.0, f_hole_x_offset=0.0, f_hole_y_offset=0.0, f_hole_angle=90.0, neck_length=130, neck_width_top=24, neck_width_bottom=34, neck_thickness=20, neck_angle=5.0, bridge_width_bottom=40, bridge_width_top=30, bridge_height=30, bridge_thickness=5, bridge_radius=20.0, bridge_inner_curve_radius=8.0, bridge_side_cutout_radius=6.0, bridge_cutout_radius=5.0, bridge_cutout_y_offset=10.0, bridge_central_cutout=True, bridge_central_cutout_radius=4.0, bridge_central_cutout_inner_radius=2.0, bridge_central_cutout_y_offset=15.0, bridge_foot_length=10.0, bridge_foot_width=5.0, bridge_foot_height=5.0, bridge_foot_cutout_width=4.0, bridge_foot_cutout_height=2.0, bridge_cutouts=True, bridge_y_offset=0.0, bridge_angle=0.0, soundpost_thickness=6.0, soundpost_length=50.0, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, bass_bar_angle=0.0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, tailpiece_y_offset=0.0, purfling_groove_depth=1.0, purfling_groove_width=1.0, purfling_groove_offset=2.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, fingerboard_radius=42.0, fingerboard_end_shape="flat", pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, pegbox_angle=5.0, peg_hole_radius=3.0, peg_spacing=15.0, peg_length=40.0, peg_width=20.0, peg_head_length=15.0, peg_head_thickness=5.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0, chinrest_x_offset=-40.0, chinrest_y_offset=-140.0, chinrest_width=80.0, chinrest_length=50.0, chinrest_height=15.0, fine_tuner_radius=2.0, fine_tuner_height=8.0, fine_tuner_y_offset=0.0, chinrest_cutout_radius=64.0, chinrest_cutout_depth=5.0, c_bout_cutout_radius=40.0, c_bout_height=60.0, top_block_width=40.0, top_block_length=15.0, bottom_block_width=40.0, bottom_block_length=15.0, corner_block_width=15.0, corner_block_length=20.0):
+def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, top_thickness=4, back_thickness=4, rib_thickness=4, top_arch_height=15, back_arch_height=15, rib_height=30, f_hole_length=70, f_hole_spacing=80, f_hole_width=8.0, f_hole_thickness=2.0, f_hole_profile="slot", f_hole_top_radius=4.0, f_hole_bottom_radius=5.0, f_hole_x_offset=0.0, f_hole_y_offset=0.0, f_hole_angle=90.0, neck_length=130, neck_width_top=24, neck_width_bottom=34, neck_thickness=20, neck_angle=5.0, bridge_width_bottom=40, bridge_width_top=30, bridge_height=30, bridge_thickness=5, bridge_radius=20.0, bridge_inner_curve_radius=8.0, bridge_side_cutout_radius=6.0, bridge_cutout_radius=5.0, bridge_cutout_y_offset=10.0, bridge_central_cutout=True, bridge_central_cutout_radius=4.0, bridge_central_cutout_inner_radius=2.0, bridge_central_cutout_y_offset=15.0, bridge_foot_length=10.0, bridge_foot_width=5.0, bridge_foot_height=5.0, bridge_foot_cutout_width=4.0, bridge_foot_cutout_height=2.0, bridge_cutouts=True, bridge_y_offset=0.0, bridge_angle=0.0, soundpost_thickness=6.0, soundpost_length=50.0, soundpost_x_offset=15, soundpost_y_offset=-15, bass_bar_length=200, bass_bar_width=5, bass_bar_height=10, bass_bar_x_offset=-15, bass_bar_y_offset=0, bass_bar_angle=0.0, tailpiece_length=110, tailpiece_width_top=40, tailpiece_width_bottom=20, tailpiece_thickness=5, tailpiece_y_offset=0.0, purfling_groove_depth=1.0, purfling_groove_width=1.0, purfling_groove_offset=2.0, fingerboard_length=270.0, fingerboard_width_top=24.0, fingerboard_width_bottom=42.0, fingerboard_thickness=5.0, fingerboard_radius=42.0, fingerboard_end_shape="flat", pegbox_length=70.0, pegbox_width=24.0, pegbox_depth=20.0, pegbox_thickness=5.0, pegbox_angle=5.0, peg_hole_radius_left=3.5, peg_hole_radius_right=4.0, peg_spacing=15.0, peg_length=40.0, peg_width=20.0, peg_head_length=15.0, peg_head_thickness=5.0, endpin_length=20.0, endpin_radius=4.0, nut_length=5.0, nut_width=24.0, nut_height=8.0, saddle_length=5.0, saddle_width=30.0, saddle_height=6.0, scroll_radius=10.0, scroll_width=20.0, chinrest_x_offset=-40.0, chinrest_y_offset=-140.0, chinrest_width=80.0, chinrest_length=50.0, chinrest_height=15.0, fine_tuner_radius=2.0, fine_tuner_height=8.0, fine_tuner_y_offset=0.0, chinrest_cutout_radius=64.0, chinrest_cutout_depth=5.0, c_bout_cutout_radius=40.0, c_bout_height=60.0, top_block_width=40.0, top_block_length=15.0, bottom_block_width=40.0, bottom_block_length=15.0, corner_block_width=15.0, corner_block_length=20.0):
     """
     Generate a simplified parametric violin body.
     """
@@ -155,6 +155,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     neck = cq.Workplane("XY").polyline(neck_pts).close().extrude(neck_thickness)
     neck = neck.translate((0, 0, rib_height - neck_thickness))
 
+    num_strings = 4
     neck_assembly = neck
 
     # Add Pegbox and Pegs
@@ -167,26 +168,24 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     pegbox = pegbox_outer.cut(pegbox_inner)
 
-    # Add Pegs
-    peg_y_start = length / 2.0 + neck_length + nut_length + pegbox_thickness + peg_hole_radius + 5.0
+    # Cut tapered peg holes through the pegbox walls
+    peg_y_start = length / 2.0 + neck_length + nut_length + pegbox_thickness + max(peg_hole_radius_left, peg_hole_radius_right) + 5.0
+    peg_center_z = rib_height - neck_thickness / 2.0 + pegbox_depth / 2.0 - neck_thickness / 2.0
+    for i in range(4):
+        peg_y = peg_y_start + i * peg_spacing
+        taper_cutter = cq.Workplane("YZ").center(peg_y, peg_center_z)             .circle(peg_hole_radius_left).workplane(offset=pegbox_width)             .circle(peg_hole_radius_right).loft(combine=True)
+        pegbox = pegbox.cut(taper_cutter)
+
+    # Add Pegs (cosmetic)
     pegs = None
     for i in range(4):
         peg_y = peg_y_start + i * peg_spacing
-        # Create a peg cylinder spanning across the pegbox (X axis)
-        peg_z = rib_height - neck_thickness / 2.0 + pegbox_depth / 2.0 - neck_thickness / 2.0
-        peg = cq.Workplane("YZ").center(peg_y, peg_z).circle(peg_hole_radius).extrude(peg_length, both=True)
+        peg = cq.Workplane("YZ").center(peg_y, peg_center_z).circle(peg_hole_radius_left).extrude(peg_length, both=True)
 
-        # Add peg head
         head_x = peg_length if i % 2 == 0 else -peg_length
-        peg_head = cq.Workplane("YZ").center(peg_y, peg_z).ellipse(peg_width / 2.0, peg_head_length / 2.0).extrude(peg_head_thickness).translate((head_x, 0, 0))
+        peg_head = cq.Workplane("YZ").center(peg_y, peg_center_z).ellipse(peg_width / 2.0, peg_head_length / 2.0).extrude(peg_head_thickness).translate((head_x, 0, 0))
         if i % 2 != 0:
-            # If extruding normally, it goes in positive X direction. When at -peg_length,
-            # we want it to extrude outward (more negative X) or translate appropriately.
-            # extrude(5.0) on YZ creates solid from x=0 to x=5.
-            # When translated by -peg_length, it goes from -peg_length to -peg_length + 5.
-            # To make it symmetrical sticking out, we should place it starting at -peg_length
-            # and going out, so we need a negative extrusion or translate by -peg_length - 5.0.
-            peg_head = cq.Workplane("YZ").center(peg_y, peg_z).ellipse(peg_width / 2.0, peg_head_length / 2.0).extrude(-peg_head_thickness).translate((head_x, 0, 0))
+            peg_head = cq.Workplane("YZ").center(peg_y, peg_center_z).ellipse(peg_width / 2.0, peg_head_length / 2.0).extrude(-peg_head_thickness).translate((head_x, 0, 0))
 
         peg = peg.union(peg_head)
 
@@ -194,7 +193,6 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
             pegs = peg
         else:
             pegs = pegs.union(peg)
-
     # Add Scroll
     scroll_y = pegbox_center_y + pegbox_length / 2.0 + scroll_radius - 2.0
     scroll = cq.Workplane("YZ").center(scroll_y, rib_height - neck_thickness / 2.0 + pegbox_depth / 2.0 - neck_thickness / 2.0).circle(scroll_radius).extrude(scroll_width, both=True)
@@ -365,9 +363,7 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     saddle = cq.Workplane("XY").center(0, -length / 2.0 + saddle_length / 2.0).box(saddle_width, saddle_length, saddle_height + 2.0)
     saddle = saddle.translate((0, 0, rib_height + saddle_height / 2.0 - 1.0))
     final_body = final_body.union(saddle)
-
-    # Add Tailpiece
-    # A simple trapezoidal shape from Y = -length/2.0 towards the bridge
+    # Add Tailpiece with string slots for ball-end strings
     tp_pts = [
         (-tailpiece_width_bottom / 2.0, 0),
         (tailpiece_width_bottom / 2.0, 0),
@@ -375,13 +371,20 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
         (-tailpiece_width_top / 2.0, tailpiece_length)
     ]
     tailpiece = cq.Workplane("XY").polyline(tp_pts).close().extrude(tailpiece_thickness)
-    # Translate so the wide part is near the bridge, narrow part near bottom
-    tailpiece = tailpiece.translate((0, -length / 2.0 + tailpiece_y_offset, rib_height + top_arch_height - 5.0))
+    tp_z = rib_height + top_arch_height - 5.0
+    tailpiece = tailpiece.translate((0, -length / 2.0 + tailpiece_y_offset, tp_z))
+
+    # Cut string slots near the bottom edge for ball-end string mounting
+    slot_y = -length / 2.0 + tailpiece_y_offset + string_slot_offset
+    for i in range(num_strings):
+        slot_x = -tailpiece_width_bottom / 2.0 + (tailpiece_width_bottom / (num_strings + 1)) * (i + 1)
+        slot = cq.Workplane("XY").center(slot_x, slot_y).slot2D(string_slot_length, string_slot_width, 0).extrude(tailpiece_thickness * 2)
+        slot = slot.translate((0, 0, tp_z - tailpiece_thickness / 2.0))
+        tailpiece = tailpiece.cut(slot)
 
     final_body = final_body.union(tailpiece)
 
     # Add Fine Tuners
-    num_strings = 4
     string_spacing = tailpiece_width_top / num_strings
     fine_tuners = None
     for i in range(num_strings):
@@ -443,20 +446,26 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
             strings = strings.union(st)
 
     final_body = final_body.union(strings)
-
-    # Add Chinrest
-    # A simple block placed at the lower left bout, curved on top
+    # Add Chinrest (clamp-mount design)
     chinrest_base = cq.Workplane("XY").center(chinrest_x_offset, chinrest_y_offset).box(chinrest_width, chinrest_length, chinrest_height)
-    # Translate to be attached to the top of the violin
-    chinrest_base = chinrest_base.translate((0, 0, rib_height + top_arch_height + chinrest_height / 2.0 - 10.0))
+    c_z = rib_height + top_arch_height + chinrest_height / 2.0 - 10.0
+    chinrest_base = chinrest_base.translate((0, 0, c_z))
 
-    # Cut out a sphere to make it curved/ergonomic
+    # Ergonomic spherical cutout on top
     chinrest_cutout = cq.Workplane("XY").center(chinrest_x_offset, chinrest_y_offset).sphere(chinrest_cutout_radius)
-    # Place sphere slightly above the top surface to carve out the top
     chinrest_cutout = chinrest_cutout.translate((0, 0, rib_height + top_arch_height + chinrest_height + chinrest_cutout_radius - chinrest_cutout_depth - 10.0))
 
     chinrest = chinrest_base.cut(chinrest_cutout)
 
+    # Clamp arm: L-bracket that wraps around the rib edge
+    clamp_arm_x = chinrest_x_offset + chinrest_width / 2.0 + chinrest_clamp_arm_width / 2.0
+    clamp_arm = cq.Workplane("XY").center(clamp_arm_x, chinrest_y_offset)         .box(chinrest_clamp_arm_width, chinrest_length * 0.6, chinrest_clamp_thickness)         .translate((0, 0, rib_height + top_arch_height + chinrest_clamp_thickness / 2.0 - 10.0))
+
+    clamp_vertical = cq.Workplane("XY").center(clamp_arm_x, chinrest_y_offset)         .box(chinrest_clamp_arm_width, chinrest_length * 0.6, rib_height + chinrest_clamp_depth)         .translate((0, 0, -back_arch_height + (rib_height + chinrest_clamp_depth) / 2.0))
+
+    clamp_hook = cq.Workplane("XY").center(clamp_arm_x, chinrest_y_offset)         .box(chinrest_clamp_arm_width, chinrest_length * 0.6, chinrest_clamp_lip_height)         .translate((0, 0, -back_arch_height - chinrest_clamp_lip_height / 2.0))
+
+    chinrest = chinrest.union(clamp_arm).union(clamp_vertical).union(clamp_hook)
     final_body = final_body.union(chinrest)
 
 
