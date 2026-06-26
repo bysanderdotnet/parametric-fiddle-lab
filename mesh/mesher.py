@@ -9,41 +9,6 @@ def _thickness_limited_size(thickness):
     return max(REFINE_SIZE, min(COARSE_SIZE, thickness / 3.0))
 
 
-def _tag_boundary_surfaces():
-    """Tag the scroll-tip and saddle surfaces as physical groups.
-
-    Heuristic: after OCC import the model has one volume.  We scan all
-    model surfaces and pick the two whose centroid is farthest along
-    +Y (scroll tip) and farthest along -Y (saddle).  This assumes the
-    violin long axis is Y, the scroll tip is at positive Y, and the
-    saddle/endpin area is at negative Y.  When no volume exists (empty
-    STEP) we silently skip tagging.
-    """
-    import gmsh
-
-    volumes = gmsh.model.getEntities(dim=3)
-    if not volumes:
-        return
-    all_surfaces = gmsh.model.getBoundary(volumes, combined=False, oriented=False)
-    surface_tags = [tag for dim, tag in all_surfaces if dim == 2]
-    if not surface_tags:
-        return
-
-    centroids = {}
-    for tag in surface_tags:
-        com = gmsh.model.occ.getCenterOfMass(2, tag)
-        centroids[tag] = com
-
-    tip_tag = max(centroids, key=lambda t: centroids[t][1])
-    saddle_tag = min(centroids, key=lambda t: centroids[t][1])
-
-    gmsh.model.addPhysicalGroup(2, [tip_tag], PHYSICAL_SCROLL_TIP)
-    gmsh.model.setPhysicalName(2, PHYSICAL_SCROLL_TIP, "scroll_tip")
-
-    gmsh.model.addPhysicalGroup(2, [saddle_tag], PHYSICAL_SADDLE)
-    gmsh.model.setPhysicalName(2, PHYSICAL_SADDLE, "saddle")
-
-
 def generate_mesh(step_file, output_mesh, mesh_size=COARSE_SIZE,
                   plate_thickness=PLATE_THICKNESS_DEFAULT, use_refinement=True):
     if not os.path.exists(step_file):
@@ -57,8 +22,6 @@ def generate_mesh(step_file, output_mesh, mesh_size=COARSE_SIZE,
     try:
         gmsh.model.occ.importShapes(step_file)
         gmsh.model.occ.synchronize()
-
-        _tag_boundary_surfaces()
 
         if use_refinement:
             _add_mesh_size_fields(gmsh, plate_thickness)

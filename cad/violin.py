@@ -273,7 +273,6 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     final_body = body.union(neck_assembly)
 
     # Add Bridge
-    # Create base block
     bridge_pts = [
         (-bridge_width_bottom / 2.0, -5.0),
         (bridge_width_bottom / 2.0, -5.0),
@@ -282,54 +281,73 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
     ]
     bridge_base = cq.Workplane("XZ").polyline(bridge_pts).close().extrude(bridge_thickness)
     bridge_base = bridge_base.translate((0, bridge_y_offset - bridge_thickness/2.0, rib_height + top_arch_height))
-    # Create cylinder for curved top
-    # Cylinder length is bridge_thickness (along Y). Radius is bridge_radius.
+
     bridge_top_cyl_solid = cq.Solid.makeCylinder(bridge_radius, bridge_thickness, cq.Vector(0, bridge_y_offset - bridge_thickness/2.0, rib_height + top_arch_height + bridge_height - bridge_radius), cq.Vector(0, 1, 0))
     bridge_top_cyl = cq.Workplane("XY").add(bridge_top_cyl_solid)
-    # Intersect to get curved top
     bridge = bridge_base.intersect(bridge_top_cyl)
 
-    # Expand feet if bridge_foot_width > bridge_thickness
-    if bridge_foot_width > bridge_thickness:
-        foot_left_x = -bridge_width_bottom / 2.0 + bridge_foot_length / 2.0
-        foot_right_x = bridge_width_bottom / 2.0 - bridge_foot_length / 2.0
+    # String grooves on the bridge top
+    if bridge_string_groove_depth > 0:
+        heights = [float(h) for h in bridge_string_heights.split(",")]
+        num_strings = len(heights)
+        for i in range(num_strings):
+            x_pos = -bridge_width_top / 2.0 + bridge_string_spacing / 2.0 + i * bridge_string_spacing
+            top_center_z = rib_height + top_arch_height + bridge_height - bridge_radius
+            local_x = x_pos
+            if abs(local_x) < bridge_radius:
+                z_at_string = top_center_z + math.sqrt(max(0, bridge_radius**2 - local_x**2))
+            else:
+                z_at_string = top_center_z + bridge_radius
+            groove = cq.Workplane("XZ").center(x_pos, z_at_string - bridge_string_groove_depth / 2.0 + 0.01).circle(bridge_string_groove_depth / 2.0).extrude(bridge_thickness * 2).translate((0, bridge_y_offset - bridge_thickness, 0))
+            bridge = bridge.cut(groove)
 
-        foot_box_left = cq.Workplane("XY").center(foot_left_x, bridge_y_offset).box(bridge_foot_length, bridge_foot_width, bridge_foot_height).translate((0, 0, rib_height + top_arch_height + bridge_foot_height / 2.0))
-        foot_box_right = cq.Workplane("XY").center(foot_right_x, bridge_y_offset).box(bridge_foot_length, bridge_foot_width, bridge_foot_height).translate((0, 0, rib_height + top_arch_height + bridge_foot_height / 2.0))
+    # Anatomical feet: elliptical, conforming to top plate arch
+    foot_left_x = -bridge_width_bottom / 2.0 + bridge_foot_length / 2.0
+    foot_right_x = bridge_width_bottom / 2.0 - bridge_foot_length / 2.0
+    foot_y_center = bridge_y_offset
 
-        bridge = bridge.union(foot_box_left).union(foot_box_right)
+    foot_left = cq.Workplane("XY").center(foot_left_x, foot_y_center).ellipse(
+        bridge_foot_length / 2.0, bridge_foot_width / 2.0
+    ).extrude(bridge_foot_height).translate((0, 0, rib_height + top_arch_height))
 
-    # Add Feet Cutout
-    foot_cutout_width_calc = bridge_width_bottom - 2 * bridge_foot_length
+    foot_right = cq.Workplane("XY").center(foot_right_x, foot_y_center).ellipse(
+        bridge_foot_length / 2.0, bridge_foot_width / 2.0
+    ).extrude(bridge_foot_height).translate((0, 0, rib_height + top_arch_height))
+
+    foot_left = foot_left.intersect(out_top_cyl_x).intersect(out_top_cyl_y)
+    foot_right = foot_right.intersect(out_top_cyl_x).intersect(out_top_cyl_y)
+
+    bridge = bridge.union(foot_left).union(foot_right)
+
+    # Remove material between the feet
     max_thickness = max(bridge_thickness, bridge_foot_width)
-    foot_cutout = cq.Workplane("XY").center(0, bridge_y_offset).box(foot_cutout_width_calc, max_thickness * 2, bridge_foot_height * 2)
-    foot_cutout = foot_cutout.translate((0, 0, rib_height + top_arch_height))
-    bridge = bridge.cut(foot_cutout)
+    arch_cutout = cq.Workplane("XY").center(0, foot_y_center).box(
+        bridge_width_bottom * 0.7, max_thickness * 2, bridge_foot_height * 3
+    ).translate((0, 0, rib_height + top_arch_height + bridge_foot_height))
+    bridge = bridge.cut(arch_cutout)
 
-    # Add arch cutouts under the feet
-    # Create an elliptical cylinder for the left and right foot cutouts
-    # Extrude along Y (bridge depth)
-    arch_left_x = -bridge_width_bottom / 2.0 + bridge_foot_length / 2.0
-    arch_right_x = bridge_width_bottom / 2.0 - bridge_foot_length / 2.0
-
-    foot_arch_left = cq.Workplane("XZ").center(arch_left_x, rib_height + top_arch_height).ellipse(bridge_foot_cutout_width / 2.0, bridge_foot_cutout_height).extrude(max_thickness * 2).translate((0, bridge_y_offset - max_thickness, 0))
-    foot_arch_right = cq.Workplane("XZ").center(arch_right_x, rib_height + top_arch_height).ellipse(bridge_foot_cutout_width / 2.0, bridge_foot_cutout_height).extrude(max_thickness * 2).translate((0, bridge_y_offset - max_thickness, 0))
-
+    # Arch cutouts under each foot
+    foot_arch_left = cq.Workplane("XZ").center(foot_left_x, rib_height + top_arch_height).ellipse(
+        bridge_foot_length / 3.0, bridge_foot_cutout_height
+    ).extrude(max_thickness * 2).translate((0, foot_y_center - max_thickness, 0))
+    foot_arch_right = cq.Workplane("XZ").center(foot_right_x, rib_height + top_arch_height).ellipse(
+        bridge_foot_length / 3.0, bridge_foot_cutout_height
+    ).extrude(max_thickness * 2).translate((0, foot_y_center - max_thickness, 0))
     bridge = bridge.cut(foot_arch_left).cut(foot_arch_right)
 
-    # Add Cutouts
+    # Side kidney cutouts
     if bridge_cutouts:
         w_at_cutout = bridge_width_bottom + (bridge_width_top - bridge_width_bottom) * (bridge_cutout_y_offset / bridge_height)
         cutout_left = cq.Workplane("XZ").center(-w_at_cutout / 4.0, rib_height + top_arch_height + bridge_cutout_y_offset).circle(bridge_cutout_radius).extrude(bridge_thickness * 2).translate((0, bridge_y_offset - bridge_thickness, 0))
         cutout_right = cq.Workplane("XZ").center(w_at_cutout / 4.0, rib_height + top_arch_height + bridge_cutout_y_offset).circle(bridge_cutout_radius).extrude(bridge_thickness * 2).translate((0, bridge_y_offset - bridge_thickness, 0))
         bridge = bridge.cut(cutout_left).cut(cutout_right)
 
-    # Add Central Cutout
+    # Central cutout
     if bridge_central_cutout:
         central_cutout = cq.Workplane("XZ").center(0, rib_height + top_arch_height + bridge_central_cutout_y_offset).circle(bridge_central_cutout_radius).center(0, -bridge_central_cutout_radius).circle(bridge_central_cutout_inner_radius).extrude(bridge_thickness * 2).translate((0, bridge_y_offset - bridge_thickness, 0))
         bridge = bridge.cut(central_cutout)
 
-    # Add Side Cutouts
+    # Side inner cutouts
     side_cutout_y = rib_height + top_arch_height + bridge_height / 2.0
     w_at_side_cutout = bridge_width_bottom + (bridge_width_top - bridge_width_bottom) * (0.5)
     side_cutout_left = cq.Workplane("XZ").center(-w_at_side_cutout / 2.0 - bridge_inner_curve_radius + bridge_side_cutout_radius, side_cutout_y).circle(bridge_inner_curve_radius).extrude(bridge_thickness * 2).translate((0, bridge_y_offset - bridge_thickness, 0))
@@ -341,8 +359,28 @@ def create_violin_body(length=355, lower_bout=208, upper_bout=168, c_bout=110, t
 
     final_body = final_body.union(bridge)
 
-    # Add Soundpost
-    soundpost = cq.Workplane("XY").center(soundpost_x_offset, soundpost_y_offset).circle(soundpost_thickness / 2.0).extrude(soundpost_length).translate((0, 0, -back_arch_height))
+    # Bridge-top interface area (FEA load transfer verification)
+    bridge_interface_area_mm2 = math.pi * (bridge_foot_length / 2.0) * (bridge_foot_width / 2.0) * 2
+
+    # Soundpost — auto-adjusted to local plate gap
+    def _arch_z_at(x, y, arch_height, z_offset):
+        r_x = ((lower_bout/2)**2 + arch_height**2) / (2 * arch_height)
+        z_x = z_offset + arch_height - math.sqrt(max(0, r_x**2 - x**2)) + r_x
+        r_y = ((length/2)**2 + arch_height**2) / (2 * arch_height)
+        z_y = z_offset + arch_height - math.sqrt(max(0, r_y**2 - y**2)) + r_y
+        return min(z_x, z_y)
+
+    sp_x = soundpost_x_offset
+    sp_y = soundpost_y_offset
+
+    top_inner_z = _arch_z_at(sp_x, sp_y, top_arch_height, rib_height - top_thickness)
+    back_inner_z = _arch_z_at(sp_x, sp_y, back_arch_height, back_thickness)
+    back_inner_z_global = -back_inner_z
+
+    gap = top_inner_z - back_inner_z_global
+    soundpost_actual_length = max(gap, 1.0)
+
+    soundpost = cq.Workplane("XY").center(sp_x, sp_y).circle(soundpost_thickness / 2.0).extrude(soundpost_actual_length).translate((0, 0, back_inner_z_global))
     final_body = final_body.union(soundpost)
 
     # Add Bass Bar

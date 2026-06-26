@@ -17,7 +17,7 @@ SOLVER = """Solver 1
   Procedure = "StressSolve" "StressSolver"
   Calculate Stresses = True
   Eigen Analysis = True
-  Eigen System Values = 10
+  Eigen System Values = 16
   Eigen System Select = Smallest magnitude
 
   Linear System Solver = Direct
@@ -26,6 +26,21 @@ SOLVER = """Solver 1
   Linear System Convergence Tolerance = 1.0e-8
   Linear System Residual Output = 10
   Linear System Abort Not Converged = False
+End"""
+
+# Boundary condition that eliminates rigid-body modes.
+# A single clamped face at the scroll tip (all three displacement DOFs = 0)
+# is sufficient to prevent translation and rotation in every direction,
+# without over-constraining the body.
+#
+# Physical group tag 1 is assigned by mesh/mesher.py to the face at the
+# extreme +Y end of the geometry (the scroll tip / pegbox end).
+BOUNDARIES = """Boundary Condition 1
+  Target Boundaries(1) = 1
+  Name = "scroll_tip"
+  Displacement 1 = 0
+  Displacement 2 = 0
+  Displacement 3 = 0
 End"""
 
 MATERIAL = """Material 1
@@ -51,7 +66,7 @@ def mass_from_json(default=380.0):
 
 def run_elmer(mesh_file):
     print(f"Running Elmer simulation on {mesh_file}...")
-    modes = elmer_eigenmodes(mesh_file, "elmer_mesh", "case.sif", SOLVER, MATERIAL)
+    modes = elmer_eigenmodes(mesh_file, "elmer_mesh", "case.sif", SOLVER, MATERIAL, boundaries=BOUNDARIES)
     if not modes:
         return None
 
