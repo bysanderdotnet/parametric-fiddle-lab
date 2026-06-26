@@ -273,7 +273,7 @@ Use for unsliced viewing or when STEP export is unavailable. Coarse tessellation
 
 ## STEP File Export
 
-The latest stable `.step` release is tagged `v1.0`. See [releases](../releases/)
+The latest stable `.step` release is `v1.0.4`. See [releases](../releases/)
 for the bundled export archive including the `.step` file and matching Orca
 profile bundle.
 

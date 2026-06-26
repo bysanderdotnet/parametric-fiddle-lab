@@ -104,6 +104,7 @@ def test_evaluate_objective_with_mock_files(mock_open):
     assert "B1-=420.0Hz" in result_str
     assert "B1+=520.0Hz" in result_str
     assert "Mass=350.0g" in result_str
+    assert "SliceFilament=0.0g" in result_str
     assert "Top=3.0mm" in result_str
     assert "Score=47.50" in result_str
 
