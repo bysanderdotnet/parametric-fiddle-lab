@@ -10,12 +10,18 @@ def test_create_violin_body():
     # Call create_violin_body with default parameters
     result = create_violin_body()
 
-    # Check that it returns a tuple of length 22 (the number of return values)
+    # Check that it returns a tuple of length 24
     assert isinstance(result, tuple)
-    assert len(result) == 22
+    assert len(result) == 24
 
     # Check that the first element (the violin body) is not None
     assert result[0] is not None
+
+    # Check bridge interface area > 50mm² for FEA load transfer
+    assert result[22] > 50.0
+
+    # Check soundpost auto-adjusted length > 0
+    assert result[23] > 0.0
 
 def test_step_io():
     # Test save_step and load_step functions
@@ -66,6 +72,9 @@ def test_violin_cli():
     assert body["part_classification"]["strings"] == "cosmetic"
     assert body["part_classification"]["bridge"] == "structural"
     assert "structural_mass_g" in body and "cosmetic_mass_g" in body
+    assert "bridge_interface_area_mm2" in body
+    assert "soundpost_actual_length" in body
+    assert body["bridge_interface_area_mm2"] > 50.0
 
     # Clean up
     for file in ["violin_body.step", "violin_cavity.step", "violin_body.json"]:

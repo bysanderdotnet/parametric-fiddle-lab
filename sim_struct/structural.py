@@ -17,7 +17,7 @@ SOLVER = """Solver 1
   Procedure = "StressSolve" "StressSolver"
   Calculate Stresses = True
   Eigen Analysis = True
-  Eigen System Values = 10
+  Eigen System Values = 16
   Eigen System Select = Smallest magnitude
 
   Linear System Solver = Direct
@@ -28,20 +28,29 @@ SOLVER = """Solver 1
   Linear System Abort Not Converged = False
 End"""
 
-MATERIAL = """Material 1
+BOUNDARIES = """Boundary Condition 1
+  Target Boundaries(1) = 1
+  Name = "scroll_tip"
+  Displacement 1 = 0
+  Displacement 2 = 0
+  Displacement 3 = 0
+End"""
+
+def build_material(filament_name="pla"):
+    fil = filament_lookup(filament_name)
+    return """Material 1
   Name = "{name}"
   Density = {density}
   Youngs modulus = {youngs}
   Poisson ratio = {poisson}
 End""".format(
-    name=filament.NAME,
-    density=filament.DENSITY_KG_M3,
-    youngs=filament.YOUNGS_MODULUS_PA,
-    poisson=filament.POISSON_RATIO,
-)
+        name=fil.NAME,
+        density=fil.DENSITY_KG_M3,
+        youngs=fil.YOUNGS_MODULUS_PA,
+        poisson=fil.POISSON_RATIO,
+    )
 
 def mass_from_json(default=380.0):
-    """Mass is a geometric quantity already computed by the CAD step."""
     try:
         with open("violin_body.json", "r") as f:
             return json.load(f).get("mass_g", default)
@@ -51,7 +60,7 @@ def mass_from_json(default=380.0):
 
 def run_elmer(mesh_file):
     print(f"Running Elmer simulation on {mesh_file}...")
-    modes = elmer_eigenmodes(mesh_file, "elmer_mesh", "case.sif", SOLVER, MATERIAL)
+    modes = elmer_eigenmodes(mesh_file, "elmer_mesh", "case.sif", SOLVER, MATERIAL, boundaries=BOUNDARIES)
     if not modes:
         return None
 
@@ -69,7 +78,6 @@ def run_elmer(mesh_file):
     if os.path.exists(vtu_path):
         try:
             mesh = pv.read(vtu_path)
-            # Find the maximum stress per unit displacement across all modes
             max_normalized_stress_pa_per_m = 0.0
             for i in range(1, len(modes) + 1):
                 vm_key = f"vonmises EigenMode{i}"
@@ -82,9 +90,6 @@ def run_elmer(mesh_file):
                         if normalized > max_normalized_stress_pa_per_m:
                             max_normalized_stress_pa_per_m = normalized
 
-            # Since Elmer scales mesh with 0.001, displacement is in meters.
-            # Stress is in Pascals. We want MPa per mm of displacement.
-            # 1 Pa/m = 1e-6 MPa / 1000 mm = 1e-9 MPa/mm.
             max_stress_mpa_per_mm = max_normalized_stress_pa_per_m * 1e-9
         except Exception as e:
             print(f"Failed to read stress from VTU: {e}")
@@ -95,11 +100,10 @@ def run_elmer(mesh_file):
         "mass_g": mass_from_json()
     }
 
-def run_structural_sim(mesh_file):
-    """Run Elmer/Code_Aster structural simulation, fallback to dummy if not installed."""
+def run_structural_sim(mesh_file, filament_name="pla"):
     if shutil.which("ElmerGrid") and shutil.which("ElmerSolver") and os.path.exists(mesh_file):
         try:
-            results = run_elmer(mesh_file)
+            results = run_elmer(mesh_file, filament_name)
             if results:
                 result_file = "structural_results.json"
                 with open(result_file, "w") as f:
@@ -112,10 +116,7 @@ def run_structural_sim(mesh_file):
         print("ElmerGrid or ElmerSolver not found, or mesh doesn't exist. Using dummy results.")
 
     print(f"Running placeholder structural simulation on {mesh_file}...")
-
     mass_g = mass_from_json()
-
-    # Dummy results: eigenfrequencies (e.g. A0, C0, B1- like modes for a violin body)
     dummy_results = {
         "eigenmodes": [
             {"mode": 1, "frequency_hz": 280.0 + random.uniform(-10, 10), "description": "CBR-like"},
@@ -125,12 +126,9 @@ def run_structural_sim(mesh_file):
         "max_stress_mpa": 1150.0,
         "mass_g": mass_g
     }
-
-    # Output to a dummy result file
     result_file = "structural_results.json"
     with open(result_file, "w") as f:
         json.dump(dummy_results, f, indent=4)
-
     print(f"Simulation complete. Results saved to {result_file}")
     return dummy_results
 
@@ -138,6 +136,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Run structural simulation.")
     parser.add_argument("--mesh", type=str, default="violin_body.msh", help="Mesh file to simulate")
+    parser.add_argument("--filament", type=str, default="pla",
+                        help="Filament material (pla, petg, asa, pc, nylon, pla-cf)")
     args = parser.parse_args()
-
-    run_structural_sim(args.mesh)
+    run_structural_sim(args.mesh, args.filament)
