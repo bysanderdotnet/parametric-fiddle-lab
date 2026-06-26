@@ -153,3 +153,122 @@ def test_evaluate_objective_fallback_modes(mock_open):
 
     assert "A0=295.0Hz" in result_str
     assert "B1-=500.0Hz" in result_str # Fallback takes 2nd mode > 100Hz
+
+
+@patch('builtins.open')
+def test_evaluate_objective_single_fallback_mode(mock_open):
+    # Test fallback when modes do not have proper descriptions and only 1 valid mode exists
+    struct_data = {
+        "eigenmodes": [
+            {"frequency_hz": 90.0, "description": ""},
+            {"frequency_hz": 415.0, "description": ""} # Should be picked as B1- (only real > 100)
+        ]
+    }
+
+    acoustic_data = {
+        "cavity_modes": [
+            {"frequency_hz": 295.0, "description": "A0"}
+        ]
+    }
+
+    class MockFile:
+        def __init__(self, content):
+            self.content = content
+        def read(self):
+            return self.content
+        def __enter__(self):
+            return self
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            pass
+
+    def side_effect(filename, *args, **kwargs):
+        if filename == "structural_results.json":
+            return MockFile(json.dumps(struct_data))
+        elif filename == "acoustic_results.json":
+            return MockFile(json.dumps(acoustic_data))
+        if filename == "violin_body.json":
+            return MockFile(json.dumps({}))
+        raise FileNotFoundError(filename)
+
+    mock_open.side_effect = side_effect
+
+    score, result_str = evaluate_objective()
+    assert "B1-=415.0Hz" in result_str # Fallback takes the only mode > 100Hz
+
+@patch('builtins.open')
+def test_evaluate_objective_no_fallback_modes(mock_open):
+    # Test fallback when modes do not have proper descriptions and no modes > 100Hz
+    struct_data = {
+        "eigenmodes": [
+            {"frequency_hz": 90.0, "description": ""},
+            {"frequency_hz": 95.0, "description": ""}
+        ]
+    }
+
+    acoustic_data = {
+        "cavity_modes": [
+            {"frequency_hz": 295.0, "description": "A0"}
+        ]
+    }
+
+    class MockFile:
+        def __init__(self, content):
+            self.content = content
+        def read(self):
+            return self.content
+        def __enter__(self):
+            return self
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            pass
+
+    def side_effect(filename, *args, **kwargs):
+        if filename == "structural_results.json":
+            return MockFile(json.dumps(struct_data))
+        elif filename == "acoustic_results.json":
+            return MockFile(json.dumps(acoustic_data))
+        if filename == "violin_body.json":
+            return MockFile(json.dumps({}))
+        raise FileNotFoundError(filename)
+
+    mock_open.side_effect = side_effect
+
+    score, result_str = evaluate_objective()
+    assert "B1-=400.0Hz" in result_str # Fallback leaves it at default 400.0
+
+
+@patch('builtins.open')
+def test_evaluate_objective_empty_modes_penalty(mock_open):
+    # Test that empty eigenmodes or cavity_modes results in MISSING_DATA_PENALTY
+    struct_data = {
+        "eigenmodes": []
+    }
+
+    acoustic_data = {
+        "cavity_modes": []
+    }
+
+    class MockFile:
+        def __init__(self, content):
+            self.content = content
+        def read(self):
+            return self.content
+        def __enter__(self):
+            return self
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            pass
+
+    def side_effect(filename, *args, **kwargs):
+        if filename == "structural_results.json":
+            return MockFile(json.dumps(struct_data))
+        elif filename == "acoustic_results.json":
+            return MockFile(json.dumps(acoustic_data))
+        if filename == "violin_body.json":
+            return MockFile(json.dumps({}))
+        raise FileNotFoundError(filename)
+
+    mock_open.side_effect = side_effect
+
+    score, result_str = evaluate_objective()
+
+    # 2 sources missing data (struct and acoustic have empty modes)
+    assert "DataPen=2000.0" in result_str
