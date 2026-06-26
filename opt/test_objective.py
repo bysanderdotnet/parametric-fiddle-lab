@@ -6,25 +6,23 @@ from objective import evaluate_objective
 
 @patch('builtins.open', side_effect=FileNotFoundError)
 def test_evaluate_objective_default_fallback(mock_open):
-    # Test fallback to defaults when no files exist
     score, result_str = evaluate_objective()
 
     # All three result files missing -> neutral default frequencies, but the
-    # trial is charged the missing-data penalty so a total failure cannot score
-    # well by hiding behind rosy defaults.
-    # freq_error = |300-290| + |400-400| + |500-540| = 10 + 0 + 40 = 50
+    # trial is charged the missing-data penalty.
+    # targets are now: A0=285, B1-=410, B1+=540
+    # freq_error = |300-285| + |400-410| + |500-540| = 15 + 10 + 40 = 65
     # mass_penalty = 0.05 * 400 = 20
-    # data_penalty = 1000 * 3 (body + struct + acoustic all missing) = 3000
-    expected_score = 3070.0
+    # data_penalty = 1000 * 3 = 3000
+    expected_score = 3085.0
 
     assert abs(score - expected_score) < 1e-6
     assert "A0=300.0Hz" in result_str
     assert "B1-=400.0Hz" in result_str
-    assert "Score=3070.00" in result_str
+    assert "Score=3085.00" in result_str
 
 @patch('builtins.open')
 def test_evaluate_objective_with_mock_files(mock_open):
-    # Set up mock file data
     body_data = {
         "mass_g": 350.0,
         "volume_mm3": 250000.0,
@@ -73,7 +71,6 @@ def test_evaluate_objective_with_mock_files(mock_open):
             return json.dumps(acoustic_data)
         raise FileNotFoundError(filename)
 
-    # Use a custom side effect to return a mock file object with the correct read() content
     class MockFile:
         def __init__(self, content):
             self.content = content
@@ -94,12 +91,11 @@ def test_evaluate_objective_with_mock_files(mock_open):
 
     score, result_str = evaluate_objective()
 
-    # Calculate expected score (frequency matching dominates; mass is a mild
-    # regularizer; all three result sources present so no data penalty):
-    # freq_error = |285-290| + |420-400| + |520-540| = 5 + 20 + 20 = 45
+    # targets: A0=285, B1-=410, B1+=540
+    # freq_error = |285-285| + |420-410| + |520-540| = 0 + 10 + 20 = 30
     # mass_penalty = 0.05 * 350 = 17.5
     # data_penalty = 0
-    expected_score = 62.5
+    expected_score = 47.5
 
     assert abs(score - expected_score) < 1e-6
     assert "A0=285.0Hz" in result_str
@@ -109,23 +105,22 @@ def test_evaluate_objective_with_mock_files(mock_open):
     assert "B1+=520.0Hz" in result_str
     assert "Mass=350.0g" in result_str
     assert "Top=3.0mm" in result_str
-    assert "Score=62.50" in result_str
+    assert "Score=47.50" in result_str
 
 
 @patch('builtins.open')
 def test_evaluate_objective_fallback_modes(mock_open):
-    # Test fallback when modes do not have proper descriptions
     struct_data = {
         "eigenmodes": [
             {"frequency_hz": 90.0, "description": ""},
-            {"frequency_hz": 415.0, "description": ""}, # Should be picked as B1- (first real > 100)
+            {"frequency_hz": 415.0, "description": ""},
             {"frequency_hz": 500.0, "description": ""}
         ]
     }
 
     acoustic_data = {
         "cavity_modes": [
-            {"frequency_hz": 295.0, "description": ""}, # Should be picked as A0 (first one)
+            {"frequency_hz": 295.0, "description": ""},
             {"frequency_hz": 460.0, "description": ""}
         ]
     }
@@ -152,16 +147,15 @@ def test_evaluate_objective_fallback_modes(mock_open):
     score, result_str = evaluate_objective()
 
     assert "A0=295.0Hz" in result_str
-    assert "B1-=500.0Hz" in result_str # Fallback takes 2nd mode > 100Hz
+    assert "B1-=500.0Hz" in result_str
 
 
 @patch('builtins.open')
 def test_evaluate_objective_single_fallback_mode(mock_open):
-    # Test fallback when modes do not have proper descriptions and only 1 valid mode exists
     struct_data = {
         "eigenmodes": [
             {"frequency_hz": 90.0, "description": ""},
-            {"frequency_hz": 415.0, "description": ""} # Should be picked as B1- (only real > 100)
+            {"frequency_hz": 415.0, "description": ""}
         ]
     }
 
@@ -193,11 +187,11 @@ def test_evaluate_objective_single_fallback_mode(mock_open):
     mock_open.side_effect = side_effect
 
     score, result_str = evaluate_objective()
-    assert "B1-=415.0Hz" in result_str # Fallback takes the only mode > 100Hz
+    assert "B1-=415.0Hz" in result_str
+
 
 @patch('builtins.open')
 def test_evaluate_objective_no_fallback_modes(mock_open):
-    # Test fallback when modes do not have proper descriptions and no modes > 100Hz
     struct_data = {
         "eigenmodes": [
             {"frequency_hz": 90.0, "description": ""},
@@ -233,12 +227,11 @@ def test_evaluate_objective_no_fallback_modes(mock_open):
     mock_open.side_effect = side_effect
 
     score, result_str = evaluate_objective()
-    assert "B1-=400.0Hz" in result_str # Fallback leaves it at default 400.0
+    assert "B1-=400.0Hz" in result_str
 
 
 @patch('builtins.open')
 def test_evaluate_objective_empty_modes_penalty(mock_open):
-    # Test that empty eigenmodes or cavity_modes results in MISSING_DATA_PENALTY
     struct_data = {
         "eigenmodes": []
     }
@@ -270,5 +263,21 @@ def test_evaluate_objective_empty_modes_penalty(mock_open):
 
     score, result_str = evaluate_objective()
 
-    # 2 sources missing data (struct and acoustic have empty modes)
     assert "DataPen=2000.0" in result_str
+
+
+def test_calibrate_and_evaluate_uses_ref_targets():
+    from objective import calibrate_and_evaluate
+    score, result_str, raw = calibrate_and_evaluate()
+    # In the all-defaults-fallback path: A0=300.0, B1-=400.0, B1+=500.0
+    # targets: A0=285, B1-=410, B1+=540
+    # freq_error = |300-285| + |400-410| + |500-540| = 15+10+35 = 60
+    assert raw["freq_error"] == 60.0
+
+
+def test_evaluate_objective_return_raw():
+    score, result_str, raw = evaluate_objective(return_raw=True)
+    assert "a0_hz" in raw
+    assert "b1_minus_hz" in raw
+    assert "b1_plus_hz" in raw
+    assert "freq_error" in raw

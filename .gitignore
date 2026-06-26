@@ -39,6 +39,8 @@ venv.bak/
 # Project specifics
 data/*
 !data/.gitkeep
+!data/reference_measurements.json
+!data/benchmark-001.json
 slice/*
 !slice/*.py
 !slice/*.sh
