@@ -101,7 +101,8 @@ pipeline and tests stay green even without the native toolchain installed.
 * **One filament is characterized** (`filaments/bambu_pla_basic.py`). Its
   Poisson ratio is a typical-PLA assumption, not a datasheet value, and the
   referenced datasheet PDF is not committed.
-* **`profiles/` contains real Orca profiles** for Bambu X1 Carbon (0.4 nozzle, PLA Basic filament, 0.20mm Standard process). `data/` has literature-based reference measurements for objective calibration (5 violin corpus variants, 143 lines). `docs/` has a complete parameter reference (109 geometry + 2 slicing parameters, mode thresholds, ergonomic constraints).
+* **`profiles/` contains real Orca profiles** for Bambu X1 Carbon (0.4 nozzle, PLA Basic filament, 0.20mm Standard process). `data/` has literature-based reference measurements for objective calibration (5 violin corpus variants, 143 lines). `docs/` has a complete parameter reference (109 geometry + 2 slicing parameters, mode thresholds, ergonomic constraints) and a full print recipe (`docs/print-recipe.md`) covering orientation, supports, brim/raft, post-processing, and assembly.
+* **`releases/v1.0.3/`** contains the default-parameter `.step` and `.stl` exports ready for slicing, along with the per-part mass breakdown (`violin_body.json`).
 
 ## Getting Started
 

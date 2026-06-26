@@ -66,6 +66,10 @@ sim_acoustic/*
 *.step
 *.msh
 violin_body.json
+!releases/v1.0.3/violin_body.step
+!releases/v1.0.3/violin_cavity.step
+!releases/v1.0.3/violin_body.stl
+!releases/v1.0.3/violin_body.json
 structural_results.json
 case.sif
 case.vtu
@@ -81,9 +85,12 @@ profiles/*
 .deps_installed
 *.log
 *.stl
+!releases/**/*.stl
 elmer_log.txt
 docs/*
 !docs/.gitkeep
+!docs/print-recipe.md
+!docs/parameter-reference.md
 !docs/parameter-reference.md
 output.gcode
 slice_info.config
