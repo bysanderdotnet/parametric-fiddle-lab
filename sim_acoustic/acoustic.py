@@ -1,5 +1,4 @@
 import json
-import random
 import os
 import sys
 import argparse
@@ -12,51 +11,43 @@ SOUND_SPEED = 343.0  # m/s, air at room temperature
 
 
 def run_acoustic_sim(mesh_file):
-    """Solve rigid-wall air-cavity modes via P1 FEM, fallback to dummy if no mesh."""
-    if os.path.exists(mesh_file):
-        try:
-            print(f"Running cavity-mode FEM on {mesh_file}...")
-            modes = cavity_eigenmodes(mesh_file, sound_speed=SOUND_SPEED)
-            if modes:
-                for mode in modes:
-                    freq = mode.get("frequency_hz", 0.0)
-                    if freq < FREQ_A0_MAX:
-                        mode["description"] = "A0-like (Helmholtz)"
-                    elif FREQ_A0_MAX <= freq <= FREQ_A1_MAX:
-                        mode["description"] = "A1-like"
-                    else:
-                        mode["description"] = "Higher cavity mode"
+    """Solve rigid-wall air-cavity modes via P1 FEM.
 
-            results = {"cavity_modes": modes, "radiation_efficiency": None}
-            with open("acoustic_results.json", "w") as f:
-                json.dump(results, f, indent=4)
-            freqs = [round(m["frequency_hz"], 1) for m in modes]
-            print(f"Acoustic FEM complete. Cavity modes (Hz): {freqs}")
-            print("Results saved to acoustic_results.json")
-            return results
-        except Exception as e:
-            print(f"Cavity-mode FEM failed: {e}. Falling back to dummy results.")
-    else:
-        print(f"Cavity mesh {mesh_file} not found. Using dummy results.")
+    Raises
+    ------
+    FileNotFoundError
+        If the cavity mesh file does not exist.
+    RuntimeError
+        If the cavity-mode FEM solver fails or returns no modes.
+    """
+    if not os.path.exists(mesh_file):
+        raise FileNotFoundError(f"Cavity mesh file not found: {mesh_file}")
 
-    print(f"Running placeholder acoustic simulation on {mesh_file}...")
+    print(f"Running cavity-mode FEM on {mesh_file}...")
+    try:
+        modes = cavity_eigenmodes(mesh_file, sound_speed=SOUND_SPEED)
+    except Exception as e:
+        raise RuntimeError(f"Cavity-mode FEM failed: {e}") from e
 
-    # Dummy results: eigenfrequencies (e.g. A0, A1 modes for a violin cavity)
-    dummy_results = {
-        "cavity_modes": [
-            {"mode": 1, "frequency_hz": 290.0 + random.uniform(-10, 10), "description": "A0-like (Helmholtz)"},
-            {"mode": 2, "frequency_hz": 450.0 + random.uniform(-15, 15), "description": "A1-like"},
-        ],
-        "radiation_efficiency": random.uniform(0.1, 0.3)
-    }
+    if not modes:
+        raise RuntimeError("Cavity-mode FEM returned no modes.")
 
-    # Output to a dummy result file
-    result_file = "acoustic_results.json"
-    with open(result_file, "w") as f:
-        json.dump(dummy_results, f, indent=4)
+    for mode in modes:
+        freq = mode.get("frequency_hz", 0.0)
+        if freq < FREQ_A0_MAX:
+            mode["description"] = "A0-like (Helmholtz)"
+        elif FREQ_A0_MAX <= freq <= FREQ_A1_MAX:
+            mode["description"] = "A1-like"
+        else:
+            mode["description"] = "Higher cavity mode"
 
-    print(f"Simulation complete. Results saved to {result_file}")
-    return dummy_results
+    results = {"cavity_modes": modes, "radiation_efficiency": None}
+    with open("acoustic_results.json", "w") as f:
+        json.dump(results, f, indent=4)
+    freqs = [round(m["frequency_hz"], 1) for m in modes]
+    print(f"Acoustic FEM complete. Cavity modes (Hz): {freqs}")
+    print("Results saved to acoustic_results.json")
+    return results
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run acoustic simulation.")

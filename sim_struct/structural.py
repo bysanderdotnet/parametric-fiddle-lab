@@ -1,5 +1,4 @@
 import json
-import random
 import os
 import shutil
 import sys
@@ -129,59 +128,41 @@ def run_structural_sim(mesh_file, slicing_params=None):
         Dict with keys 'infill_density', 'infill_pattern', 'layer_height',
         'wall_loops'. If None, defaults to 100% infill gyroid at 0.2 mm
         (effectively solid material).
+
+    Raises
+    ------
+    RuntimeError
+        If ElmerGrid/ElmerSolver are unavailable, the mesh is missing, or
+        the simulation itself fails.
     """
     if slicing_params is None:
         slicing_params = _DEFAULT_SLICING_PARAMS
 
-    if shutil.which("ElmerGrid") and shutil.which("ElmerSolver") and os.path.exists(mesh_file):
-        try:
-            results = run_elmer(mesh_file, slicing_params)
-            if results:
-                result_file = "structural_results.json"
-                with open(result_file, "w") as f:
-                    json.dump(results, f, indent=4)
-                print(f"Elmer Simulation complete. Results saved to {result_file}")
-                return results
-        except Exception as e:
-            print(f"Elmer simulation failed: {e}. Falling back to dummy results.")
-    else:
-        print("ElmerGrid or ElmerSolver not found, or mesh doesn't exist. Using dummy results.")
+    if not os.path.exists(mesh_file):
+        raise FileNotFoundError(f"Mesh file not found: {mesh_file}")
+    if not shutil.which("ElmerGrid"):
+        raise RuntimeError(
+            "ElmerGrid not found on PATH. Install Elmer FEM solver "
+            "(https://www.elmerfem.org) or add it to your PATH."
+        )
+    if not shutil.which("ElmerSolver"):
+        raise RuntimeError(
+            "ElmerSolver not found on PATH. Install Elmer FEM solver "
+            "(https://www.elmerfem.org) or add it to your PATH."
+        )
 
-    rho_eff = effective_density(
-        infill_density=slicing_params.get("infill_density", 100.0),
-        wall_loops=slicing_params.get("wall_loops", 3),
-    )
-    e_eff = effective_youngs_modulus(
-        infill_density=slicing_params.get("infill_density", 100.0),
-        infill_pattern=slicing_params.get("infill_pattern", "gyroid"),
-        layer_height=slicing_params.get("layer_height", 0.2),
-        wall_loops=slicing_params.get("wall_loops", 3),
-    )
-
-    volume_mm3 = 250000.0
-    mass_g = rho_eff * volume_mm3 * 1e-6
-
-    print(f"Running placeholder structural simulation on {mesh_file}...")
-    print(f"  Effective density: {rho_eff:.0f} kg/m3, E: {e_eff:.2e} Pa, mass: {mass_g:.1f} g")
-
-    freq_scale = (e_eff / filament.YOUNGS_MODULUS_PA) ** 0.5
-
-    dummy_results = {
-        "eigenmodes": [
-            {"mode": 1, "frequency_hz": 280.0 * freq_scale + random.uniform(-10, 10), "description": "CBR-like"},
-            {"mode": 2, "frequency_hz": 400.0 * freq_scale + random.uniform(-15, 15), "description": "B1- like"},
-            {"mode": 3, "frequency_hz": 530.0 * freq_scale + random.uniform(-20, 20), "description": "B1+ like"}
-        ],
-        "max_stress_mpa": 1150.0,
-        "mass_g": mass_g
-    }
+    try:
+        results = run_elmer(mesh_file, slicing_params)
+    except Exception as e:
+        raise RuntimeError(f"Elmer simulation failed: {e}") from e
+    if results is None:
+        raise RuntimeError("Elmer eigenmode analysis returned no results.")
 
     result_file = "structural_results.json"
     with open(result_file, "w") as f:
-        json.dump(dummy_results, f, indent=4)
-
-    print(f"Simulation complete. Results saved to {result_file}")
-    return dummy_results
+        json.dump(results, f, indent=4)
+    print(f"Elmer Simulation complete. Results saved to {result_file}")
+    return results
 
 if __name__ == "__main__":
     import argparse
