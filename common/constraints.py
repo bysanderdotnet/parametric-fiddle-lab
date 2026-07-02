@@ -13,7 +13,7 @@ STRING_COUNT = 4
 # At bridge, standard 4/4 violin bridge is ~41-42 mm wide -> spacing
 # ~13.7-14.0 mm between outer E and G strings.
 MIN_STRING_SPACING_NUT = 5.5
-MAX_STRING_SPACING_NUT = 8.5
+MAX_STRING_SPACING_NUT = 9.0
 MIN_STRING_SPACING_BRIDGE = 8.0
 MAX_STRING_SPACING_BRIDGE = 14.5
 
